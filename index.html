@@ -284,6 +284,40 @@ dialog h4{margin:6px 0 4px;font-size:.95rem}
 .fighter.hitflash .lean{transform:rotate(calc(-10deg * var(--fd)))}
 .stage.stop *{animation-play-state:paused !important}
 
+.v-hs{display:none}
+[data-hs="kisa"] .v-hs-kisa,[data-hs="kivircik"] .v-hs-kivircik,[data-hs="dik"] .v-hs-dik,[data-hs="uzun"] .v-hs-uzun,[data-hs="atkuyrugu"] .v-hs-atkuyrugu,[data-hs="topuz"] .v-hs-topuz,[data-hs="kakul"] .v-hs-kakul,[data-hs="kel"] .v-hs-kel{display:inline}
+.v-gl{display:none}
+[data-gl="yok"] .v-gl-yok,[data-gl="yuvarlak"] .v-gl-yuvarlak,[data-gl="kare"] .v-gl-kare,[data-gl="gunes"] .v-gl-gunes,[data-gl="kalp"] .v-gl-kalp,[data-gl="yildiz"] .v-gl-yildiz{display:inline}
+.v-bd{display:none}
+[data-bd="yok"] .v-bd-yok,[data-bd="kirli"] .v-bd-kirli,[data-bd="keci"] .v-bd-keci,[data-bd="biyik"] .v-bd-biyik,[data-bd="tam"] .v-bd-tam{display:inline}
+.v-hat{display:none}
+[data-hat="yok"] .v-hat-yok,[data-hat="kep"] .v-hat-kep,[data-hat="bere"] .v-hat-bere,[data-hat="tac"] .v-hat-tac,[data-hat="cicek"] .v-hat-cicek,[data-hat="fiyonk"] .v-hat-fiyonk{display:inline}
+.v-bt{display:none}
+[data-bt="pantolon"] .v-bt-pantolon,[data-bt="sort"] .v-bt-sort,[data-bt="mini"] .v-bt-mini,[data-bt="uzun"] .v-bt-uzun,[data-bt="pileli"] .v-bt-pileli{display:inline}
+.v-sh{display:none}
+[data-sh="spor"] .v-sh-spor,[data-sh="bot"] .v-sh-bot,[data-sh="sandalet"] .v-sh-sandalet,[data-sh="topuklu"] .v-sh-topuklu,[data-sh="terlik"] .v-sh-terlik{display:inline}
+[data-bt="sort"] .c-leg,[data-bt="mini"] .c-leg,[data-bt="uzun"] .c-leg,[data-bt="pileli"] .c-leg{fill:var(--skin)}
+[data-bt="mini"] .pantstop,[data-bt="uzun"] .pantstop,[data-bt="pileli"] .pantstop{display:none}
+.fighter[data-photo="1"] .gl-g,.fighter[data-photo="1"] .bd-g{display:none}
+.fighter.pv{position:relative;left:auto;bottom:auto;width:100%;transform:none;z-index:auto}
+.fighter.pv .bob{animation:none}
+.shop{margin:10px 0 14px;border:2px solid var(--line);border-radius:16px;padding:10px;background:var(--page)}
+.shop-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.shop-preview{width:86px;flex:none}
+.shop-title{display:flex;flex-direction:column}
+.shop-tabs{margin-bottom:8px}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.shop-item{position:relative;font:inherit;color:var(--ink);background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:6px 6px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:transform .08s,border-color .15s}
+.shop-item:hover{transform:translateY(-2px)}
+.shop-item.sel{border-color:var(--love);box-shadow:0 0 0 2px var(--love) inset}
+.si-pv{width:72px;height:72px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#FFE9C9,#F3D3BE);border-radius:12px;overflow:hidden}
+.si-pv .fighter.pv{width:72px}
+.si-name{font-weight:700;font-size:.82rem;line-height:1.1;text-align:center}
+.si-badge{position:absolute;top:4px;right:6px;background:var(--love);color:#fff;border-radius:999px;font-size:.7rem;font-weight:800;padding:0 6px}
+.color-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:6px 0}
+.color-row .field{flex-direction:column;align-items:center;gap:2px;border:0;padding:0}
+.color-row .field label{font-size:.78rem}
+
 .joy{display:none;position:relative;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle at 50% 45%,#5C4A72 0%,#3B2E4A 72%);border:3px solid #2B1B2E;box-shadow:inset 0 0 0 7px rgba(255,255,255,.07),0 5px 0 #2B1B2E;touch-action:none;user-select:none;-webkit-user-select:none;flex:none}
 .joy-knob{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#FFFFFF,#E9DCEF);border:3px solid #2B1B2E;box-shadow:0 4px 0 #2B1B2E;transition:transform .12s ease-out;pointer-events:none}
 .joy.active .joy-knob{transition:none}
@@ -667,6 +701,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
   <section id="acctSec" hidden><h3 data-i18n="account"></h3><p class="muted" id="acctLine"></p><button class="sbtn" id="btnLogout" type="button" data-i18n="logout" hidden></button></section>
   <section><h3 data-i18n="language"></h3><div class="modes" id="langs"><button type="button" data-lang="tr">Türkçe</button><button type="button" data-lang="en">English</button></div></section>
   <section><h3 data-i18n="sound"></h3><div class="modes" id="sounds"><button type="button" data-snd="on" data-i18n="soundOn"></button><button type="button" data-snd="off" data-i18n="soundOff"></button></div></section>
+  <section><h3 data-i18n="speakH"></h3><div class="modes" id="speaks"><button type="button" data-sp="on" data-i18n="soundOn"></button><button type="button" data-sp="off" data-i18n="soundOff"></button></div><p class="muted small" data-i18n="speakHelp"></p></section>
   <section><h3 data-i18n="characters"></h3><div class="modes" id="charTabs"></div><div id="charEdit"></div></section>
 </dialog>
 
@@ -991,38 +1026,99 @@ setScene(scene, 0);
 function heart(cx, cy, s, fill){
   return `<path d="M${cx} ${cy+4*s} C${cx-7*s} ${cy-1*s} ${cx-4*s} ${cy-7*s} ${cx} ${cy-3*s} C${cx+4*s} ${cy-7*s} ${cx+7*s} ${cy-1*s} ${cx} ${cy+4*s} Z" fill="${fill}"/>`;
 }
+const OPTS = {
+  hs:  ['kisa','kivircik','dik','uzun','atkuyrugu','topuz','kakul','kel'],
+  gl:  ['yok','yuvarlak','kare','gunes','kalp','yildiz'],
+  bd:  ['yok','kirli','keci','biyik','tam'],
+  hat: ['yok','kep','bere','tac','cicek','fiyonk'],
+  bt:  ['pantolon','sort','mini','uzun','pileli'],
+  sh:  ['spor','bot','sandalet','topuklu','terlik']
+};
 function charSVG(kind, slot){
   slot = slot || 'x';
-  const her = kind === 'her', ink = '#2B1B2E';
-  const hairBack = her ? `<path class="c-hair o" d="M34 58 C26 100 30 128 46 134 C58 138 70 128 70 112 L70 58 Z"/>` : '';
-  const hairTop = her
-    ? `<path class="c-hair o" d="M34 62 C30 26 62 14 82 20 C104 26 112 46 106 66 C100 54 96 46 86 44 C80 52 70 54 60 50 C52 56 42 58 34 62 Z"/><path class="c-hair o" d="M99 50 C109 70 107 96 99 108 C95 92 93 70 93 56 Z"/>`
-    : `<path class="c-hair o" d="M36 60 C32 26 62 16 80 22 C100 26 110 44 104 60 C100 50 94 44 84 44 C76 36 60 40 52 50 C46 48 40 52 36 60 Z"/>`;
+  const ink = '#2B1B2E';
+  const H = (k, inner) => `<g class="v-hs v-hs-${k}">${inner}</g>`;
+  const hp = d => `<path class="c-hair o" d="${d}"/>`;
+  const shortTop = 'M36 60 C32 26 62 16 80 22 C100 26 110 44 104 60 C100 50 94 44 84 44 C76 36 60 40 52 50 C46 48 40 52 36 60 Z';
+  const longTop = 'M34 62 C30 26 62 14 82 20 C104 26 112 46 106 66 C100 54 96 46 86 44 C80 52 70 54 60 50 C52 56 42 58 34 62 Z';
+  const hairBack =
+    H('uzun', hp('M34 58 C26 100 30 128 46 134 C58 138 70 128 70 112 L70 58 Z')) +
+    H('atkuyrugu', hp('M40 50 C20 56 16 92 24 116 C30 98 34 80 46 66 Z')) +
+    H('kakul', hp('M34 58 C30 84 34 98 46 102 L54 102 L54 60 Z'));
+  const hairTop =
+    H('kisa', hp(shortTop)) +
+    H('kivircik', [[40,54,10],[46,40,11],[58,30,12],[72,26,12],[86,28,11],[98,36,10],[104,50,9],[36,66,8]].map(([x,y,r])=>`<circle class="c-hair o" cx="${x}" cy="${y}" r="${r}"/>`).join('')) +
+    H('dik', hp('M36 60 L33 40 L46 44 L46 22 L59 34 L67 12 L76 31 L89 17 L91 36 L105 30 L101 48 L106 60 C98 48 90 44 82 44 C72 40 56 44 36 60 Z')) +
+    H('uzun', hp(longTop) + hp('M99 50 C109 70 107 96 99 108 C95 92 93 70 93 56 Z')) +
+    H('atkuyrugu', hp(longTop) + `<circle cx="40" cy="52" r="4.5" fill="#FF4F93" stroke="${ink}" stroke-width="2"/>`) +
+    H('topuz', `<circle class="c-hair o" cx="62" cy="22" r="13"/>` + hp(shortTop) + `<rect x="54" y="30" width="16" height="5" rx="2.5" fill="#FF4F93" stroke="${ink}" stroke-width="1.6"/>`) +
+    H('kakul', hp('M34 62 C30 28 62 16 82 20 C104 26 110 44 106 64 L100 56 L92 51 L84 53 L76 51 L68 53 L60 51 L52 55 L44 57 Z') + hp('M100 54 C106 70 106 86 100 96 C98 84 96 70 96 58 Z')) +
+    H('kel', `<ellipse cx="60" cy="36" rx="10" ry="5" fill="#fff" opacity=".35" transform="rotate(-20 60 36)"/>`);
+  const G = (k, inner) => `<g class="v-gl v-gl-${k}">${inner}</g>`;
+  const arm = `<path d="M69.5 63 L50 60" stroke="${ink}" stroke-width="2.2" fill="none"/>`;
+  const star = (cx, cy, r) => { let d = ''; for(let i=0;i<10;i++){ const a = -Math.PI/2 + i*Math.PI/5, rr = i%2 ? r*0.45 : r; d += (i?'L':'M') + (cx + rr*Math.cos(a)).toFixed(1) + ' ' + (cy + rr*Math.sin(a)).toFixed(1) + ' '; } return d + 'Z'; };
+  const glasses =
+    G('yuvarlak', `<g fill="none" stroke="${ink}" stroke-width="2.2"><circle cx="77" cy="64" r="7.5"/><circle cx="93" cy="64" r="7"/><path d="M84.5 64 H86"/></g>` + arm) +
+    G('kare', `<g fill="none" stroke="${ink}" stroke-width="2.4"><rect x="69" y="57.5" width="15.5" height="13" rx="3"/><rect x="86" y="58" width="14" height="12.5" rx="3"/><path d="M84.5 63 H86"/></g>` + arm) +
+    G('gunes', `<g stroke="${ink}" stroke-width="2.4"><rect x="68.5" y="58" width="16.5" height="12" rx="5" fill="#1E1A2A"/><rect x="86" y="58.5" width="15" height="11.5" rx="5" fill="#1E1A2A"/><path d="M85 63 H86" fill="none"/></g><path d="M72 61 L77 61 M89 61.5 L93 61.5" stroke="#fff" stroke-width="1.6" opacity=".7"/>` + arm) +
+    G('kalp', `<g stroke="${ink}" stroke-width="1.8">${heart(77,66,2.1,'rgba(255,79,147,.8)')}${heart(93,66,2,'rgba(255,79,147,.8)')}</g><path d="M84 63 H86" stroke="${ink}" stroke-width="2"/>` + arm) +
+    G('yildiz', `<g stroke="${ink}" stroke-width="1.6" fill="rgba(255,210,74,.85)"><path d="${star(77,64,9)}"/><path d="${star(93,64,8.5)}"/></g>` + arm);
+  const B = (k, inner) => `<g class="v-bd v-bd-${k}">${inner}</g>`;
+  const fullBeard = 'M46 66 C46 92 62 100 80 98 C96 96 104 84 104 72 C100 82 92 87 82 88 C70 89 58 84 50 72 Z';
+  const beards =
+    B('tam', `<path class="c-hair" d="${fullBeard}" stroke="${ink}" stroke-width="2"/>`) +
+    B('kirli', `<path class="c-hair" d="${fullBeard}" opacity=".32"/>`) +
+    B('keci', `<ellipse class="c-hair" cx="89" cy="91" rx="6" ry="5" stroke="${ink}" stroke-width="1.8"/>`) +
+    B('biyik', `<path class="c-hair" d="M80 77 C83 73 87 73 89.5 75.5 C92 73 96 73 99 77 C95 78.5 92 78.5 89.5 77 C87 78.5 83 78.5 80 77 Z" stroke="${ink}" stroke-width="1.4"/>`);
+  const T = (k, inner) => `<g class="v-hat v-hat-${k}">${inner}</g>`;
+  const hats =
+    T('kep', `<path class="c-top o" d="M37 48 C38 22 62 14 82 18 C98 22 106 34 106 48 Z"/><path class="c-top o" d="M100 44 L128 49 L126 54 L100 51 Z"/><circle cx="72" cy="17" r="3" fill="${ink}"/>`) +
+    T('bere', `<path class="c-top o" d="M36 50 C36 18 104 16 106 50 Z"/><rect x="33" y="43" width="76" height="11" rx="5.5" fill="rgba(0,0,0,.22)" stroke="${ink}" stroke-width="2.2"/><circle cx="71" cy="16" r="7" fill="#F4F4F4" stroke="${ink}" stroke-width="2"/>`) +
+    T('tac', `<path d="M47 32 L53 10 L62 24 L70 5 L78 24 L87 10 L93 32 Z" fill="#FFD24A" stroke="${ink}" stroke-width="2.2" stroke-linejoin="round"/><circle cx="70" cy="22" r="3" fill="#E23B3B"/><circle cx="56" cy="26" r="2.2" fill="#4FB3FF"/><circle cx="84" cy="26" r="2.2" fill="#4FB3FF"/>`) +
+    T('cicek', [200,225,250,275,300,325,350].map((a,i)=>{ const r = a*Math.PI/180, x = 70 + 33*Math.cos(r), y = 60 + 33*Math.sin(r), c = ['#FF7EB3','#FFD24A','#FFFFFF','#B79CFF'][i%4]; return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})">${[0,72,144,216,288].map(q=>`<circle cx="${(4*Math.cos(q*Math.PI/180)).toFixed(1)}" cy="${(4*Math.sin(q*Math.PI/180)).toFixed(1)}" r="3.4" fill="${c}" stroke="${ink}" stroke-width="1"/>`).join('')}<circle r="2.2" fill="#F28C28"/></g>`; }).join('')) +
+    T('fiyonk', `<g transform="translate(46 30) rotate(-20)"><path d="M0 0 L-14 -9 L-14 9 Z M0 0 L14 -9 L14 9 Z" fill="#FF4F93" stroke="${ink}" stroke-width="2" stroke-linejoin="round"/><circle r="4" fill="#E2367A" stroke="${ink}" stroke-width="2"/></g>`);
+  const S = (k, inner) => `<g class="v-sh v-sh-${k}">${inner}</g>`;
+  const shoe = (x0, w) => {
+    const f = x0 + w;
+    return S('spor', `<rect class="c-shoe o" x="${x0}" y="178" width="${w}" height="11" rx="5"/><path d="M${x0+3} 186 H${f-3}" stroke="#fff" stroke-width="2" opacity=".85"/>`) +
+      S('bot', `<rect class="c-shoe o" x="${x0+1}" y="164" width="${w-2}" height="25" rx="5"/><path d="M${x0+2} 170 H${f-2}" stroke="rgba(0,0,0,.25)" stroke-width="2"/>`) +
+      S('sandalet', `<ellipse class="c-skin o" cx="${x0 + w/2 + 1}" cy="183" rx="${w/2}" ry="5"/><rect class="c-shoe o" x="${x0}" y="186" width="${w}" height="4" rx="2"/><path class="c-shoe" d="M${x0+4} 180 L${x0+8} 187 M${x0+w/2} 179 L${x0+w/2+2} 187 M${f-6} 180 L${f-4} 187" stroke="var(--shoes)" stroke-width="3"/>`) +
+      S('topuklu', `<path class="c-shoe o" d="M${x0} 178 L${f-5} 181 L${f} 187 L${x0} 187 Z"/><rect class="c-shoe o" x="${x0+1}" y="187" width="4" height="6"/>`) +
+      S('terlik', `<ellipse class="c-skin o" cx="${x0 + w/2 + 1}" cy="183" rx="${w/2}" ry="5"/><rect class="c-shoe o" x="${x0-1}" y="186" width="${w+2}" height="5" rx="2.5"/><rect class="c-shoe o" x="${x0+w*0.45}" y="179" width="${w*0.5}" height="7" rx="3"/>`);
+  };
+  const shortsBack = `<rect class="c-bottom o v-bt v-bt-sort" x="53" y="136" width="17" height="20" rx="5"/>`;
+  const shortsFront = `<rect class="c-bottom o v-bt v-bt-sort" x="71" y="136" width="17" height="20" rx="5"/>`;
+  const skirts =
+    `<path class="c-bottom o v-bt v-bt-mini" d="M47 130 L93 130 L104 164 L36 164 Z"/>` +
+    `<path class="c-bottom o v-bt v-bt-uzun" d="M47 128 L93 128 L101 183 L39 183 Z"/>` +
+    `<g class="v-bt v-bt-pileli"><path class="c-bottom o" d="M47 130 L93 130 L104 162 L36 162 Z"/><path d="M55 132 L50 161 M63 132 L61 161 M70 132 L70 162 M77 132 L79 161 M85 132 L90 161" stroke="rgba(0,0,0,.28)" stroke-width="2"/></g>`;
   return `<svg class="csvg" viewBox="0 0 140 200" aria-hidden="true">
   <ellipse cx="70" cy="192" rx="40" ry="6" fill="rgba(0,0,0,.28)"/>
   <g class="hair-g">${hairBack}</g>
   <rect class="c-top o" x="41" y="106" width="13" height="34" rx="6"/><rect x="41" y="106" width="13" height="34" rx="6" fill="rgba(0,0,0,.18)"/>
   <circle class="c-skin o" cx="47" cy="142" r="6"/>
   <rect class="c-leg o" x="54" y="138" width="15" height="44" rx="6"/><rect x="54" y="138" width="15" height="44" rx="6" fill="rgba(0,0,0,.15)"/>
-  <rect class="c-shoe o" x="50" y="178" width="24" height="11" rx="5"/>
-  <g class="leg-f"><rect class="c-leg o" x="72" y="138" width="15" height="44" rx="6"/><rect class="c-shoe o" x="70" y="178" width="27" height="11" rx="5"/></g>
+  ${shortsBack}
+  ${shoe(50, 24)}
+  <g class="leg-f"><rect class="c-leg o" x="72" y="138" width="15" height="44" rx="6"/>${shortsFront}${shoe(70, 27)}</g>
   <rect class="c-bottom o pantstop" x="50" y="128" width="40" height="18" rx="6"/>
   <rect class="c-skin" x="63" y="90" width="14" height="14"/>
   <rect class="c-top o" x="44" y="100" width="52" height="42" rx="16"/>
   <path class="c-skin" d="M62 101 L70 111 L78 101 Z"/>
-  <path class="c-bottom o skirt" d="M47 130 L93 130 L104 164 L36 164 Z"/>
+  ${skirts}
   <g class="arm-f"><rect class="c-top o" x="86" y="104" width="13" height="36" rx="6"/><circle class="c-skin o" cx="92.5" cy="143" r="6.5"/></g>
   <ellipse class="c-skin o" cx="47" cy="64" rx="5.5" ry="7.5"/>
   <circle class="c-skin o" cx="70" cy="60" r="34"/>
   <g opacity=".55"><ellipse cx="73" cy="75" rx="5" ry="2.8" fill="#FF8FA3"/><ellipse cx="99" cy="74" rx="4" ry="2.6" fill="#FF8FA3"/></g>
-  <path class="c-hair acc-beard" d="M46 66 C46 92 62 100 80 98 C96 96 104 84 104 72 C100 82 92 87 82 88 C70 89 58 84 50 72 Z" stroke="${ink}" stroke-width="2"/>
+  <g class="bd-g">${beards}</g>
   <g class="f f-normal"><ellipse cx="77" cy="64" rx="3.6" ry="5.2" fill="${ink}"/><ellipse cx="93" cy="64" rx="3.3" ry="5" fill="${ink}"/><circle cx="78.2" cy="62" r="1.3" fill="#fff"/><circle cx="94.2" cy="62" r="1.2" fill="#fff"/><path d="M83 80 Q87 84 91 80" fill="none" stroke="${ink}" stroke-width="2.2" stroke-linecap="round"/></g>
   <g class="f f-angry"><ellipse cx="77" cy="65" rx="3.2" ry="4" fill="${ink}"/><ellipse cx="93" cy="65" rx="3" ry="3.8" fill="${ink}"/><path d="M70 55 L82 60 M88 60 L99 54" stroke="${ink}" stroke-width="3" stroke-linecap="round"/><path d="M82 84 Q87 79 92 84" fill="none" stroke="${ink}" stroke-width="2.4" stroke-linecap="round"/></g>
   <g class="f f-hurt" stroke="${ink}" stroke-width="2.6" stroke-linecap="round" fill="none"><path d="M73 60 L81 68 M81 60 L73 68 M89 60 L97 68 M97 60 L89 68"/><path d="M81 83 q3 -3 5 0 t5 0"/></g>
   <g class="f f-love">${heart(77,65,1.25,'#FF3D7F')}${heart(93,65,1.15,'#FF3D7F')}<path d="M81 78 Q87 87 93 78 Z" fill="${ink}"/></g>
   <g class="f f-tired"><path d="M72 66 Q77 63 82 66 M88 66 Q93 63 98 66" stroke="${ink}" stroke-width="2.6" fill="none" stroke-linecap="round"/><ellipse cx="87" cy="82" rx="3.2" ry="3.8" fill="${ink}"/></g>
-  <g class="acc-glasses" fill="none" stroke="${ink}" stroke-width="2.2"><circle cx="77" cy="64" r="7.5"/><circle cx="93" cy="64" r="7"/><path d="M84.5 64 H86 M69.5 63 L50 60"/></g>
+  <g class="gl-g">${glasses}</g>
   <g class="hair-g">${hairTop}</g>
+  <g class="hat-g">${hats}</g>
   <g class="photo-g"><clipPath id="pcl-${slot}"><circle cx="70" cy="60" r="34"/></clipPath><image class="ph" x="36" y="26" width="68" height="68" clip-path="url(#pcl-${slot})" preserveAspectRatio="xMidYMid slice"/><circle class="ph-tint" cx="70" cy="60" r="34"/><circle cx="70" cy="60" r="34" fill="none" stroke="#2B1B2E" stroke-width="2.6"/></g>
   </svg>`;
 }
@@ -1052,6 +1148,51 @@ $('#robot').innerHTML = ROBOT_SVG;
 const I18N = {
 tr: {
   title:'Trip Arenası', settings:'Ayarlar', close:'Kapat',
+  shopTitle:"Gardırop",
+  shopSub:"Bir kategori seç, beğendiğin parçaya dokun; karakterin anında değişir.",
+  c_hs:"Saç",
+  c_gl:"Gözlük",
+  c_bd:"Sakal",
+  c_hat:"Şapka",
+  c_bt:"Alt",
+  c_sh:"Ayakkabı",
+  o_hs_kisa:"Kısa",
+  o_hs_kivircik:"Kıvırcık",
+  o_hs_dik:"Diken diken",
+  o_hs_uzun:"Uzun",
+  o_hs_atkuyrugu:"At kuyruğu",
+  o_hs_topuz:"Topuz",
+  o_hs_kakul:"Kâküllü",
+  o_hs_kel:"Kel",
+  o_gl_yok:"Yok",
+  o_gl_yuvarlak:"Yuvarlak",
+  o_gl_kare:"Kare",
+  o_gl_gunes:"Güneş gözlüğü",
+  o_gl_kalp:"Kalp",
+  o_gl_yildiz:"Yıldız",
+  o_bd_yok:"Yok",
+  o_bd_kirli:"Kirli sakal",
+  o_bd_keci:"Keçi sakalı",
+  o_bd_biyik:"Bıyık",
+  o_bd_tam:"Gür sakal",
+  o_hat_yok:"Yok",
+  o_hat_kep:"Kep",
+  o_hat_bere:"Bere",
+  o_hat_tac:"Taç",
+  o_hat_cicek:"Çiçek tacı",
+  o_hat_fiyonk:"Fiyonk",
+  o_bt_pantolon:"Pantolon",
+  o_bt_sort:"Şort",
+  o_bt_mini:"Mini etek",
+  o_bt_uzun:"Uzun etek",
+  o_bt_pileli:"Pileli etek",
+  o_sh_spor:"Spor ayakkabı",
+  o_sh_bot:"Bot",
+  o_sh_sandalet:"Sandalet",
+  o_sh_topuklu:"Topuklu",
+  o_sh_terlik:"Terlik",
+  speakH:"Sesli replikler",
+  speakHelp:"Trip, hakaret ve kalkan cümleleri sesli okunur; erkek karakterler kalın, kız karakterler ince sesle konuşur. Ses, telefonun kendi konuşma motorundan gelir.",
   ctlH:"Hareket kontrolü",
   ctlJoy:"Joystick",
   ctlDpad:"Yön tuşları",
@@ -1252,6 +1393,51 @@ tr: {
 },
 en: {
   title:'Trip Arena', settings:'Settings', close:'Close',
+  shopTitle:"Wardrobe",
+  shopSub:"Pick a category and tap the piece you like; your character changes instantly.",
+  c_hs:"Hair",
+  c_gl:"Glasses",
+  c_bd:"Beard",
+  c_hat:"Hat",
+  c_bt:"Bottoms",
+  c_sh:"Shoes",
+  o_hs_kisa:"Short",
+  o_hs_kivircik:"Curly",
+  o_hs_dik:"Spiky",
+  o_hs_uzun:"Long",
+  o_hs_atkuyrugu:"Ponytail",
+  o_hs_topuz:"Bun",
+  o_hs_kakul:"Bangs",
+  o_hs_kel:"Bald",
+  o_gl_yok:"None",
+  o_gl_yuvarlak:"Round",
+  o_gl_kare:"Square",
+  o_gl_gunes:"Sunglasses",
+  o_gl_kalp:"Heart",
+  o_gl_yildiz:"Star",
+  o_bd_yok:"None",
+  o_bd_kirli:"Stubble",
+  o_bd_keci:"Goatee",
+  o_bd_biyik:"Mustache",
+  o_bd_tam:"Full beard",
+  o_hat_yok:"None",
+  o_hat_kep:"Cap",
+  o_hat_bere:"Beanie",
+  o_hat_tac:"Crown",
+  o_hat_cicek:"Flower crown",
+  o_hat_fiyonk:"Bow",
+  o_bt_pantolon:"Trousers",
+  o_bt_sort:"Shorts",
+  o_bt_mini:"Mini skirt",
+  o_bt_uzun:"Long skirt",
+  o_bt_pileli:"Pleated skirt",
+  o_sh_spor:"Sneakers",
+  o_sh_bot:"Boots",
+  o_sh_sandalet:"Sandals",
+  o_sh_topuklu:"Heels",
+  o_sh_terlik:"Slippers",
+  speakH:"Spoken lines",
+  speakHelp:"Sulk, insult and shield lines are read aloud; boys speak in a deep voice, girls in a high voice. The voice comes from your phone's own speech engine.",
   ctlH:"Movement controls",
   ctlJoy:"Joystick",
   ctlDpad:"Arrow buttons",
@@ -1501,50 +1687,119 @@ const VIB = {
 };
 function buzz(k){ if(!vibOn || !navigator.vibrate) return; try{ navigator.vibrate(VIB[k] || [20]); }catch(e){} }
 
-/* ---- sound ---- */
-let actx = null, muted = store.get('ta2-mute', false);
+/* ---- sound engine v2: layered synth, formant voices, speech ---- */
+let actx = null, muted = store.get('ta2-mute', false), master = null, verb = null;
 function ac(){
   if(muted) return null;
-  if(!actx){ try{ actx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ actx = null; } }
+  if(!actx){
+    try{
+      actx = new (window.AudioContext || window.webkitAudioContext)();
+      const comp = actx.createDynamicsCompressor(); comp.threshold.value = -16; comp.knee.value = 12; comp.ratio.value = 4;
+      master = actx.createGain(); master.gain.value = 0.9; master.connect(comp); comp.connect(actx.destination);
+      const len = Math.floor(actx.sampleRate * 1.3), ir = actx.createBuffer(2, len, actx.sampleRate);
+      for(let ch=0; ch<2; ch++){ const d = ir.getChannelData(ch); for(let i=0;i<len;i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/len, 3); }
+      verb = actx.createConvolver(); verb.buffer = ir; verb.connect(master);
+    }catch(e){ actx = null; }
+  }
   if(actx && actx.state === 'suspended') actx.resume().catch(()=>{});
   return actx;
 }
 addEventListener('pointerdown', ()=>{ ac(); }, {passive:true});
 addEventListener('keydown', ()=>{ ac(); });
-function tone(freq, dur, type, vol, slide, delay){
-  const c = ac(); if(!c) return;
-  const t = c.currentTime + (delay||0);
-  const o = c.createOscillator(), g = c.createGain();
-  o.type = type || 'sine'; o.frequency.setValueAtTime(freq, t);
-  if(slide) o.frequency.linearRampToValueAtTime(Math.max(30, freq + slide), t + dur);
-  g.gain.setValueAtTime(vol || .15, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  o.connect(g).connect(c.destination); o.start(t); o.stop(t + dur + .02);
+function route(node, wet){
+  node.connect(master);
+  if(wet && verb){ const g = actx.createGain(); g.gain.value = wet; node.connect(g); g.connect(verb); }
 }
-function noise(dur, vol, freq, sweep){
+function osc(type, f0, f1, dur, vol, delay, wet){
   const c = ac(); if(!c) return;
-  const t = c.currentTime, len = Math.floor(c.sampleRate*dur);
-  const buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
-  for(let i=0;i<len;i++) d[i] = Math.random()*2 - 1;
-  const src = c.createBufferSource(); src.buffer = buf;
-  const f = c.createBiquadFilter(); f.type = 'bandpass'; f.frequency.setValueAtTime(freq, t);
-  if(sweep) f.frequency.exponentialRampToValueAtTime(sweep, t + dur);
-  const g = c.createGain(); g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  src.connect(f).connect(g).connect(c.destination); src.start(t);
+  const t0 = c.currentTime + (delay || 0);
+  const o = c.createOscillator(), g = c.createGain();
+  o.type = type; o.frequency.setValueAtTime(Math.max(20, f0), t0);
+  if(f1 && f1 !== f0) o.frequency.exponentialRampToValueAtTime(Math.max(20, f1), t0 + dur);
+  g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + Math.min(0.01, dur/4)); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  o.connect(g); route(g, wet); o.start(t0); o.stop(t0 + dur + 0.05);
+}
+let noiseBuf = null;
+function nz(dur, vol, ftype, f0, f1, q, delay, wet){
+  const c = ac(); if(!c) return;
+  if(!noiseBuf){ noiseBuf = c.createBuffer(1, c.sampleRate*2, c.sampleRate); const d = noiseBuf.getChannelData(0); for(let i=0;i<d.length;i++) d[i] = Math.random()*2-1; }
+  const t0 = c.currentTime + (delay || 0);
+  const s = c.createBufferSource(); s.buffer = noiseBuf;
+  const f = c.createBiquadFilter(); f.type = ftype; f.frequency.setValueAtTime(f0, t0); f.Q.value = q || 1;
+  if(f1 && f1 !== f0) f.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+  const g = c.createGain(); g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + 0.006); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  s.connect(f).connect(g); route(g, wet); s.start(t0, Math.random()); s.stop(t0 + dur + 0.05);
+}
+// Formant voice: male / female cartoon vocalizations
+const VOWEL = {a:[[750,1150],[950,1450]], e:[[480,1850],[600,2300]], i:[[300,2250],[380,2800]], o:[[500,850],[600,1050]], u:[[330,800],[420,950]]};
+function voice(g, kind){
+  const c = ac(); if(!c) return;
+  const fem = g === 'f';
+  const base = fem ? 245 : 118;
+  const P = {
+    grunt: {v:'a', d:0.17, p:[1.15, 0.95], vol:0.32},
+    hmph:  {v:'u', d:0.22, p:[1.0, 0.85], vol:0.26, nasal:true},
+    hurt:  {v:'a', d:0.3,  p:[1.55, 1.05], vol:0.38},
+    hurt2: {v:'e', d:0.24, p:[1.7, 1.2], vol:0.34},
+    ko:    {v:'a', d:0.95, p:[1.6, 0.55], vol:0.4},
+    sweet: {v:'e', d:0.35, p:[1.25, 1.5], vol:0.26},
+    laugh: {v:'a', d:0.13, p:[1.35, 1.2], vol:0.3, rep:4}
+  }[kind] || {v:'a', d:0.2, p:[1,1], vol:0.3};
+  const reps = P.rep || 1;
+  for(let r=0; r<reps; r++){
+    const t0 = c.currentTime + r * (P.d + 0.05);
+    const o = c.createOscillator(); o.type = 'sawtooth';
+    o.frequency.setValueAtTime(base * P.p[0] * (r ? 0.95 : 1), t0);
+    o.frequency.exponentialRampToValueAtTime(base * P.p[1], t0 + P.d);
+    const lfo = c.createOscillator(), lg = c.createGain(); lfo.frequency.value = fem ? 6.5 : 5; lg.gain.value = base * 0.03; lfo.connect(lg).connect(o.frequency);
+    const fm = VOWEL[P.v][fem ? 1 : 0];
+    const g = c.createGain(); g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(P.vol, t0 + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t0 + P.d);
+    fm.forEach((fr, i)=>{ const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = P.nasal ? fr*0.8 : fr; bp.Q.value = i ? 11 : 8; const bg = c.createGain(); bg.gain.value = i ? 0.6 : 1.1; o.connect(bp).connect(bg).connect(g); });
+    route(g, 0.12);
+    o.start(t0); lfo.start(t0); o.stop(t0 + P.d + 0.05); lfo.stop(t0 + P.d + 0.05);
+    nz(P.d*0.6, P.vol*0.18, 'bandpass', fem ? 3200 : 2200, null, 1.2, r * (P.d + 0.05));
+  }
 }
 const sfx = {
-  trip(){ noise(.09, .5, 2600); },
-  insult(){ tone(150, .2, 'sine', .5, -90); noise(.06, .25, 700); },
-  love(){ [660,880,1100,1320].forEach((f,i)=>tone(f, .3, 'triangle', .12, 0, i*.07)); },
-  combo(){ [523,659,784,1047].forEach((f,i)=>tone(f, .14, 'square', .07, 0, i*.06)); },
-  beep(hi){ tone(hi ? 880 : 440, .13, 'square', .07); },
-  miss(){ tone(420, .15, 'sine', .1, -220); },
-  pick(){ tone(880, .1, 'triangle', .14, 0); tone(1320, .14, 'triangle', .12, 0, .08); },
-  slipper(){ noise(.12, .5, 400); tone(90, .2, 'sine', .4, -40); },
-  ko(){ tone(330, .6, 'sawtooth', .1, -220); },
-  rocket(){ noise(1.8, .3, 300, 2400); },
-  rage(){ tone(110, .35, 'sawtooth', .1, 60); },
-  block(){ tone(1320, .12, 'triangle', .14, 0); tone(1760, .2, 'sine', .1, 0, .05); }
+  whoosh(type){ nz(type==='insult' ? 0.22 : 0.16, type==='insult' ? 0.32 : 0.24, 'bandpass', 500, type==='insult' ? 2200 : 3200, 1.6); },
+  trip(){ nz(0.05, 0.95, 'highpass', 2400); osc('triangle', 1100, 380, 0.05, 0.35); nz(0.14, 0.35, 'bandpass', 3800, 1600, 2, 0.01, 0.15); },
+  insult(){ osc('sine', 150, 42, 0.28, 0.95); osc('square', 90, 45, 0.09, 0.18); nz(0.1, 0.55, 'lowpass', 1000, 300, 1, 0, 0.1); },
+  love(){ [1046,1318,1568,2093].forEach((f,i)=>osc('sine', f, f, 0.45, 0.13, i*0.06, 0.45)); nz(0.4, 0.06, 'highpass', 6000, null, 1, 0.05, 0.4); },
+  block(){ osc('sine', 1320, 1320, 0.6, 0.26, 0, 0.45); osc('sine', 1980, 1975, 0.4, 0.12, 0, 0.45); osc('triangle', 2640, 2640, 0.22, 0.06); nz(0.08, 0.2, 'highpass', 5000); },
+  combo(){ [523,659,784,1047,1319].forEach((f,i)=>osc('square', f, f, 0.12, 0.07, i*0.055, 0.3)); nz(0.7, 0.12, 'bandpass', 520, 700, 3, 0.1, 0.3); },
+  beep(hi){ osc('square', hi ? 990 : 660, hi ? 990 : 660, hi ? 0.32 : 0.12, 0.08, 0, 0.2); if(hi) osc('square', 1320, 1320, 0.32, 0.05); },
+  miss(){ nz(0.18, 0.2, 'bandpass', 2600, 600, 2); osc('sine', 520, 220, 0.16, 0.08); },
+  pick(){ [1318,1760].forEach((f,i)=>osc('triangle', f, f, 0.16, 0.14, i*0.07, 0.3)); },
+  slipper(){ osc('triangle', 320, 110, 0.14, 0.5); nz(0.1, 0.45, 'lowpass', 1400, 400); },
+  ko(){ osc('sawtooth', 320, 55, 0.75, 0.16, 0, 0.3); osc('sine', 90, 35, 0.6, 0.6); },
+  rocket(){ nz(2.2, 0.32, 'bandpass', 180, 3200, 0.8, 0, 0.2); osc('sine', 55, 40, 2.0, 0.35); },
+  rage(){ osc('sawtooth', 85, 120, 0.4, 0.12); nz(0.35, 0.12, 'lowpass', 500, 900); },
+  jump(){ osc('sine', 280, 720, 0.13, 0.14); },
+  win(){ [523,659,784].forEach((f,i)=>osc('triangle', f, f, 0.5, 0.11, i*0.08, 0.35)); osc('triangle', 1047, 1047, 0.7, 0.12, 0.26, 0.4); }
 };
+const genderOf = s => team(s)==='L' ? 'm' : 'f';
+let speakOn = store.get('ta3-speak', true), lastSay = 0, voicesCache = null;
+function pickVoice(langCode, g){
+  try{
+    const vs = (voicesCache = speechSynthesis.getVoices()).filter(v => v.lang && v.lang.toLowerCase().startsWith(langCode.slice(0,2)));
+    if(!vs.length) return null;
+    const fem = /female|kad[ıi]n|woman|yelda|filiz|seda|zira|samantha|karen|google t[üu]rk/i, male = /male|erkek|man\b|tolga|cem|david|daniel/i;
+    const want = g === 'f' ? vs.find(v => fem.test(v.name) && !/\bmale\b/i.test(v.name)) : vs.find(v => male.test(v.name) && !/female/i.test(v.name));
+    return want || vs[0];
+  }catch(e){ return null; }
+}
+if(window.speechSynthesis){ try{ speechSynthesis.onvoiceschanged = () => { voicesCache = speechSynthesis.getVoices(); }; }catch(e){} }
+function say(text, g){
+  if(!speakOn || muted || !window.speechSynthesis || !text) return;
+  const now = performance.now(); if(now - lastSay < 500) return; lastSay = now;
+  try{
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang === 'en' ? 'en-US' : 'tr-TR';
+    const v = pickVoice(u.lang, g); if(v) u.voice = v;
+    u.pitch = g === 'f' ? 1.6 : 0.7; u.rate = 1.15; u.volume = 1;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(e){}
+}
 
 const XMIN=70, XMAX=930, SEP=90, SPEED=300, JUMP=650, GRAV=2000, LINE_MAX=24;
 const SLOTS = ['L','L2','R','R2'];
@@ -1602,22 +1857,25 @@ function resetFighters(){
 
 /* ---------------- Looks (each player owns their own character) ---------------- */
 const defaults = {
-  L:{skin:'#F1C7A0',hair:'#2B1F1A',top:'#2F4B7C',bottom:'#3B5B8C',shoes:'#F4F4F4',glasses:false,beard:false,skirt:false},
-  L2:{skin:'#E8B98F',hair:'#6B4423',top:'#3E7D4F',bottom:'#3A3A48',shoes:'#2B2B2B',glasses:false,beard:true,skirt:false},
-  R:{skin:'#F6D2B5',hair:'#5A3222',top:'#C8466A',bottom:'#2E2A33',shoes:'#F4F4F4',glasses:false,beard:false,skirt:false},
-  R2:{skin:'#F3CBA5',hair:'#C99432',top:'#7B5CFF',bottom:'#4A6FA5',shoes:'#F4F4F4',glasses:false,beard:false,skirt:true}
+  L:{skin:'#F1C7A0',hair:'#2B1F1A',top:'#2F4B7C',bottom:'#3B5B8C',shoes:'#F4F4F4',hs:'kisa',gl:'yok',bd:'yok',hat:'yok',bt:'pantolon',sh:'spor'},
+  L2:{skin:'#E8B98F',hair:'#6B4423',top:'#3E7D4F',bottom:'#3A3A48',shoes:'#2B2B2B',hs:'kivircik',gl:'yok',bd:'tam',hat:'yok',bt:'pantolon',sh:'bot'},
+  R:{skin:'#F6D2B5',hair:'#5A3222',top:'#C8466A',bottom:'#2E2A33',shoes:'#F4F4F4',hs:'uzun',gl:'yok',bd:'yok',hat:'yok',bt:'pantolon',sh:'spor'},
+  R2:{skin:'#F3CBA5',hair:'#C99432',top:'#7B5CFF',bottom:'#4A6FA5',shoes:'#F4F4F4',hs:'atkuyrugu',gl:'yok',bd:'yok',hat:'yok',bt:'mini',sh:'topuklu'}
 };
-const COLORS = ['skin','hair','top','bottom','shoes'], FLAGS = ['glasses','beard','skirt'];
+const COLORS = ['skin','hair','top','bottom','shoes'], STYLES = Object.keys(OPTS);
 const isHex = v => typeof v==='string' && /^#[0-9a-fA-F]{6}$/.test(v);
 const cleanLines = a => [0,1,2].map(i => Array.isArray(a) && typeof a[i]==='string' ? a[i].slice(0, LINE_MAX) : '');
 const POSES = ['dance','heart','wave'];
-const blankProfile = () => ({name:'', skin:null, hair:null, top:null, bottom:null, shoes:null, glasses:null, beard:null, skirt:null, tl:['','',''], il:['','',''], pose:'dance', uid:null, pv:0, ctype:'denge'});
+const blankProfile = () => ({name:'', skin:null, hair:null, top:null, bottom:null, shoes:null, hs:null, gl:null, bd:null, hat:null, bt:null, sh:null, tl:['','',''], il:['','',''], pose:'dance', uid:null, pv:0, ctype:'denge'});
 function sanitizeProfile(r, baseSlot){
   const p = blankProfile();
   if(!r || typeof r !== 'object') return p;
   if(typeof r.name === 'string') p.name = r.name.slice(0,14);
   COLORS.forEach(k=>{ if(isHex(r[k]) && (!baseSlot || r[k].toLowerCase() !== defaults[baseSlot][k].toLowerCase())) p[k] = r[k]; });
-  FLAGS.forEach(k=>{ if(typeof r[k] === 'boolean' && (!baseSlot || r[k] !== defaults[baseSlot][k])) p[k] = r[k]; });
+  STYLES.forEach(k=>{ if(OPTS[k].includes(r[k]) && (!baseSlot || r[k] !== defaults[baseSlot][k])) p[k] = r[k]; });
+  if(!p.gl && r.glasses === true) p.gl = 'yuvarlak';
+  if(!p.bd && r.beard === true && (!baseSlot || defaults[baseSlot].bd !== 'tam')) p.bd = 'tam';
+  if(!p.bt && r.skirt === true && (!baseSlot || defaults[baseSlot].bt !== 'mini')) p.bt = 'mini';
   p.tl = cleanLines(r.tl); p.il = cleanLines(r.il);
   if(POSES.includes(r.pose)) p.pose = r.pose;
   if(CTYPES[r.ctype]) p.ctype = r.ctype;
@@ -1655,7 +1913,7 @@ function effLook(s){
   const d = defaults[s], p = profileFor(s) || blankProfile();
   const l = {name: p.name || (p===myProfile && acctMe ? acctMe.nick : '') || ''};
   COLORS.forEach(k=>l[k] = p[k] || d[k]);
-  FLAGS.forEach(k=>l[k] = typeof p[k]==='boolean' ? p[k] : d[k]);
+  STYLES.forEach(k=>l[k] = OPTS[k].includes(p[k]) ? p[k] : d[k]);
   l.tl = p.tl; l.il = p.il; l.pose = p.pose || 'dance'; l.ctype = CTYPES[p.ctype] ? p.ctype : 'denge';
   l.photo = p===myProfile ? (myPhoto || '') : (p.uid && p.pv ? photoFor(p.uid, p.pv) : '');
   return l;
@@ -1678,9 +1936,7 @@ function refreshLooks(force){
 function applyLook(s){
   const el = F[s].el, l = look[s];
   COLORS.forEach(k=>el.style.setProperty('--'+k, l[k]));
-  el.dataset.glasses = l.glasses ? '1':'0';
-  el.dataset.beard = l.beard ? '1':'0';
-  el.dataset.skirt = l.skirt ? '1':'0';
+  STYLES.forEach(k=>{ el.dataset[k] = l[k]; });
   el.dataset.photo = l.photo ? '1' : '0';
   const im = el.querySelector('.ph'); if(im){ if(l.photo) im.setAttribute('href', l.photo); else im.removeAttribute('href'); }
   document.querySelector(`.hp[data-slot="${s}"] .nm`).textContent = nameOf(s) + ' ' + (CTYPES[l.ctype] || CTYPES.denge).icon;
@@ -1699,10 +1955,14 @@ function buildEditor(){
   const checkRow = (k, lab) => `<div class="field"><label for="ed-${k}">${t(lab)}</label><input type="checkbox" id="ed-${k}" data-k="${k}"></div>`;
   const lineRows = (k, type) => [0,1,2].map(i=>`<div class="field line"><label for="ed-${k}${i}">${i+1}.</label><input type="text" id="ed-${k}${i}" data-k="${k}" data-i="${i}" maxlength="${LINE_MAX}" placeholder="${esc(t(type)[i])}"><span class="cnt" id="cnt-${k}${i}"></span></div>`).join('');
   $('#charEdit').innerHTML = `<p class="muted small">${t(editWho==='p2' ? 'charP2Help' : 'charMeHelp')}</p>
+    <div class="shop">
+      <div class="shop-head"><div class="shop-preview" id="shopPrev"></div><div class="shop-title"><b>${t('shopTitle')}</b><span class="muted small">${t('shopSub')}</span></div></div>
+      <div class="modes shop-tabs" id="shopTabs">${STYLES.map(c=>`<button type="button" data-cat="${c}" aria-pressed="${c===shopCat}">${t('c_'+c)}</button>`).join('')}</div>
+      <div class="shop-grid" id="shopGrid"></div>
+    </div>
     <div class="edit-cols"><div>
       <div class="field"><label for="ed-name">${t('fName')}</label><input type="text" id="ed-name" data-k="name" maxlength="14" placeholder="${esc(t('def'+slot))}"></div>
-      ${colorRow('skin','fSkin')}${colorRow('hair','fHair')}${colorRow('top','fTop')}${colorRow('bottom','fBottom')}${colorRow('shoes','fShoes')}
-      ${checkRow('glasses','fGlasses')}${checkRow('beard','fBeard')}${checkRow('skirt','fSkirt')}
+      <div class="color-row">${colorRow('skin','fSkin')}${colorRow('hair','fHair')}${colorRow('top','fTop')}${colorRow('bottom','fBottom')}${colorRow('shoes','fShoes')}</div>
       <button class="link" type="button" id="resetLook">${t('resetLook')}</button>
       <h4>${t('poseH')}</h4>
       <div class="modes" id="poseSel">${POSES.map(x=>`<button type="button" data-pose="${x}" aria-pressed="${(editProfile().pose||'dance')===x}">${t('pose_'+x)}</button>`).join('')}</div>
@@ -1719,20 +1979,48 @@ function buildEditor(){
       <button class="link" type="button" id="resetLines">${t('resetLines')}</button>
     </div></div>`;
   fillEditor();
+  renderShop();
   if(typeof renderPhotoBox === 'function') renderPhotoBox();
+}
+let shopCat = 'hs';
+const SHOP_VB = {hs:'22 -4 96 104', gl:'40 34 70 54', bd:'38 44 74 64', hat:'22 -6 96 90', bt:'26 96 88 96', sh:'38 152 66 44'};
+function lookFromProfile(p, slot){
+  const d = defaults[slot], l = {};
+  COLORS.forEach(k=>l[k] = p[k] || d[k]);
+  STYLES.forEach(k=>l[k] = OPTS[k].includes(p[k]) ? p[k] : d[k]);
+  return l;
+}
+function miniFighter(l, kind, id, vb, face){
+  const data = STYLES.map(k=>`data-${k}="${l[k]}"`).join(' ');
+  const style = COLORS.map(k=>`--${k}:${l[k]}`).join(';');
+  let svg = charSVG(kind, id);
+  if(vb) svg = svg.replace('viewBox="0 0 140 200"', `viewBox="${vb}"`);
+  return `<div class="fighter pv" data-face="${face || 'normal'}" ${data} style="${style}"><div class="body"><div class="lean"><div class="bob">${svg}</div></div></div></div>`;
+}
+function renderShop(){
+  const grid = document.getElementById('shopGrid'); if(!grid) return;
+  const slot = editSlotOf(), p = editProfile(), kind = KIND[slot], cur = lookFromProfile(p, slot);
+  document.getElementById('shopPrev').innerHTML = miniFighter(cur, kind, 'prev', null, 'love');
+  document.querySelectorAll('#shopTabs [data-cat]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.cat===shopCat)));
+  grid.innerHTML = OPTS[shopCat].map(o=>{
+    const l = Object.assign({}, cur, {[shopCat]: o});
+    const sel = cur[shopCat] === o;
+    return `<button type="button" class="shop-item${sel ? ' sel' : ''}" data-opt="${o}" aria-pressed="${sel}"><span class="si-pv">${miniFighter(l, kind, 'si'+o, SHOP_VB[shopCat])}</span><span class="si-name">${esc(t('o_'+shopCat+'_'+o))}</span>${sel ? '<span class="si-badge">✓</span>' : ''}</button>`;
+  }).join('');
 }
 function fillEditor(){
   const slot = editSlotOf(), p = editProfile(), d = defaults[slot];
   const set = (id, fn) => { const el = document.getElementById(id); if(el && document.activeElement !== el) fn(el); };
   set('ed-name', el=>el.value = p.name);
   COLORS.forEach(k=>set('ed-'+k, el=>el.value = p[k] || d[k]));
-  FLAGS.forEach(k=>set('ed-'+k, el=>el.checked = typeof p[k]==='boolean' ? p[k] : d[k]));
+
   ['tl','il'].forEach(k=>[0,1,2].forEach(i=>{
     set('ed-'+k+i, el=>el.value = p[k][i]);
     const c = document.getElementById('cnt-'+k+i); if(c) c.textContent = `${p[k][i].length}/${LINE_MAX}`;
   }));
 }
 function profileChanged(){ saveProfiles(); refreshLooks(); pushPresence(true); }
+const _colorRerender = e => { if(e.target && e.target.type === 'color') renderShop(); };
 $('#charTabs').addEventListener('click', e=>{ const b = e.target.closest('[data-w]'); if(!b) return; editWho = b.dataset.w; buildEditor(); });
 $('#charEdit').addEventListener('input', e=>{
   const el = e.target, k = el.dataset.k; if(!k) return;
@@ -1743,6 +2031,7 @@ $('#charEdit').addEventListener('input', e=>{
   } else if(k==='name') p.name = el.value.slice(0,14);
   else p[k] = el.type==='checkbox' ? el.checked : el.value;
   profileChanged();
+  if(el.type === 'color') renderShop();
 });
 $('#charEdit').addEventListener('change', e=>{
   const el = e.target; if(!el.dataset || !el.dataset.ph) return;
@@ -1751,11 +2040,15 @@ $('#charEdit').addEventListener('change', e=>{
 });
 $('#charEdit').addEventListener('click', e=>{
   const p = editProfile();
+  const cb = e.target.closest('[data-cat]');
+  if(cb){ shopCat = cb.dataset.cat; renderShop(); return; }
+  const ob = e.target.closest('[data-opt]');
+  if(ob){ p[shopCat] = ob.dataset.opt; profileChanged(); renderShop(); sfx.pick(); return; }
   const pb = e.target.closest('[data-pose]');
   if(pb){ p.pose = pb.dataset.pose; profileChanged(); document.querySelectorAll('#poseSel [data-pose]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.pose===p.pose))); return; }
   if(e.target.id === 'phRemove'){ removePhoto(); return; }
   if(e.target.id === 'resetLines'){ p.tl = ['','','']; p.il = ['','','']; }
-  else if(e.target.id === 'resetLook'){ COLORS.concat(FLAGS).forEach(k=>p[k] = null); }
+  else if(e.target.id === 'resetLook'){ COLORS.concat(STYLES).forEach(k=>p[k] = null); renderShop(); }
   else return;
   profileChanged(); fillEditor();
 });
@@ -1789,11 +2082,13 @@ $('#btnSettings').addEventListener('click', ()=>{ buildEditor(); renderSettings(
 $('#setClose').addEventListener('click', ()=>{ if(dlg.close) dlg.close(); else dlg.removeAttribute('open'); });
 document.querySelectorAll('#langs button').forEach(b=>b.addEventListener('click', ()=>setLang(b.dataset.lang)));
 document.querySelectorAll('#sounds button').forEach(b=>b.addEventListener('click', ()=>{ setMuted(b.dataset.snd==='off'); if(!muted) sfx.pick(); renderSettings(); }));
+document.querySelectorAll('#speaks button').forEach(b=>b.addEventListener('click', ()=>{ speakOn = b.dataset.sp==='on'; store.set('ta3-speak', speakOn); if(speakOn) say(t('ultL'), 'm'); renderSettings(); }));
 document.querySelectorAll('#ctls button').forEach(b=>b.addEventListener('click', ()=>{ ctlMode = b.dataset.ctl; store.set('ta3-ctl', ctlMode); applyCtl(); joyReset(); renderSettings(); }));
 document.querySelectorAll('#vibs button').forEach(b=>b.addEventListener('click', ()=>{ vibOn = b.dataset.v==='on'; store.set('ta3-vib', vibOn); if(vibOn) buzz('combo'); renderSettings(); }));
 function renderSettings(){
   document.querySelectorAll('#vibs button').forEach(b=>b.setAttribute('aria-pressed', String((b.dataset.v==='on')===vibOn)));
   document.querySelectorAll('#ctls button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.ctl===ctlMode)));
+  document.querySelectorAll('#speaks button').forEach(b=>b.setAttribute('aria-pressed', String((b.dataset.sp==='on')===speakOn)));
   document.querySelectorAll('#langs button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.lang===lang)));
   document.querySelectorAll('#sounds button').forEach(b=>b.setAttribute('aria-pressed', String((b.dataset.snd==='off')===muted)));
 }
@@ -1910,9 +2205,10 @@ function nearestEnemy(f){
 }
 function onAttackStart(f){
   const a = f.atk, li = (a.li===0 || a.li===1 || a.li===2) ? a.li : 0;
-  if(a.type==='trip') bubble(f.el, lineOf(f.slot, 'trip', li), 'sulk', 900);
-  else if(a.type==='insult') bubble(f.el, lineOf(f.slot, 'insult', li), 'insult', 900);
-  else { bubble(f.el, ultText(f.slot), 'love', 1000); f.shieldUntil = Math.max(f.shieldUntil, a.start + ct(f).shield); sfx.love(); }
+  const g = genderOf(f.slot);
+  if(a.type==='trip'){ const line = lineOf(f.slot, 'trip', li); bubble(f.el, line, 'sulk', 900); voice(g, 'hmph'); say(line, g); }
+  else if(a.type==='insult'){ const line = lineOf(f.slot, 'insult', li); bubble(f.el, line, 'insult', 900); voice(g, 'grunt'); say(line, g); }
+  else { bubble(f.el, ultText(f.slot), 'love', 1000); f.shieldUntil = Math.max(f.shieldUntil, a.start + ct(f).shield); sfx.love(); voice(g, 'sweet'); say(ultText(f.slot), g); }
   if(a.type!=='love') swoosh(f, a.type);
 }
 function tryAttack(f, type, now, busy){
@@ -1950,8 +2246,10 @@ function hitVisual(f, type, now, dmg, ch){
   freezeUntil = Math.max(freezeUntil, now + (type==='insult' ? 110 : 70));
   shakeStage(type==='insult' ? 1.4 : 0.6);
   if(sfx[type]) sfx[type]();
+  if(type !== 'love') setTimeout(()=>voice(genderOf(f.slot), Math.random() < 0.5 ? 'hurt' : 'hurt2'), 40);
 }
 function swoosh(f, type){
+  sfx.whoosh(type);
   const d = document.createElement('div');
   d.className = 'fx swoosh ' + type;
   d.innerHTML = `<svg viewBox="0 0 60 60" aria-hidden="true"><path d="M8 50 C14 18 38 6 54 10 C36 16 22 30 18 54 Z" fill="${type==='insult' ? '#FFD0D0' : '#E6DEFF'}" stroke="#2B1B2E" stroke-width="2" opacity=".9"/></svg>`;
@@ -2066,7 +2364,7 @@ function updateLocal(f, inp, dt, now){
   if(!f.cr && !attacking && !stunned) dir = (inp.right?1:0) - (inp.left?1:0);
   f.mv = dir;
   f.x += dir * SPEED * ct(f).speed * dt;
-  if(inp.up && grounded && f.vy===0 && !f.cr && !attacking && !stunned) f.vy = JUMP;
+  if(inp.up && grounded && f.vy===0 && !f.cr && !attacking && !stunned){ f.vy = JUMP; sfx.jump(); }
   if(f.vy !== 0 || f.y > 0){ f.vy -= GRAV*dt; f.y += f.vy*dt; if(f.y <= 0){ f.y = 0; f.vy = 0; } }
   f.x = clamp(f.x, XMIN, XMAX);
   const ne = nearestEnemy(f);
@@ -2395,6 +2693,7 @@ function finishReplay(next, now){
 }
 function enterRoundEnd(winTeam, now){
   phase = 'roundend'; reT0 = now;
+  setTimeout(()=>{ sfx.win(); const w = ACTIVE().find(s=>team(s)===winTeam); if(w) voice(genderOf(w), 'laugh'); }, 250);
   clearItems();
   const winners = ACTIVE().filter(s=>team(s)===winTeam);
   showBanner(`${esc(t('roundWon',{a:namesOf(winners)}))}<small>${roundWins.L} - ${roundWins.R}</small>`);
@@ -3315,7 +3614,7 @@ function renderFighter(f, now){
   }
   if(ko){
     cls.push('ko');
-    if(!f.koShown){ f.koShown = true; textFx(f.el, 'pow', t('ko')); if(phase==='fight') sfx.ko(); if(f.slot === mySide) buzz('ko'); }
+    if(!f.koShown){ f.koShown = true; textFx(f.el, 'pow', t('ko')); if(phase==='fight'){ sfx.ko(); voice(genderOf(f.slot), 'ko'); } if(f.slot === mySide) buzz('ko'); }
   }
   if(f.custom) cls.push('custom');
   if(f.ghost && mode==='online' && screen==='room') cls.push('ghost');
@@ -3450,7 +3749,7 @@ function renderInstall(){
 let lastInstallUi = '';
 (function buildLanding(){
   const box = document.getElementById('landChars'); if(!box) return;
-  const mk = (kind, slot, cls) => { const d = defaults[slot]; return `<div class="fighter land-f ${cls}" data-face="love" data-skirt="0" data-glasses="0" data-beard="0" style="--skin:${d.skin};--hair:${d.hair};--top:${d.top};--bottom:${d.bottom};--shoes:${d.shoes}"><div class="body"><div class="lean"><div class="bob">${charSVG(kind, 'land'+slot)}</div></div></div></div>`; };
+  const mk = (kind, slot, cls) => { const d = defaults[slot]; return `<div class="fighter land-f ${cls}" data-face="love" ${STYLES.map(k=>`data-${k}="${d[k]}"`).join(' ')} style="--skin:${d.skin};--hair:${d.hair};--top:${d.top};--bottom:${d.bottom};--shoes:${d.shoes}"><div class="body"><div class="lean"><div class="bob">${charSVG(kind, 'land'+slot)}</div></div></div></div>`; };
   box.innerHTML = mk('me','L','') + '<div class="land-heart">💗</div>' + mk('her','R','face-left');
 })();
 function renderUi(){
