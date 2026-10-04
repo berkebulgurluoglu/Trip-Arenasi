@@ -284,6 +284,41 @@ dialog h4{margin:6px 0 4px;font-size:.95rem}
 .fighter.hitflash .lean{transform:rotate(calc(-10deg * var(--fd)))}
 .stage.stop *{animation-play-state:paused !important}
 
+.hdr-right{flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:640px){ .hdr-right{justify-content:flex-start} .tabs button{padding:5px 11px;font-size:.92rem} .hdr-right .sbtn{padding:4px 11px;font-size:.92rem} }
+
+.type-row{margin-top:12px;display:grid;gap:8px}
+.type-row[hidden]{display:none}
+.type-line .modes{margin:4px 0}
+.heat-fx{position:absolute;inset:0;pointer-events:none;z-index:2;opacity:0;transition:opacity .6s;background:radial-gradient(ellipse at 70% 10%,rgba(255,170,60,.55),rgba(255,120,40,.18) 55%,rgba(255,80,0,.08));mix-blend-mode:multiply}
+.stage.heat .heat-fx{opacity:1;animation:heatwave 1.4s ease-in-out infinite alternate}
+@keyframes heatwave{from{filter:blur(0)}to{filter:blur(1.5px)}}
+.event-tag{position:absolute;left:50%;top:22%;transform:translateX(-50%) scale(.8);z-index:10;opacity:0;transition:opacity .25s,transform .25s;background:#2B1B2E;color:#FFE14D;font-weight:800;border-radius:999px;padding:4px 14px;font-size:clamp(.85rem,2.4vw,1.15rem);pointer-events:none;white-space:nowrap}
+.event-tag.show{opacity:1;transform:translateX(-50%) scale(1)}
+dialog#rankDlg{width:min(520px,94vw);max-height:86vh;overflow:auto;border:3px solid var(--ink);border-radius:20px;background:var(--panel);color:var(--ink);padding:16px 18px}
+dialog#rankDlg::backdrop{background:rgba(43,27,46,.55)}
+.rotate-hint{display:none;margin-right:auto;align-self:center}
+@media (orientation:portrait) and (max-width:700px){ body.ingame .rotate-hint{display:inline} }
+@media (orientation:landscape) and (max-height:560px){
+  body.ingame{overflow:hidden}
+  body.ingame header,body.ingame #helpRow,body.ingame #lobby,body.ingame #menu,body.ingame #auth{display:none !important}
+  body.ingame .wrap{padding:0;max-width:none}
+  body.ingame .stage{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;aspect-ratio:auto;border:0;border-radius:0;z-index:20}
+  body.ingame .stage .fighter{width:13%}
+  body.ingame #padWrap{position:fixed;left:0;right:0;bottom:0;top:0;z-index:25;background:transparent;border:0;padding:0;pointer-events:none;margin:0}
+  body.ingame #padWrap .keys{display:none}
+  body.ingame #padWrap .pad-top{position:absolute;bottom:calc(12px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);margin:0;z-index:2}
+  body.ingame #padWrap .pad-top .quit{pointer-events:auto;background:rgba(255,246,239,.85);font-size:.8rem;padding:2px 10px}
+  body.ingame #padWrap .pad{position:absolute;left:calc(10px + env(safe-area-inset-left,0px));right:calc(10px + env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));align-items:flex-end}
+  body.ingame #padWrap .dpad,body.ingame #padWrap .atk{pointer-events:auto}
+  body.ingame #padWrap .dpad{grid-template-columns:repeat(3,52px);grid-template-rows:repeat(2,48px);gap:6px;opacity:.82}
+  body.ingame #padWrap .atk{flex-direction:column;align-items:stretch;gap:6px;opacity:.88;width:min(190px,28vw)}
+  body.ingame #padWrap .atk .btn{min-height:40px;padding:4px 10px;font-size:.95rem}
+  body.ingame #padWrap .atk .btn small{font-size:.65em}
+  body.ingame #specBar{position:fixed;left:50%;bottom:calc(8px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:25;background:rgba(255,246,239,.88);padding:6px 10px}
+  body.ingame .hud{padding-left:calc(12px + env(safe-area-inset-left,0px));padding-right:calc(12px + env(safe-area-inset-right,0px))}
+}
+
 .rm-left{width:100%;font-size:.8rem;color:var(--muted)}
 
 .pad-top{display:flex;justify-content:flex-end;margin:-4px 0 8px}
@@ -402,6 +437,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
   <header>
     <h1 data-i18n="title">Trip Arenası</h1>
     <div class="hdr-right">
+      <button class="sbtn" id="btnRank" type="button" hidden>💗 <span data-i18n="rankBtn"></span></button>
       <button class="sbtn" id="btnFriends" type="button" hidden><span data-i18n="friends"></span><span class="badge" id="badge" hidden>0</span></button>
       <button class="sbtn" id="btnSettings" type="button" data-i18n="settings">Ayarlar</button>
       <div class="tabs" role="group" aria-label="Mekân">
@@ -433,6 +469,8 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
     <div class="combo" id="combo"></div>
     <div class="banner" id="banner" aria-live="polite"></div>
     <div class="replay-tag" id="replayTag"></div>
+    <div class="heat-fx" aria-hidden="true"></div>
+    <div class="event-tag" id="eventTag" aria-live="polite"></div>
     <div class="rematch" id="quitBox" hidden>
       <div class="rm-title" data-i18n="quitQ"></div>
       <div class="rm-rows" id="quitSub"></div>
@@ -519,6 +557,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
     </div>
     <p class="mode-desc" id="modeDesc"></p>
     <div class="slots" id="slots"></div>
+    <div class="type-row" id="typeRow" hidden></div>
     <div class="lobby-actions">
       <button class="btn ready" id="btnReady" type="button"></button>
     </div>
@@ -526,7 +565,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
   </section>
 
   <section class="panel" id="padWrap" hidden>
-    <div class="pad-top"><button class="sbtn quit" id="btnQuit" type="button" data-i18n="quitBtn"></button></div>
+    <div class="pad-top"><span class="rotate-hint muted small" data-i18n="rotateHint"></span><button class="sbtn quit" id="btnQuit" type="button" data-i18n="quitBtn"></button></div>
     <div class="pad" id="pad">
       <div class="dpad">
         <button class="btn" type="button" data-k="up" data-i18n-label="aJump">▲</button>
@@ -548,12 +587,20 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
     <button class="sbtn" type="button" data-help="combos" data-i18n="helpCombos"></button>
     <button class="sbtn" type="button" data-help="moves" data-i18n="helpMoves"></button>
     <button class="sbtn" type="button" data-help="modes" data-i18n="helpModes"></button>
+    <button class="sbtn" type="button" data-help="types" data-i18n="helpTypes"></button>
+    <button class="sbtn" type="button" data-help="maps" data-i18n="helpMaps"></button>
   </div>
 </div>
 
 <dialog id="helpDlg">
   <div class="set-head"><h2 id="helpTitle"></h2><button class="sbtn" id="helpClose" type="button" data-i18n="close"></button></div>
   <div id="helpBody" class="help-body"></div>
+</dialog>
+
+<dialog id="rankDlg">
+  <div class="set-head"><h2>💗 <span data-i18n="rankTitle"></span></h2><button class="sbtn" id="rankClose" type="button" data-i18n="close"></button></div>
+  <p class="muted small" data-i18n="rankHelp"></p>
+  <ol class="list" id="rankList"></ol>
 </dialog>
 
 <dialog id="profDlg">
@@ -563,6 +610,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
 
 <dialog id="settings">
   <div class="set-head"><h2 data-i18n="settings"></h2><button class="sbtn" id="setClose" type="button" data-i18n="close"></button></div>
+  <section><h3 data-i18n="vibration"></h3><div class="modes" id="vibs"><button type="button" data-v="on" data-i18n="soundOn"></button><button type="button" data-v="off" data-i18n="soundOff"></button></div><p class="muted small" data-i18n="vibHelp"></p></section>
   <section id="acctSec" hidden><h3 data-i18n="account"></h3><p class="muted" id="acctLine"></p><button class="sbtn" id="btnLogout" type="button" data-i18n="logout" hidden></button></section>
   <section><h3 data-i18n="language"></h3><div class="modes" id="langs"><button type="button" data-lang="tr">Türkçe</button><button type="button" data-lang="en">English</button></div></section>
   <section><h3 data-i18n="sound"></h3><div class="modes" id="sounds"><button type="button" data-snd="on" data-i18n="soundOn"></button><button type="button" data-snd="off" data-i18n="soundOff"></button></div></section>
@@ -576,14 +624,10 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
     <div class="add-row"><input id="frSearch" type="text" autocapitalize="none" spellcheck="false" maxlength="16" data-i18n-ph="addPlaceholder"><button class="sbtn go" id="frAdd" type="button" data-i18n="sendReq"></button></div>
     <p class="muted small" id="frMsg" aria-live="polite"></p>
   </section>
-  <div class="modes" id="frTabs" role="group"><button type="button" data-ft="friends" data-i18n="tabFriends"></button><button type="button" data-ft="rank" data-i18n="tabRank"></button></div>
   <div data-pane="friends">
     <section><h3 data-i18n="notifs"></h3><ul class="list" id="notifList"></ul></section>
     <section><h3 data-i18n="myFriends"></h3><ul class="list" id="friendList"></ul></section>
     <button class="sbtn" id="btnMyCard" type="button" data-i18n="myCard"></button>
-  </div>
-  <div data-pane="rank" hidden>
-    <section><h3 data-i18n="rankTitle"></h3><p class="muted small" data-i18n="rankHelp"></p><ol class="list" id="rankList"></ol></section>
   </div>
 </dialog>
 <div class="toasts" id="toasts" aria-live="polite"></div>
@@ -862,7 +906,7 @@ function setScene(s, ts){
   $('#scene-hatay').classList.toggle('off', s!=='hatay');
   $('#scene-bursa').classList.toggle('off', s!=='bursa');
 }
-document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{ setScene(b.dataset.scene, Date.now()); pushPresence(true); }));
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{ if(typeof phase !== 'undefined' && phase !== 'lobby') return; setScene(b.dataset.scene, Date.now()); pushPresence(true); }));
 setScene(scene, 0);
 
 /* ---------------- Characters ---------------- */
@@ -930,6 +974,38 @@ $('#robot').innerHTML = ROBOT_SVG;
 const I18N = {
 tr: {
   title:'Trip Arenası', settings:'Ayarlar', close:'Kapat',
+  rankBtn:"Tripkolik",
+  helpTypes:"Karakter tipleri",
+  helpMaps:"Harita olayları",
+  typesP:"Lobide taraf seçtikten sonra karakter tipini seçersin. Her tipin bir artısı ve bir eksisi var; isminin yanındaki simge rakibine tipini gösterir.",
+  ct_denge:"Dengeli",
+  ct_alingan:"Alıngan",
+  ct_kiskanc:"Kıskanç",
+  ct_soguk:"Buz gibi",
+  ct_dramatik:"Dramatik",
+  ctd_denge:"Artısı da eksisi de yok; standart karakter.",
+  ctd_alingan:"Enerjisi %25 daha hızlı dolar ama canı %10 daha az.",
+  ctd_kiskanc:"Öfke moduna canının %45'inde girer (normalde %30) ama kalkanı 0,6 saniye sürer.",
+  ctd_soguk:"Kalkanı 1,2 saniye sürer ve 2,5 saniyede bir kullanılabilir ama %10 daha yavaş yürür.",
+  ctd_dramatik:"Vuruşları %10 daha sert ama trip ve hakaret 4 enerji fazla harcar.",
+  typeMine:"Karakter tipin:",
+  typeLeft:"Sol oyuncunun tipi:",
+  typeRight:"Sağ oyuncunun tipi:",
+  mapsP:"Her haritanın kendine özel bir olayı var; olay olurken sahnenin üstünde bir uyarı çıkar. Olaylar her modda açık.",
+  map_adana:"Adana",
+  map_hatay:"Hatay",
+  map_bursa:"Bursa",
+  mapd_adana:"Sıcak çarpması: arada bir 6,5 saniyelik sıcak dalgası gelir; o sırada herkesin enerjisi yarı hızda dolar. Sıcakta saldırılarını iyi seç.",
+  mapd_hatay:"Künefe: gökten arada bir künefe tepsisi düşer; ilk kapan 12 can kazanır.",
+  mapd_bursa:"Teleferik: teleferikten art arda üç kestane düşer; altında kalan her kestanede 6 can kaybeder.",
+  evHeat:"🔥 Sıcak çarpması! Enerji yavaş doluyor",
+  evKunefe:"🍯 Künefe geliyor!",
+  evKestane:"🌰 Teleferikten kestane yağıyor!",
+  kunefeT:"+12 can, künefe!",
+  kestaneT:"Kestane!",
+  vibration:"Titreşim",
+  vibHelp:"Vuruş yediğinde, vuruşun isabet ettiğinde, kalkan tuttuğunda ve nakavtta telefon farklı şekilde titrer. iPhone tarayıcıları titreşimi desteklemiyor.",
+  rotateHint:"📱↔️ Tam ekran için telefonu yan çevir",
   rematchDeclined:"{n} rövanşı kabul etmedi.",
   rematchLeft:"{n} sn",
   quitBtn:"Tripi sonlandır",
@@ -1065,7 +1141,7 @@ tr: {
   hintLocal:'Eğilirsen tokat, zıplarsan tekme boşa gider; doğru anda Efendim güzelim dersen vuruş kalkana çarpar. Geri çekilince ya da eğilince enerji iki kat hızlı dolar.',
   keysLocal:'Sol: A D W S, F trip, G hakaret, H kalkan. Sağ: ok tuşları, K trip, L hakaret, O kalkan. Dokunmatik tuşlar sol karakteri yönetir.',
   keysOnline:'Klavye: A D ya da oklar ile yürü, W zıpla, S eğil. J trip, K hakaret, L kalkan.', koWatch:' Nakavt oldun, takım arkadaşını izliyorsun.',
-  trip:'Trip at', insult:'Hakaret et', tripSub:'tokat, 22 enerji', insultSub:'tekme, 32 enerji', ultSub:'kalkan, 30 enerji',
+  trip:'Trip at', insult:'Hakaret et', tripSub:'tokat, {n} enerji', insultSub:'tekme, {n} enerji', ultSub:'kalkan, 30 enerji',
   ultL:'Efendim güzelim', ultR:'Efendim canım', blocked:'Kalkan!',
   aJump:'Zıpla', aLeft:'Sola', aRight:'Sağa', aDown:'Eğil',
   combosTitle:'Kombolar ve hareketler', combosH:'Kombolar', combosP:'Vuruşlar arasında 1 saniyeden az boşluk bırakırsan seri sayılır.', movesH:'Hareketler',
@@ -1091,6 +1167,38 @@ tr: {
 },
 en: {
   title:'Trip Arena', settings:'Settings', close:'Close',
+  rankBtn:"Sulkaholics",
+  helpTypes:"Character types",
+  helpMaps:"Map events",
+  typesP:"After picking a side in the lobby, choose your character type. Each type has one upside and one downside; the icon next to your name shows it to your opponent.",
+  ct_denge:"Balanced",
+  ct_alingan:"Touchy",
+  ct_kiskanc:"Jealous",
+  ct_soguk:"Ice cold",
+  ct_dramatik:"Dramatic",
+  ctd_denge:"No upside, no downside; the standard character.",
+  ctd_alingan:"Energy refills 25% faster, but 10% less HP.",
+  ctd_kiskanc:"Enters rage mode at 45% HP (normally 30%), but the shield lasts only 0.6 seconds.",
+  ctd_soguk:"Shield lasts 1.2 seconds and recharges every 2.5 seconds, but walks 10% slower.",
+  ctd_dramatik:"Hits 10% harder, but sulk and insult cost 4 more energy.",
+  typeMine:"Your character type:",
+  typeLeft:"Left player's type:",
+  typeRight:"Right player's type:",
+  mapsP:"Every map has its own special event; a warning appears above the stage when it happens. Events are on in every mode.",
+  map_adana:"Adana",
+  map_hatay:"Hatay",
+  map_bursa:"Bursa",
+  mapd_adana:"Heatstroke: now and then a 6.5 second heat wave hits; meanwhile everyone's energy refills at half speed. Pick your attacks carefully.",
+  mapd_hatay:"Künefe: a tray of künefe falls from the sky now and then; whoever grabs it first gains 12 HP.",
+  mapd_bursa:"Cable car: three chestnuts drop from the cable car in a row; each one that lands on you costs 6 HP.",
+  evHeat:"🔥 Heatstroke! Energy refills slowly",
+  evKunefe:"🍯 Künefe incoming!",
+  evKestane:"🌰 Chestnuts from the cable car!",
+  kunefeT:"+12 HP, künefe!",
+  kestaneT:"Chestnut!",
+  vibration:"Vibration",
+  vibHelp:"Your phone vibrates differently when you get hit, land a hit, block with your shield and get knocked out. iPhone browsers do not support vibration.",
+  rotateHint:"📱↔️ Turn your phone sideways for full screen",
   rematchDeclined:"{n} declined the rematch.",
   rematchLeft:"{n}s",
   quitBtn:"End the fight",
@@ -1226,7 +1334,7 @@ en: {
   hintLocal:'Duck and a slap misses, jump and a kick misses, and a well-timed Yes, gorgeous blocks the hit. Energy refills twice as fast when you back off or duck.',
   keysLocal:'Left: A D W S, F sulk, G insult, H kalkanmate. Right: arrow keys, K sulk, L insult, O kalkanmate. Touch buttons control the left character.',
   keysOnline:'Keyboard: A D or arrows to walk, W to jump, S to duck. J sulk, K insult, L kalkanmate.', koWatch:' You are knocked out; watch your teammate.',
-  trip:'Sulk', insult:'Insult', tripSub:'slap, 22 energy', insultSub:'kick, 32 energy', ultSub:'shield, 30 energy',
+  trip:'Sulk', insult:'Insult', tripSub:'slap, {n} energy', insultSub:'kick, {n} energy', ultSub:'shield, 30 energy',
   ultL:'Yes, gorgeous', ultR:'Yes, darling', blocked:'Blocked!',
   aJump:'Jump', aLeft:'Left', aRight:'Right', aDown:'Duck',
   combosTitle:'Combos and moves', combosH:'Combos', combosP:'Hits less than a second apart count as a chain.', movesH:'Moves',
@@ -1281,7 +1389,25 @@ const COMBOS = [
   {seq:['trip','trip','insult'], name:'combo2', bonus:10}
 ];
 const ultText = s => t(team(s)==='L' ? 'ultL' : 'ultR');
+const CTYPES = {
+  denge:    {icon:'⚖️', hp:1,   regen:1,    rage:0.30, shield:800,  cd:3000, speed:1,   dmg:1,   cost:0},
+  alingan:  {icon:'😤', hp:0.9, regen:1.25, rage:0.30, shield:800,  cd:3000, speed:1,   dmg:1,   cost:0},
+  kiskanc:  {icon:'😒', hp:1,   regen:1,    rage:0.45, shield:600,  cd:3000, speed:1,   dmg:1,   cost:0},
+  soguk:    {icon:'🧊', hp:1,   regen:1,    rage:0.30, shield:1200, cd:2500, speed:0.9, dmg:1,   cost:0},
+  dramatik: {icon:'🎭', hp:1,   regen:1,    rage:0.30, shield:800,  cd:3000, speed:1,   dmg:1.1, cost:4}
+};
+const CTYPE_KEYS = Object.keys(CTYPES);
+const ct = f => CTYPES[(look[f.slot] && look[f.slot].ctype) || 'denge'] || CTYPES.denge;
+const maxHpOf = f => Math.round(maxHp() * ct(f).hp);
+const costOf = (f, type) => SPEC[type].cost + (type !== 'love' ? ct(f).cost : 0);
 let freezeUntil = 0;
+let vibOn = store.get('ta3-vib', true);
+const VIB = {
+  hitLight:[14], slapTaken:[30,25,18], kickTaken:[60,30,110], block:[12,30,12], parried:[40,30,40,30,40],
+  combo:[25,25,25,25,90], comboTaken:[70,40,70,40,140], ko:[160,70,260], rocket:[90,50,90,50,90,50,400],
+  hazard:[70,30,40], heal:[10,50,10], tick:[12], go:[45]
+};
+function buzz(k){ if(!vibOn || !navigator.vibrate) return; try{ navigator.vibrate(VIB[k] || [20]); }catch(e){} }
 
 /* ---- sound ---- */
 let actx = null, muted = store.get('ta2-mute', false);
@@ -1356,11 +1482,12 @@ function makeFighter(slot){
 }
 const F = {};
 SLOTS.forEach(s=>{ F[s] = makeFighter(s); F[s].hp = F[s].trail = maxHp(); });
+const look = {};
 
 function resetFighters(){
   for(const s of SLOTS){
     const f = F[s], x = startX(s);
-    Object.assign(f, {x, dispX:x, y:0, vy:0, cr:false, hp:maxHp(), trail:maxHp(), en:100, fd:teamDir(s), atk:null, stunUntil:0, flashUntil:0, loveUntil:0, lowUntil:0, gotHit:{}, dodged:{}, mv:0, custom:false, chain:[], lastHitAt:0, ch:0, rageShown:false, koShown:false, got:[], shieldUntil:0, loveCd:0});
+    Object.assign(f, {x, dispX:x, y:0, vy:0, cr:false, hp:maxHpOf(f), trail:maxHpOf(f), en:100, fd:teamDir(s), atk:null, stunUntil:0, flashUntil:0, loveUntil:0, lowUntil:0, gotHit:{}, dodged:{}, mv:0, custom:false, chain:[], lastHitAt:0, ch:0, rageShown:false, koShown:false, got:[], shieldUntil:0, loveCd:0});
     f.tx = x;
     f.el.style.transform = '';
   }
@@ -1392,7 +1519,7 @@ const COLORS = ['skin','hair','top','bottom','shoes'], FLAGS = ['glasses','beard
 const isHex = v => typeof v==='string' && /^#[0-9a-fA-F]{6}$/.test(v);
 const cleanLines = a => [0,1,2].map(i => Array.isArray(a) && typeof a[i]==='string' ? a[i].slice(0, LINE_MAX) : '');
 const POSES = ['dance','heart','wave'];
-const blankProfile = () => ({name:'', skin:null, hair:null, top:null, bottom:null, shoes:null, glasses:null, beard:null, skirt:null, tl:['','',''], il:['','',''], pose:'dance', uid:null, pv:0});
+const blankProfile = () => ({name:'', skin:null, hair:null, top:null, bottom:null, shoes:null, glasses:null, beard:null, skirt:null, tl:['','',''], il:['','',''], pose:'dance', uid:null, pv:0, ctype:'denge'});
 function sanitizeProfile(r, baseSlot){
   const p = blankProfile();
   if(!r || typeof r !== 'object') return p;
@@ -1401,6 +1528,7 @@ function sanitizeProfile(r, baseSlot){
   FLAGS.forEach(k=>{ if(typeof r[k] === 'boolean' && (!baseSlot || r[k] !== defaults[baseSlot][k])) p[k] = r[k]; });
   p.tl = cleanLines(r.tl); p.il = cleanLines(r.il);
   if(POSES.includes(r.pose)) p.pose = r.pose;
+  if(CTYPES[r.ctype]) p.ctype = r.ctype;
   if(typeof r.uid === 'string' && r.uid.length < 64) p.uid = r.uid;
   if(typeof r.pv === 'number' && isFinite(r.pv)) p.pv = r.pv;
   if(['Ben','Sevgilim','Erkek 2','Kız 2','Me','My love'].includes(p.name)) p.name = '';
@@ -1425,7 +1553,6 @@ function photoFor(uid, pv){
   }
   return '';
 }
-const look = {};
 function profileFor(s){
   if(mode==='local') return s==='L' ? myProfile : s==='R' ? p2Profile : null;
   if(screen==='room' && s===mySide) return myProfile;
@@ -1437,7 +1564,7 @@ function effLook(s){
   const l = {name: p.name || (p===myProfile && acctMe ? acctMe.nick : '') || ''};
   COLORS.forEach(k=>l[k] = p[k] || d[k]);
   FLAGS.forEach(k=>l[k] = typeof p[k]==='boolean' ? p[k] : d[k]);
-  l.tl = p.tl; l.il = p.il; l.pose = p.pose || 'dance';
+  l.tl = p.tl; l.il = p.il; l.pose = p.pose || 'dance'; l.ctype = CTYPES[p.ctype] ? p.ctype : 'denge';
   l.photo = p===myProfile ? (myPhoto || '') : (p.uid && p.pv ? photoFor(p.uid, p.pv) : '');
   return l;
 }
@@ -1464,7 +1591,7 @@ function applyLook(s){
   el.dataset.skirt = l.skirt ? '1':'0';
   el.dataset.photo = l.photo ? '1' : '0';
   const im = el.querySelector('.ph'); if(im){ if(l.photo) im.setAttribute('href', l.photo); else im.removeAttribute('href'); }
-  document.querySelector(`.hp[data-slot="${s}"] .nm`).textContent = nameOf(s);
+  document.querySelector(`.hp[data-slot="${s}"] .nm`).textContent = nameOf(s) + ' ' + (CTYPES[l.ctype] || CTYPES.denge).icon;
   document.querySelector('#slot'+s+' .slot-name').textContent = nameOf(s);
 }
 function saveProfiles(){ store.set('ta3-me', myProfile); store.set('ta3-p2', p2Profile); }
@@ -1549,12 +1676,16 @@ function renderHelp(){
   if(helpTopic==='combos'){
     body = p('combosP') + `<ul class="combo-list">${COMBOS.slice().reverse().map(c=>
       `<li>${c.seq.map(x=>`<span class="chip ${x}">${t(x==='trip'?'chipTrip':'chipInsult')}</span>`).join('')}<span class="combo-name">${t(c.name)}</span><span class="combo-bonus">${t('bonus',{n:c.bonus})}</span></li>`).join('')}</ul>`;
+  } else if(helpTopic==='types'){
+    body = p('typesP') + CTYPE_KEYS.map(k=>`<p><b>${CTYPES[k].icon} ${t('ct_'+k)}:</b> ${t('ctd_'+k)}</p>`).join('');
+  } else if(helpTopic==='maps'){
+    body = p('mapsP') + ['adana','hatay','bursa'].map(k=>`<p><b>${t('map_'+k)}:</b> ${t('mapd_'+k)}</p>`).join('');
   } else if(helpTopic==='moves'){
     body = ['moveTrip','moveInsult','moveUlt','moveRage','moveEnergy','movePass'].map(p).join('');
   } else {
     body = `<p><b>${t('modeKlasik')}:</b> ${t('descKlasik')}</p><p><b>${t('modeSigorta')}:</b> ${t('descSigorta')}</p><p><b>${t('modeHediye')}:</b> ${t('descHediye')}</p>` + p('moveRounds') + p('move2v2') + p('moveRematch') + p('moveSpec');
   }
-  $('#helpTitle').textContent = t(helpTopic==='combos' ? 'helpCombos' : helpTopic==='moves' ? 'helpMoves' : 'helpModes');
+  $('#helpTitle').textContent = t({combos:'helpCombos', moves:'helpMoves', modes:'helpModes', types:'helpTypes', maps:'helpMaps'}[helpTopic]);
   $('#helpBody').innerHTML = body;
 }
 document.querySelectorAll('#helpRow [data-help]').forEach(b=>b.addEventListener('click', ()=>{
@@ -1566,7 +1697,9 @@ $('#btnSettings').addEventListener('click', ()=>{ buildEditor(); renderSettings(
 $('#setClose').addEventListener('click', ()=>{ if(dlg.close) dlg.close(); else dlg.removeAttribute('open'); });
 document.querySelectorAll('#langs button').forEach(b=>b.addEventListener('click', ()=>setLang(b.dataset.lang)));
 document.querySelectorAll('#sounds button').forEach(b=>b.addEventListener('click', ()=>{ setMuted(b.dataset.snd==='off'); if(!muted) sfx.pick(); renderSettings(); }));
+document.querySelectorAll('#vibs button').forEach(b=>b.addEventListener('click', ()=>{ vibOn = b.dataset.v==='on'; store.set('ta3-vib', vibOn); if(vibOn) buzz('combo'); renderSettings(); }));
 function renderSettings(){
+  document.querySelectorAll('#vibs button').forEach(b=>b.setAttribute('aria-pressed', String((b.dataset.v==='on')===vibOn)));
   document.querySelectorAll('#langs button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.lang===lang)));
   document.querySelectorAll('#sounds button').forEach(b=>b.setAttribute('aria-pressed', String((b.dataset.snd==='off')===muted)));
 }
@@ -1685,25 +1818,26 @@ function onAttackStart(f){
   const a = f.atk, li = (a.li===0 || a.li===1 || a.li===2) ? a.li : 0;
   if(a.type==='trip') bubble(f.el, lineOf(f.slot, 'trip', li), 'sulk', 900);
   else if(a.type==='insult') bubble(f.el, lineOf(f.slot, 'insult', li), 'insult', 900);
-  else { bubble(f.el, ultText(f.slot), 'love', 1000); f.shieldUntil = Math.max(f.shieldUntil, a.start + SPEC.love.shield); sfx.love(); }
+  else { bubble(f.el, ultText(f.slot), 'love', 1000); f.shieldUntil = Math.max(f.shieldUntil, a.start + ct(f).shield); sfx.love(); }
   if(a.type!=='love') swoosh(f, a.type);
 }
 function tryAttack(f, type, now, busy){
   if(busy || !alive(f)) return;
   const s = SPEC[type];
   if(type==='love' && now < f.loveCd) return;
-  if(f.en < s.cost){
+  const cost = costOf(f, type);
+  if(f.en < cost){
     f.lowUntil = now + 450;
     if(now - f.saidTired > 1600){ bubble(f.el, t('tired'), 'sulk', 900); f.saidTired = now; }
     return;
   }
-  f.en -= s.cost;
+  f.en -= cost;
   f.atk = {id: atkBase + (++f.atkSeq), type, start:now, li: Math.floor(Math.random()*3)};
   f.lastAtk = f.atk;
   if(f.slot === mySide && mode==='online' && type!=='love') mstats[type]++;
   if(type==='love'){
-    f.loveCd = now + s.cd;
-    f.hp = Math.min(maxHp(), f.hp + s.heal);
+    f.loveCd = now + ct(f).cd;
+    f.hp = Math.min(maxHpOf(f), f.hp + s.heal);
     textFx(f.el, 'pow good', '+' + s.heal);
   }
   onAttackStart(f);
@@ -1762,6 +1896,7 @@ function spark(f, type){
 }
 function blockFx(f){ textFx(f.el, 'pow good', t('blocked')); sfx.block(); spark(f, 'love'); logFx('block', f.slot, {}); }
 function parried(A, now){
+  if(A.slot === mySide) buzz('parried');
   A.stunUntil = now + 650; A.loveUntil = now + 650; A.atk = null;
   textFx(A.el, 'pow', t('powLove'));
 }
@@ -1772,12 +1907,12 @@ function showCombo(i, attackerSlot){
   comboEl.classList.remove('show'); void comboEl.offsetWidth; comboEl.classList.add('show');
   sfx.combo(); shakeStage();
 }
-const isRage = f => f.hp > 0 && f.hp <= maxHp()*0.3;
+const isRage = f => f.hp > 0 && f.hp <= maxHpOf(f)*ct(f).rage;
 function applyHit(B, A, type, ax, now){
   const s = SPEC[type];
   if(now - B.lastHitAt > 1100) B.chain = [];
   B.lastHitAt = now; B.chain.push(type);
-  let dmg = s.dmg;
+  let dmg = Math.round(s.dmg * ct(A).dmg);
   if(isRage(A)) dmg = Math.round(dmg*1.3);
   let combo = -1;
   for(let i=0;i<COMBOS.length;i++){
@@ -1794,6 +1929,7 @@ function applyHit(B, A, type, ax, now){
   if(type==='insult' && B.y <= 0 && B.vy === 0) B.vy = 300;
   smokeAt(px(B.x), gY - 6, 2);
   B.atk = null;
+  if(B.slot === mySide) buzz(combo >= 0 ? 'comboTaken' : (type==='insult' ? 'kickTaken' : 'slapTaken'));
   hitVisual(B, type, now, dmg, combo >= 0 ? 0 : ch);
   pushPresence(true);
 }
@@ -1809,7 +1945,7 @@ function tryHit(A, B, now){
   if(B.shieldUntil > now){
     B.gotHit[A.slot] = A.atk.id; B.chain = [];
     B.en = Math.min(100, B.en + 15); B.pc++; B.pt = A.slot;
-    if(B.slot === mySide) mstats.blocks++;
+    if(B.slot === mySide){ mstats.blocks++; buzz('block'); }
     blockFx(B);
     if(A.local) parried(A, now);
     pushPresence(true);
@@ -1835,7 +1971,7 @@ function updateLocal(f, inp, dt, now){
   let dir = 0;
   if(!f.cr && !attacking && !stunned) dir = (inp.right?1:0) - (inp.left?1:0);
   f.mv = dir;
-  f.x += dir * SPEED * dt;
+  f.x += dir * SPEED * ct(f).speed * dt;
   if(inp.up && grounded && f.vy===0 && !f.cr && !attacking && !stunned) f.vy = JUMP;
   if(f.vy !== 0 || f.y > 0){ f.vy -= GRAV*dt; f.y += f.vy*dt; if(f.y <= 0){ f.y = 0; f.vy = 0; } }
   f.x = clamp(f.x, XMIN, XMAX);
@@ -1843,7 +1979,7 @@ function updateLocal(f, inp, dt, now){
   const ox = ne ? posX(ne) : f.x + f.fd*200;
   f.fd = Math.sign(ox - f.x) || f.fd;
   const away = dir !== 0 && Math.sign(dir) !== Math.sign(ox - f.x);
-  const rate = (attacking ? 0 : ((away || f.cr) ? 35 : 15)) * MODES[gameMode].regen;
+  const rate = (attacking ? 0 : ((away || f.cr) ? 35 : 15)) * MODES[gameMode].regen * ct(f).regen * (isHeat(now) ? 0.45 : 1);
   f.en = Math.min(100, f.en + rate*dt);
   for(const x of ['trip','insult','love']) if(inp.press[x]) tryAttack(f, x, now, attacking || stunned);
   f.dispX = f.x;
@@ -2206,7 +2342,7 @@ function updateEnding(now){
     if(tt >= 3600){
       const d = (tt-3600)/1000;
       nozzleY = gY - (0.5*2.4*H*d*d + 0.25*H*d);
-      if(!E.launched){ E.launched = true; smokeAt(rxPx, gY-8, 8); shakeStage(); sfx.rocket(); }
+      if(!E.launched){ E.launched = true; smokeAt(rxPx, gY-8, 8); shakeStage(); sfx.rocket(); if(E.losers.includes(mySide)) buzz('rocket'); }
     }
     rocketEl.style.transform = `translate3d(${rxPx - rw/2 + shake}px, ${nozzleY - noz}px, 0)`;
   }
@@ -2256,64 +2392,104 @@ function updateEnding(now){
   if(tt >= 8200){ const wasPlayer = mode==='local' || (mySide && ACTIVE().includes(mySide)); E = null; backToLobby(''); rematchOpen = wasPlayer; rematchAt = performance.now(); }
 }
 
-/* ---------------- Items (Gökten hediye) ---------------- */
+/* ---------------- Items (Gökten hediye) & map events ---------------- */
 const ITEM_SVG = {
   flower:`<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 22 V38" stroke="#3F7A4A" stroke-width="3"/><path d="M20 32 C14 28 12 30 12 30 C14 34 18 34 20 32Z" fill="#5FA05A" stroke="#2B1B2E" stroke-width="1.5"/>${[0,72,144,216,288].map(a=>`<circle cx="${20+6*Math.cos(a*Math.PI/180)}" cy="${14+6*Math.sin(a*Math.PI/180)}" r="5.5" fill="#FF7EB3" stroke="#2B1B2E" stroke-width="1.5"/>`).join('')}<circle cx="20" cy="14" r="4" fill="#FFD24A" stroke="#2B1B2E" stroke-width="1.5"/></svg>`,
   tea:`<svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="36" rx="15" ry="3.5" fill="#F4F4F6" stroke="#2B1B2E" stroke-width="2"/><path d="M12 7 H28 C28 14 23.5 18 23.5 22 C23.5 27 28 30 28 34 H12 C12 30 16.5 27 16.5 22 C16.5 18 12 14 12 7Z" fill="rgba(255,255,255,.65)" stroke="#2B1B2E" stroke-width="2"/><path d="M13.5 11 H26.5 C26 15 22 18 22 22 C22 27 26.5 30 26.5 33 H13.5 C13.5 30 18 27 18 22 C18 18 14 15 13.5 11Z" fill="#C0392B"/><path d="M15 12 C16 16 18 18 18 21" stroke="#fff" stroke-width="1.5" fill="none" opacity=".6"/></svg>`,
   slipper:`<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 29 C5 21 13 17 22 17 C32 17 36 23 36 27 C36 32 30 34 22 33.5 C14 33.5 5 33.5 5 29Z" fill="#6B8FC7" stroke="#2B1B2E" stroke-width="2"/><path d="M13 25 C17 15 28 15 32 24" fill="none" stroke="#2E4E8A" stroke-width="4.5" stroke-linecap="round"/></svg>`
 };
-let items = [], itemRng = null, nextItemAt = 0, itemSeq = 0;
+ITEM_SVG.kunefe = `<svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="30" rx="17" ry="6" fill="#B8B8C2" stroke="#2B1B2E" stroke-width="2"/><ellipse cx="20" cy="26" rx="14" ry="6" fill="#F28C28" stroke="#2B1B2E" stroke-width="2"/><ellipse cx="20" cy="24" rx="11" ry="4" fill="#F7A93B"/><g fill="#6BAA3A"><circle cx="15" cy="23" r="1.6"/><circle cx="21" cy="22" r="1.6"/><circle cx="25" cy="25" r="1.6"/><circle cx="18" cy="26" r="1.4"/></g><path d="M12 15 q2 -4 0 -7 M20 14 q2 -4 0 -7 M28 15 q2 -4 0 -7" stroke="#fff" stroke-width="1.6" fill="none" opacity=".8" stroke-linecap="round"/></svg>`;
+ITEM_SVG.kestane = `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 6 C30 6 35 16 33 25 C31 33 25 36 20 36 C15 36 9 33 7 25 C5 16 10 6 20 6 Z" fill="#7A4A2A" stroke="#2B1B2E" stroke-width="2"/><path d="M9 26 C14 30 26 30 31 26 C30 33 25 35 20 35 C15 35 10 33 9 26 Z" fill="#D9B07A"/><path d="M15 12 C17 10 20 10 22 11" stroke="#F2D3A6" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/></svg>`;
+const ITEM_DEF = {
+  flower:  {heal:15, msg:'heal', spin:false},
+  tea:     {energy:true, msg:'tea', spin:false},
+  slipper: {dmg:10, msg:'slipper', spin:true},
+  kunefe:  {heal:12, msg:'kunefeT', spin:false},
+  kestane: {dmg:6, msg:'kestaneT', spin:true}
+};
+const MAP_EVENT = {adana:'heat', hatay:'kunefe', bursa:'kestane'};
+let items = [], itemRng = null, nextItemAt = 0, itemSeq = 0, evRng = null, nextEvAt = 0, evSeq = 0, heatFrom = 0, heatTo = 0, evTagUntil = 0;
 function mulberry32(a){ return function(){ a |= 0; a = a + 0x6D2B79F5 | 0; let q = Math.imul(a ^ a >>> 15, 1 | a); q = q + Math.imul(q ^ q >>> 7, 61 | q) ^ q; return ((q ^ q >>> 14) >>> 0) / 4294967296; }; }
-function clearItems(){ items.forEach(it=>it.el && it.el.remove()); items = []; itemRng = null; }
-function startItems(){ clearItems(); itemRng = mulberry32(roundSeed || 1); itemSeq = 0; nextItemAt = 3000 + itemRng()*2000; }
+function clearItems(){ items.forEach(it=>it.el && it.el.remove()); items = []; itemRng = null; evRng = null; heatFrom = heatTo = 0; }
+function startItems(){
+  clearItems();
+  itemRng = mulberry32(roundSeed || 1); itemSeq = 0; nextItemAt = 3000 + itemRng()*2000;
+  evRng = mulberry32(((roundSeed || 1) ^ 0x5bd1e995) >>> 0); evSeq = 0; nextEvAt = 8000 + evRng()*5000;
+}
+const isHeat = now => now >= heatFrom && now < heatTo;
 function killItem(it){ if(it.gone) return; it.gone = true; it.el.classList.add('gone'); setTimeout(()=>it.el.remove(), 320); }
+function addItem(type, x, spawnAt, fallMs, id){
+  const d = document.createElement('div');
+  d.className = 'fx item'; d.innerHTML = ITEM_SVG[type];
+  stage.appendChild(d);
+  items.push({id, type, x, spawn: spawnAt, land: spawnAt + fallMs, landed:false, gone:false, el:d});
+}
+function eventTag(key){ $('#eventTag').textContent = t(key); evTagUntil = performance.now() + 2600; }
+function spawnEvent(at){
+  const ev = MAP_EVENT[scene], base = (roundSeed % 100000)*100 + 60;
+  if(ev === 'heat'){
+    heatFrom = fightT0 + at; heatTo = heatFrom + 6500;
+    eventTag('evHeat'); sfx.rage(); buzz('hazard');
+    nextEvAt += 22000 + evRng()*8000;
+  } else if(ev === 'kunefe'){
+    addItem('kunefe', 140 + evRng()*720, at, 1200, base + (evSeq++));
+    eventTag('evKunefe');
+    nextEvAt += 14000 + evRng()*6000;
+  } else if(ev === 'kestane'){
+    for(let i=0;i<3;i++) addItem('kestane', 120 + evRng()*760, at + i*320, 1000, base + (evSeq++));
+    eventTag('evKestane'); sfx.miss();
+    nextEvAt += 16000 + evRng()*6000;
+  } else nextEvAt += 30000;
+}
 function updateItems(now){
-  if(!MODES[gameMode].items || !itemRng) return;
+  if(!itemRng) return;
   const el = now - fightT0;
-  while(el >= nextItemAt){
-    const r = itemRng(), type = r < .4 ? 'flower' : r < .7 ? 'tea' : 'slipper';
-    const x = 120 + itemRng()*760;
-    const d = document.createElement('div');
-    d.className = 'fx item'; d.innerHTML = ITEM_SVG[type];
-    stage.appendChild(d);
-    items.push({id: (roundSeed % 100000)*100 + (itemSeq++), type, x, spawn: nextItemAt, land: nextItemAt + 1100, landed:false, gone:false, el:d});
-    nextItemAt += (effFmt()==='2v2' ? 2800 : 3500) + itemRng()*2500;
+  if(MODES[gameMode].items){
+    while(el >= nextItemAt){
+      const r = itemRng(), type = r < .4 ? 'flower' : r < .7 ? 'tea' : 'slipper';
+      addItem(type, 120 + itemRng()*760, nextItemAt, 1100, (roundSeed % 100000)*100 + (itemSeq++));
+      nextItemAt += (effFmt()==='2v2' ? 2800 : 3500) + itemRng()*2500;
+    }
   }
+  while(evRng && el >= nextEvAt) spawnEvent(nextEvAt);
   const act = ACTIVE();
   const oppGot = [];
   for(const s of act) if(!F[s].local) oppGot.push(...F[s].got);
   for(const it of items){
     if(it.gone) continue;
+    const def = ITEM_DEF[it.type] || {};
     const w = it.el.getBoundingClientRect().width || W*0.055;
     const k = clamp((el - it.spawn)/(it.land - it.spawn), 0, 1);
+    if(el < it.spawn){ it.el.style.transform = `translate3d(-200px,-200px,0)`; continue; }
     const yTop = lerp(-w*1.2, gY - w, k*k);
-    it.el.style.transform = `translate3d(${px(it.x) - w/2}px, ${yTop}px, 0) rotate(${it.type==='slipper' && k<1 ? el*0.6 : 0}deg)`;
+    it.el.style.transform = `translate3d(${px(it.x) - w/2}px, ${yTop}px, 0) rotate(${def.spin && k<1 ? el*0.6 : 0}deg)`;
     if(oppGot.includes(it.id)){ killItem(it); continue; }
     if(k >= 1 && !it.landed){
       it.landed = true;
-      if(it.type==='slipper'){
+      if(def.dmg){
         sfx.slipper(); smokeAt(px(it.x), gY-6, 4);
         for(const s of act){
           const f = F[s];
           if(f.local && alive(f) && Math.abs(f.x - it.x) < 60 && f.y < 50){
-            f.hp = Math.max(0, f.hp - 10); f.hs++; f.ht = 'insult'; f.ch = 0;
+            f.hp = Math.max(0, f.hp - def.dmg); f.hs++; f.ht = 'insult'; f.hb = null; f.ch = 0;
             f.flashUntil = now + 150; f.stunUntil = now + 300;
-            textFx(f.el, 'dmg', '-10'); textFx(f.el, 'pow', t('slipper'));
+            textFx(f.el, 'dmg', '-' + def.dmg); textFx(f.el, 'pow', t(def.msg));
+            if(f.slot === mySide || mode==='local') buzz('hazard');
             pushPresence(true);
           }
         }
         setTimeout(()=>killItem(it), 1200);
       }
     }
-    if(it.landed && it.type!=='slipper'){
+    if(it.landed && !def.dmg){
       for(const s of act){
         const f = F[s];
         if(!f.local || !alive(f) || it.gone) continue;
         if(Math.abs(f.x - it.x) < 65 && f.y < 60){
-          if(it.type==='flower'){ f.hp = Math.min(maxHp(), f.hp + 15); textFx(f.el, 'pow good', t('heal')); }
-          else { f.en = 100; textFx(f.el, 'pow good', t('tea')); }
+          if(def.heal){ f.hp = Math.min(maxHpOf(f), f.hp + def.heal); textFx(f.el, 'pow good', t(def.msg)); }
+          else { f.en = 100; textFx(f.el, 'pow good', t(def.msg)); }
           f.got = f.got.concat(it.id).slice(-20);
-          sfx.pick(); killItem(it); pushPresence(true);
+          sfx.pick(); if(f.slot === mySide) buzz('heal'); killItem(it); pushPresence(true);
         }
       }
       if(el > it.land + 5000) killItem(it);
@@ -2352,7 +2528,7 @@ function applyRemote(f, pr, now){
   f.cr = !!pr.cr; f.mv = clamp(num(pr.mv,0), -1, 1);
   if(pr.fd===1 || pr.fd===-1) f.fd = pr.fd;
   const prevHp = f.hp;
-  f.hp = clamp(num(pr.hp, maxHp()), 0, maxHp());
+  f.hp = clamp(num(pr.hp, maxHpOf(f)), 0, maxHpOf(f));
   f.en = clamp(num(pr.en, 100), 0, 100);
   f.got = Array.isArray(pr.got) ? pr.got.filter(v=>typeof v==='number').slice(-20) : [];
   const a = pr.atk;
@@ -2365,7 +2541,7 @@ function applyRemote(f, pr, now){
     }
   }
   const hs = num(pr.hs, 0);
-  if(hs > f.hs){ if(phase==='fight' && SPEC[pr.ht]){ hitVisual(f, pr.ht, now, Math.max(1, Math.round(prevHp - f.hp)), num(pr.ch,0)); if(mySide && pr.hb === mySide) mstats.landed++; } }
+  if(hs > f.hs){ if(phase==='fight' && SPEC[pr.ht]){ hitVisual(f, pr.ht, now, Math.max(1, Math.round(prevHp - f.hp)), num(pr.ch,0)); if(mySide && pr.hb === mySide){ mstats.landed++; buzz('hitLight'); } } }
   f.hs = hs;
   const pc = num(pr.pc, 0);
   if(f.pcSeen === undefined) f.pcSeen = pc;
@@ -2379,7 +2555,7 @@ function applyRemote(f, pr, now){
   } else f.pcSeen = pc;
   const cbs = num(pr.cbs, 0);
   if(f.cbsSeen === undefined) f.cbsSeen = cbs;
-  else if(cbs > f.cbsSeen){ f.cbsSeen = cbs; if(phase==='fight'){ showCombo(num(pr.cb,-1), SLOTS.includes(pr.cba) ? pr.cba : null); if(mySide && pr.cba === mySide) mstats.combos++; } }
+  else if(cbs > f.cbsSeen){ f.cbsSeen = cbs; if(phase==='fight'){ showCombo(num(pr.cb,-1), SLOTS.includes(pr.cba) ? pr.cba : null); if(mySide && pr.cba === mySide){ mstats.combos++; buzz('combo'); } } }
   else f.cbsSeen = cbs;
 }
 const IN_GAME = ['countdown','fight','replay','roundend','ending'];
@@ -2470,7 +2646,7 @@ function processRoom(now){
     remoteProfiles[s] = p ? sanitizeProfile(p.presence.me) : null;
     F[s].ghost = !p;
     if(p) applyRemote(F[s], p.presence, now);
-    else if(!F[s].custom){ F[s].tx = startX(s); F[s].hp = maxHp(); F[s].en = 100; F[s].y = 0; F[s].cr = false; F[s].mv = 0; F[s].rphase = 'lobby'; }
+    else if(!F[s].custom){ F[s].tx = startX(s); F[s].hp = maxHpOf(F[s]); F[s].en = 100; F[s].y = 0; F[s].cr = false; F[s].mv = 0; F[s].rphase = 'lobby'; }
   }
   if(mySide) F[mySide].ghost = false;
   const act = ACTIVE(), rest = act.filter(s=>s!==mySide);
@@ -2586,7 +2762,7 @@ function onAuth(user){
     acct.myClaim = typeof v === 'string' ? v : null;
     if(partnerOff){ partnerOff(); partnerOff = null; }
     acct.partnerClaim = null;
-    if(acct.myClaim) partnerOff = watch('couples/'+acct.myClaim, w=>{ acct.partnerClaim = typeof w === 'string' ? w : null; lastAcct = ''; });
+    if(acct.myClaim) partnerOff = watch('couples/'+acct.myClaim, w=>{ acct.partnerClaim = typeof w === 'string' ? w : null; lastAcct = ''; ensureCoupleStats(); });
     lastAcct = '';
   }));
   fbOffs.push(watch('coupleStats', v=>{ acct.ranking = v || {}; lastAcct = ''; }));
@@ -2735,10 +2911,24 @@ async function acceptCouple(uid){
     toast(esc(t('loveNow',{n: acct.fnick[uid] || '?'}))); sfx.love();
   }catch(e){ toast(esc(t('errGeneric'))); }
 }
+const cidOf = (x, y) => x < y ? x + '_' + y : y + '_' + x;
+function ensureCoupleStats(){
+  const p = partnerUid(); if(!p || !acctMe) return;
+  const a1 = acctMe.uid < p ? acctMe.uid : p, b1 = acctMe.uid < p ? p : acctMe.uid;
+  const myN = acctMe.nick, pN = acct.fnick[p];
+  dbRef('coupleStats/'+cidOf(acctMe.uid, p)).transaction(c=>{
+    c = c || {games:0, last: Date.now()};
+    c.a = a1; c.b = b1;
+    if(a1 === acctMe.uid){ c.na = myN; if(pN) c.nb = pN; } else { c.nb = myN; if(pN) c.na = pN; }
+    if(!c.na) c.na = '?'; if(!c.nb) c.nb = '?';
+    return c;
+  }).catch(()=>{});
+}
 function declineCouple(uid){ if(acctMe) dbRef('coupleReq/'+acctMe.uid+'/'+uid).remove().catch(()=>{}); }
 function breakUp(){
   const p = partnerUid(); if(!acctMe || !p) return;
   if(!confirm(t('breakConfirm'))) return;
+  dbRef('coupleStats/'+cidOf(acctMe.uid, p)).remove().catch(()=>{});
   dbRef('couples/'+acctMe.uid).remove().catch(()=>{});
   dbRef('couples/'+p).remove().catch(()=>{});
 }
@@ -2759,7 +2949,7 @@ function onMatchEnd(won, rw, myTeam){
   if(p){
     const uids = ACTIVE().map(x => x===mySide ? acctMe.uid : (remoteProfiles[x] && remoteProfiles[x].uid)).filter(Boolean);
     if(uids.includes(p) && acctMe.uid < p){
-      const cid = acctMe.uid + '_' + p;
+      const cid = cidOf(acctMe.uid, p);
       dbRef('coupleStats/'+cid).transaction(c=>{
         c = c || {};
         c.games = (c.games || 0) + 1; c.a = acctMe.uid; c.b = p; c.na = acctMe.nick; c.nb = acct.fnick[p] || c.nb || '?'; c.last = Date.now();
@@ -2895,7 +3085,9 @@ fdlg.addEventListener('click', e=>{
   else if(act==='lacc') acceptCouple(uid); else if(act==='ldec') declineCouple(uid);
 });
 let lastAcct = '', frTab = 'friends';
-$('#frTabs').addEventListener('click', e=>{ const b = e.target.closest('[data-ft]'); if(!b) return; frTab = b.dataset.ft; lastAcct = ''; renderAccount(); });
+const rdlg = $('#rankDlg');
+$('#btnRank').addEventListener('click', ()=>{ lastAcct = ''; renderAccount(); openDlg(rdlg); });
+$('#rankClose').addEventListener('click', ()=>closeDlg(rdlg));
 $('#btnMyCard').addEventListener('click', ()=>{ if(acctMe) openProfile(acctMe.uid); });
 function friendStatusText(st){
   if(!st || !st.online) return t('stOffline');
@@ -2913,6 +3105,7 @@ function renderAccount(){
   const logged = authState==='in';
   $('#acctSec').hidden = false;
   $('#btnFriends').hidden = !logged;
+  $('#btnRank').hidden = !logged;
   $('#badge').hidden = nCount === 0; $('#badge').textContent = nCount;
   $('#acctLine').textContent = logged ? t('loggedAs',{n: acctMe.nick}) : guest ? t('guestMode') : '';
   $('#btnLogout').hidden = !(logged || guest);
@@ -2928,7 +3121,7 @@ function renderAccount(){
   $('#friendList').innerHTML = fr.length ? fr.map(f=>`<li class="row"><button class="fr fr-btn" type="button" data-act="prof" data-uid="${esc(f.uid)}">${avatarHtml(f.uid, f.nick)}<i class="dot-on${f.st.online ? ' on' : ''}"></i><b>${esc(f.nick)}${f.uid===pU ? ' 💗' : ''}</b><span class="muted small">${esc(friendStatusText(f.st))}</span></button><span class="row-act">${f.st.playing ? `<button class="sbtn go" type="button" data-act="watch" data-uid="${esc(f.uid)}">${t('watch')}</button>` : `<button class="sbtn go" type="button" data-act="vs" data-uid="${esc(f.uid)}" ${f.st.online ? '' : 'disabled'}>${t('vsBtn')}</button>`}</span></li>`).join('') : `<li class="muted">${t('noFriends')}</li>`;
   const cr = Object.keys(acct.coupleReq);
   if(cr.length) $('#notifList').innerHTML = cr.map(uid=>`<li class="row"><span>${esc(t('loveReqRow',{n: acct.coupleReq[uid].nick || '?'}))}</span><span class="row-act"><button class="sbtn go" type="button" data-act="lacc" data-uid="${esc(uid)}">${t('accept')}</button><button class="sbtn" type="button" data-act="ldec" data-uid="${esc(uid)}">${t('decline')}</button></span></li>`).join('') + (notif.length ? notif.join('') : '');
-  const rk = Object.values(acct.ranking || {}).filter(c=>c && c.games).sort((x,y)=>(y.games||0)-(x.games||0) || (y.last||0)-(x.last||0)).slice(0, 20);
+  const rk = Object.values(acct.ranking || {}).filter(c=>c && c.a && c.b).sort((x,y)=>(y.games||0)-(x.games||0) || (y.last||0)-(x.last||0)).slice(0, 20);
   $('#rankList').innerHTML = rk.length ? rk.map((c,i)=>`<li class="row rank${(c.a===acctMe.uid||c.b===acctMe.uid) ? ' mine' : ''}"><span class="rk-n">${i+1}</span><span class="rk-c"><b>${esc(c.na||'?')}</b> 💗 <b>${esc(c.nb||'?')}</b></span><span class="rk-g">${t('rankGames',{n:c.games})}</span></li>`).join('') : `<li class="muted">${t('rankEmpty')}</li>`;
 }
 
@@ -3007,7 +3200,7 @@ function renderFighter(f, now){
   }
   if(ko){
     cls.push('ko');
-    if(!f.koShown){ f.koShown = true; textFx(f.el, 'pow', t('ko')); if(phase==='fight') sfx.ko(); }
+    if(!f.koShown){ f.koShown = true; textFx(f.el, 'pow', t('ko')); if(phase==='fight') sfx.ko(); if(f.slot === mySide) buzz('ko'); }
   }
   if(f.custom) cls.push('custom');
   if(f.ghost && mode==='online' && screen==='room') cls.push('ghost');
@@ -3051,7 +3244,7 @@ function renderHud(now){
     if(h.root.hidden === on) h.root.hidden = !on;
     if(!on) continue;
     if(f.trail > f.hp) f.trail = Math.max(f.hp, f.trail - 45*dt); else f.trail = f.hp;
-    const mh = maxHp(), pct = f.hp/mh*100, tp = Math.min(100, f.trail/mh*100);
+    const mh = maxHpOf(f), pct = f.hp/mh*100, tp = Math.min(100, f.trail/mh*100);
     const lvl = pct > 50 ? 'hi' : pct > 25 ? 'mid' : 'lo';
     const key = `${Math.round(f.hp)}|${f.trail.toFixed(1)}|${Math.round(f.en)}|${lvl}|${f.lowUntil>now}|${f.hp<=0}|${phase}`;
     if(key === h.last) continue; h.last = key;
@@ -3073,6 +3266,20 @@ function renderHud(now){
   }
 }
 let lastUi = '', lastMenu = '';
+function renderTypeRow(){
+  const rows = mode==='local' ? [['L', myProfile, t('typeLeft')], ['R', p2Profile, t('typeRight')]] : (mySide ? [[mySide, myProfile, t('typeMine')]] : []);
+  $('#typeRow').hidden = rows.length === 0;
+  $('#typeRow').innerHTML = rows.map(([s, prof, label])=>{
+    const cur = CTYPES[prof.ctype] ? prof.ctype : 'denge';
+    return `<div class="type-line"><span class="muted small">${esc(label)}</span><div class="modes">${CTYPE_KEYS.map(k=>`<button type="button" data-ctype="${k}" data-who="${prof===p2Profile ? 'p2' : 'me'}" aria-pressed="${k===cur}">${CTYPES[k].icon} ${t('ct_'+k)}</button>`).join('')}</div><p class="mode-desc">${t('ctd_'+cur)}</p></div>`;
+  }).join('');
+}
+$('#typeRow').addEventListener('click', e=>{
+  const b = e.target.closest('[data-ctype]'); if(!b || phase!=='lobby') return;
+  const prof = b.dataset.who==='p2' ? p2Profile : myProfile;
+  prof.ctype = b.dataset.ctype; profileChanged(); resetFighters(); lastUi = '';
+  if(ready){ ready = false; pushPresence(true); }
+});
 function renderMenu(){
   const key = [lang, connState, onlineCount, JSON.stringify(roomInfo), store.get('ta3-room',''), !!installEvt].join('|');
   if(key === lastMenu) return; lastMenu = key;
@@ -3131,13 +3338,14 @@ function renderUi(){
   if(ig){ $('#auth').hidden = true; $('#menu').hidden = true; $('#lobby').hidden = true; $('#padWrap').hidden = true; renderInstall(); return; }
   const gate = gated();
   $('#auth').hidden = !gate;
-  if(gate){ $('#menu').hidden = true; $('#lobby').hidden = true; $('#padWrap').hidden = true; renderAuth(); return; }
+  if(gate){ document.body.classList.remove('ingame'); $('#menu').hidden = true; $('#lobby').hidden = true; $('#padWrap').hidden = true; renderAuth(); return; }
   $('#menu').hidden = screen!=='menu';
-  if(screen==='menu'){ renderMenu(); $('#lobby').hidden = true; $('#padWrap').hidden = true; return; }
+  if(screen==='menu'){ document.body.classList.remove('ingame'); renderMenu(); $('#lobby').hidden = true; $('#padWrap').hidden = true; return; }
   const lobbyOn = phase==='lobby';
   const padOn = ['countdown','fight','roundend','replay'].includes(phase) && (mode==='local' || (!!mySide && ACTIVE().includes(mySide)));
   const spec = mode==='online' && screen==='room' && !(mySide && ACTIVE().includes(mySide)) && phase!=='lobby';
   $('#specBar').hidden = !spec;
+  document.body.classList.toggle('ingame', padOn || spec);
   $('#rematch').hidden = !(rematchOpen && phase==='lobby');
   $('#quitBox').hidden = !(quitOpen && phase!=='lobby');
   if(quitOpen && phase==='lobby') quitOpen = false;
@@ -3147,9 +3355,9 @@ function renderUi(){
   const cs = controlSide();
   const f = cs ? F[cs] : null;
   const act = ACTIVE(), duo = effFmt()==='2v2';
-  const dims = f ? ['trip','insult','love'].map(x=>f.en < SPEC[x].cost ? 1 : 0).join('') + (performance.now() < f.loveCd ? 'c' : '') : '';
+  const dims = f ? ['trip','insult','love'].map(x=>f.en < costOf(f, x) ? 1 : 0).join('') + (f ? ct(f).icon : '') + (performance.now() < f.loveCd ? 'c' : '') : '';
   const tk = SLOTS.map(s=>taken[s] ? (taken[s].presence.ready ? 2 : 1) : 0).join('');
-  const key = [lang, quitOpen, roomCount, specCount, gameMode, fmt, rounds, mode, phase, mySide, ready, connState, tk, note, SLOTS.map(nameOf).join(','), dims, padOn, f && alive(f), myRid].join('|');
+  const key = [lang, myProfile.ctype, p2Profile.ctype, quitOpen, roomCount, specCount, gameMode, fmt, rounds, mode, phase, mySide, ready, connState, tk, note, SLOTS.map(nameOf).join(','), dims, padOn, f && alive(f), myRid].join('|');
   if(key === lastUi) return; lastUi = key;
   $('#lobby').hidden = !lobbyOn;
   $('#specCount').textContent = specCount > 0 && mode==='online' ? `👀 ${specCount}` : '';
@@ -3161,6 +3369,7 @@ function renderUi(){
   document.querySelectorAll('#roundsSel button').forEach(b=>b.setAttribute('aria-pressed', String(+b.dataset.r===rounds)));
   $('#modeDesc').textContent = t(MODES[gameMode].desc) + (rounds===3 ? t('desc3r') : '') + (duo ? t('desc2v2') : '');
   $('#teamHL').hidden = !duo; $('#teamHR').hidden = !duo;
+  renderTypeRow();
   const btnReady = $('#btnReady');
   if(mode==='local'){
     $('#conn').innerHTML = t('localConn');
@@ -3200,9 +3409,9 @@ function renderUi(){
   const loveBtn = document.querySelector('.atk [data-a="love"]');
   loveBtn.hidden = !cs;
   if(cs) loveBtn.innerHTML = `${esc(ultText(cs))}<small>${t('ultSub')}</small>`;
-  document.querySelector('.atk [data-a="trip"]').innerHTML = `${t('trip')}<small>${t('tripSub')}</small>`;
-  document.querySelector('.atk [data-a="insult"]').innerHTML = `${t('insult')}<small>${t('insultSub')}</small>`;
-  if(f){ document.querySelectorAll('.atk .btn').forEach(b=>b.classList.toggle('dim', f.en < SPEC[b.dataset.a].cost || !alive(f) || (b.dataset.a==='love' && performance.now() < f.loveCd))); }
+  document.querySelector('.atk [data-a="trip"]').innerHTML = `${t('trip')}<small>${t('tripSub',{n: f ? costOf(f,'trip') : 22})}</small>`;
+  document.querySelector('.atk [data-a="insult"]').innerHTML = `${t('insult')}<small>${t('insultSub',{n: f ? costOf(f,'insult') : 32})}</small>`;
+  if(f){ document.querySelectorAll('.atk .btn').forEach(b=>b.classList.toggle('dim', f.en < costOf(f, b.dataset.a) || !alive(f) || (b.dataset.a==='love' && performance.now() < f.loveCd))); }
 }
 
 /* ---------------- Loop ---------------- */
@@ -3219,7 +3428,7 @@ function frame(now){
     else { n = 3 - Math.floor((e-off)/700); label = n > 0 ? String(n) : t('go'); }
     count.textContent = label;
     count.classList.add('show');
-    if(n !== lastCount){ lastCount = n; if(n!=='r') sfx.beep(n <= 0); }
+    if(n !== lastCount){ lastCount = n; if(n!=='r'){ sfx.beep(n <= 0); buzz(n <= 0 ? 'go' : 'tick'); } }
     if(e > off + 2800){ phase = 'fight'; fightT0 = now; startItems(); pushPresence(true); }
   } else if(phase==='fight'){
     const e = now - cdStart;
@@ -3242,6 +3451,8 @@ function frame(now){
   if(phase==='ending' && E) updateEnding(now);
   if(phase==='replay' && RP) updateReplay(now);
   if(phase!=='fight') stage.classList.remove('stop');
+  stage.classList.toggle('heat', phase==='fight' && isHeat(now));
+  $('#eventTag').classList.toggle('show', phase==='fight' && now < evTagUntil);
   SLOTS.forEach(s=>{ inputs[s].press = {}; });
   refreshLooks();
   SLOTS.forEach(s=>renderFighter(F[s], now));
