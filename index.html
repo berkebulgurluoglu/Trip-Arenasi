@@ -284,6 +284,22 @@ dialog h4{margin:6px 0 4px;font-size:.95rem}
 .fighter.hitflash .lean{transform:rotate(calc(-10deg * var(--fd)))}
 .stage.stop *{animation-play-state:paused !important}
 
+.help-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}
+.help-body p{margin:6px 0;line-height:1.5}
+dialog#helpDlg{width:min(560px,94vw);max-height:86vh;overflow:auto;border:3px solid var(--ink);border-radius:20px;background:var(--panel);color:var(--ink);padding:16px 18px}
+dialog#helpDlg::backdrop{background:rgba(43,27,46,.55)}
+.install[hidden],.ist[hidden]{display:none}
+body.installing .stage,body.installing #helpRow,body.installing .hdr-right{display:none}
+.app-head{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.app-icon{width:72px;height:72px;border-radius:18px;box-shadow:0 4px 0 rgba(43,27,46,.3)}
+.install h2{font-size:1.45rem}
+.inst-actions{display:flex;flex-direction:column;gap:10px;margin:14px 0 8px}
+.btn.big{font-size:1.25rem;min-height:60px;width:100%}
+.steps{margin:10px 0 0;padding-left:1.4em;line-height:1.6;font-size:1.05rem}
+.steps li{margin:4px 0}
+.ios-arrow{font-size:2.4rem;text-align:center;margin-top:8px;animation:bounce 1s ease-in-out infinite}
+@keyframes bounce{50%{transform:translateY(8px)}}
+
 .badge{display:inline-block;min-width:1.4em;margin-left:6px;padding:0 6px;border-radius:999px;background:var(--insult);color:#fff;font-size:.8rem;line-height:1.5;text-align:center}
 .badge[hidden],#auth[hidden],.af[hidden],#authForm[hidden],#authTabs[hidden]{display:none}
 .auth-form{display:grid;gap:10px;max-width:380px;margin-top:10px}
@@ -342,6 +358,27 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
     <div class="combo" id="combo"></div>
     <div class="banner" id="banner" aria-live="polite"></div>
   </div>
+
+  <section class="panel install" id="install" hidden>
+    <div class="app-head"><img class="app-icon" src="icon-192.png" alt="" width="72" height="72"><h2 data-i18n="instTitle"></h2></div>
+    <p class="muted" data-i18n="instSub"></p>
+    <div class="ist" id="istAndroid"><p data-i18n="instAndroid"></p></div>
+    <div class="ist" id="istWait" hidden><p data-i18n="instWait"></p></div>
+    <div class="ist" id="istManual" hidden><p data-i18n-html="instManual"></p></div>
+    <div class="ist" id="istOpenChrome" hidden><p data-i18n="instOpenChrome"></p></div>
+    <div class="ist" id="istIos" hidden>
+      <ol class="steps"><li data-i18n-html="ios1"></li><li data-i18n-html="ios2"></li><li data-i18n-html="ios3"></li></ol>
+      <div class="ios-arrow" aria-hidden="true">⬇</div>
+    </div>
+    <div class="ist" id="istIosOther" hidden><p data-i18n="instIosOther"></p></div>
+    <div class="ist" id="istDone" hidden><p data-i18n="instDone"></p></div>
+    <div class="inst-actions">
+      <button class="btn ready big" id="instGo" type="button" data-i18n="instBtn" hidden></button>
+      <button class="btn ready big" id="instChrome" type="button" data-i18n="instChromeBtn" hidden></button>
+      <button class="btn ready big" id="instCopy" type="button" data-i18n="instCopyBtn" hidden></button>
+    </div>
+    <button class="link" id="instSkip" type="button" data-i18n="instSkip"></button>
+  </section>
 
   <section class="panel" id="auth" hidden>
     <h2 data-i18n="authTitle"></h2>
@@ -413,21 +450,18 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
     <p class="keys" id="keys"></p>
   </section>
 
-  <details class="edit guide" open>
-    <summary data-i18n="combosTitle"></summary>
-    <h3 data-i18n="combosH"></h3>
-    <p data-i18n="combosP"></p>
-    <ul class="combo-list" id="comboList"></ul>
-    <h3 data-i18n="movesH"></h3>
-    <p data-i18n-html="moveTrip"></p>
-    <p data-i18n-html="moveInsult"></p>
-    <p data-i18n-html="moveUlt"></p>
-    <p data-i18n-html="moveRage"></p>
-    <p data-i18n-html="moveRounds"></p>
-    <p data-i18n-html="move2v2"></p>
-    <p data-i18n-html="moveEnergy"></p>
-  </details>
+  <div class="help-row" id="helpRow">
+    <span class="muted small" data-i18n="howTo"></span>
+    <button class="sbtn" type="button" data-help="combos" data-i18n="helpCombos"></button>
+    <button class="sbtn" type="button" data-help="moves" data-i18n="helpMoves"></button>
+    <button class="sbtn" type="button" data-help="modes" data-i18n="helpModes"></button>
+  </div>
 </div>
+
+<dialog id="helpDlg">
+  <div class="set-head"><h2 id="helpTitle"></h2><button class="sbtn" id="helpClose" type="button" data-i18n="close"></button></div>
+  <div id="helpBody" class="help-body"></div>
+</dialog>
 
 <dialog id="settings">
   <div class="set-head"><h2 data-i18n="settings"></h2><button class="sbtn" id="setClose" type="button" data-i18n="close"></button></div>
@@ -747,6 +781,28 @@ $('#robot').innerHTML = ROBOT_SVG;
 const I18N = {
 tr: {
   title:'Trip Arenası', settings:'Ayarlar', close:'Kapat',
+  howTo:"Nasıl oynanır:",
+  helpCombos:"Kombolar",
+  helpMoves:"Hareketler",
+  helpModes:"Modlar ve raunt",
+  movePass:"<b>Geçiş:</b> karakterler birbirinin içinden geçebilir, kimse köşeye sıkıştırılamaz. Rakibin arkasına geçince karakterin otomatik olarak ona döner.",
+  instTitle:"Trip Arenası'nı telefonuna kur",
+  instSub:"Tek dokunuşla kurulur; uygulama listene ve ana ekranına gelir, tam ekran açılır.",
+  instAndroid:"Aşağıdaki düğmeye bas, çıkan pencerede \"Yükle\"ye dokun. Bu kadar.",
+  instWait:"Kurulum hazırlanıyor…",
+  instManual:"Chrome kurulum penceresini kendiliğinden göstermedi. Sağ üstteki <b>⋮</b> menüsünden <b>Uygulamayı yükle</b>'yi seç. Uygulama zaten yüklüyse ana ekranından aç.",
+  instOpenChrome:"Bu tarayıcıdan kurulum yapılamıyor. Aşağıdaki düğmeyle linki Chrome'da aç; orada tek dokunuşla kurabilirsin.",
+  ios1:"Alttaki <b>Paylaş</b> düğmesine dokun (yukarı ok olan kare).",
+  ios2:"Listeyi kaydırıp <b>Ana Ekrana Ekle</b>'yi seç.",
+  ios3:"Sağ üstteki <b>Ekle</b>'ye dokun. Oyun ana ekranında.",
+  instIosOther:"iPhone'da oyunu kurmak için linki Safari'de açman gerekiyor. Linki kopyala, Safari'yi aç ve adres çubuğuna yapıştır.",
+  instDone:"Kuruldu! Ana ekranındaki Trip Arenası simgesine dokunarak oyunu aç.",
+  instBtn:"Oyunu yükle",
+  instChromeBtn:"Chrome'da aç",
+  instCopyBtn:"Linki kopyala",
+  instSkip:"Şimdilik tarayıcıda oyna",
+  androidManual:"Chrome menüsünden (⋮) \"Uygulamayı yükle\"yi seç.",
+  linkCopied:"Link kopyalandı.",
   friends:'Arkadaşlar', authTitle:'Hoş geldin', authIn:'Giriş yap', authUp:'Kayıt ol',
   fUser:'Kullanıcı adı', fPass:'Şifre', fPass2:'Şifre tekrar', fCode:'Davet kodu',
   authHelp:'Kullanıcı adı 3-16 karakter olur: küçük harf (Türkçe harf olmadan), rakam ve alt çizgi. Şifre en az 6 karakter. E-posta gerekmez.',
@@ -814,6 +870,28 @@ tr: {
 },
 en: {
   title:'Trip Arena', settings:'Settings', close:'Close',
+  howTo:"How to play:",
+  helpCombos:"Combos",
+  helpMoves:"Moves",
+  helpModes:"Modes and rounds",
+  movePass:"<b>Passing:</b> characters can walk through each other, so nobody can be trapped in a corner. Your character turns automatically when you get behind your opponent.",
+  instTitle:"Install Trip Arena on your phone",
+  instSub:"One tap installs it; the app appears in your app list and home screen and opens full screen.",
+  instAndroid:"Tap the button below, then tap \"Install\" in the window that opens. That is it.",
+  instWait:"Preparing the install…",
+  instManual:"Chrome did not show the install window by itself. Open the <b>⋮</b> menu at the top right and choose <b>Install app</b>. If it is already installed, open it from your home screen.",
+  instOpenChrome:"This browser cannot install apps. Use the button below to open the link in Chrome, where it installs with one tap.",
+  ios1:"Tap the <b>Share</b> button at the bottom (the square with an up arrow).",
+  ios2:"Scroll and choose <b>Add to Home Screen</b>.",
+  ios3:"Tap <b>Add</b> at the top right. The game is on your home screen.",
+  instIosOther:"On iPhone you need to open the link in Safari to install. Copy the link, open Safari and paste it into the address bar.",
+  instDone:"Installed! Tap the Trip Arena icon on your home screen to open the game.",
+  instBtn:"Install the game",
+  instChromeBtn:"Open in Chrome",
+  instCopyBtn:"Copy link",
+  instSkip:"Play in the browser for now",
+  androidManual:"Choose \"Install app\" from the Chrome menu (⋮).",
+  linkCopied:"Link copied.",
   friends:'Friends', authTitle:'Welcome', authIn:'Log in', authUp:'Sign up',
   fUser:'Username', fPass:'Password', fPass2:'Repeat password', fCode:'Invite code',
   authHelp:'Usernames are 3-16 characters: lowercase letters, digits and underscore. Passwords need at least 6 characters. No email needed.',
@@ -1135,6 +1213,27 @@ $('#charEdit').addEventListener('click', e=>{
   profileChanged(); fillEditor();
 });
 const dlg = $('#settings');
+const helpDlg = $('#helpDlg');
+let helpTopic = 'combos';
+function renderHelp(){
+  const p = k => `<p>${t(k)}</p>`;
+  let body = '';
+  if(helpTopic==='combos'){
+    body = p('combosP') + `<ul class="combo-list">${COMBOS.slice().reverse().map(c=>
+      `<li>${c.seq.map(x=>`<span class="chip ${x}">${t(x==='trip'?'chipTrip':'chipInsult')}</span>`).join('')}<span class="combo-name">${t(c.name)}</span><span class="combo-bonus">${t('bonus',{n:c.bonus})}</span></li>`).join('')}</ul>`;
+  } else if(helpTopic==='moves'){
+    body = ['moveTrip','moveInsult','moveUlt','moveRage','moveEnergy','movePass'].map(p).join('');
+  } else {
+    body = `<p><b>${t('modeKlasik')}:</b> ${t('descKlasik')}</p><p><b>${t('modeSigorta')}:</b> ${t('descSigorta')}</p><p><b>${t('modeHediye')}:</b> ${t('descHediye')}</p>` + p('moveRounds') + p('move2v2');
+  }
+  $('#helpTitle').textContent = t(helpTopic==='combos' ? 'helpCombos' : helpTopic==='moves' ? 'helpMoves' : 'helpModes');
+  $('#helpBody').innerHTML = body;
+}
+document.querySelectorAll('#helpRow [data-help]').forEach(b=>b.addEventListener('click', ()=>{
+  helpTopic = b.dataset.help; renderHelp();
+  if(helpDlg.showModal) helpDlg.showModal(); else helpDlg.setAttribute('open','');
+}));
+$('#helpClose').addEventListener('click', ()=>{ if(helpDlg.close) helpDlg.close(); else helpDlg.removeAttribute('open'); });
 $('#btnSettings').addEventListener('click', ()=>{ buildEditor(); renderSettings(); if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open',''); });
 $('#setClose').addEventListener('click', ()=>{ if(dlg.close) dlg.close(); else dlg.removeAttribute('open'); });
 document.querySelectorAll('#langs button').forEach(b=>b.addEventListener('click', ()=>setLang(b.dataset.lang)));
@@ -1152,8 +1251,7 @@ function applyStatic(){
   document.querySelectorAll('[data-i18n-label]').forEach(el=>{ el.setAttribute('aria-label', t(el.dataset.i18nLabel)); });
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.setAttribute('placeholder', t(el.dataset.i18nPh)); });
   if(typeof lastAcct !== 'undefined'){ lastAcct = ''; lastAuthUi = ''; }
-  document.getElementById('comboList').innerHTML = COMBOS.slice().reverse().map(c=>
-    `<li>${c.seq.map(x=>`<span class="chip ${x}">${t(x==='trip'?'chipTrip':'chipInsult')}</span>`).join('')}<span class="combo-name">${t(c.name)}</span><span class="combo-bonus">${t('bonus',{n:c.bonus})}</span></li>`).join('');
+  if(helpDlg.open) renderHelp();
   document.querySelectorAll('#modes button').forEach(b=>b.textContent = t(MODES[b.dataset.mode].name));
   $('#teamHL').textContent = t('teamL'); $('#teamHR').textContent = t('teamR');
   refreshLooks(true);
@@ -1410,15 +1508,6 @@ function updateLocal(f, inp, dt, now){
   if(inp.up && grounded && f.vy===0 && !f.cr && !attacking && !stunned) f.vy = JUMP;
   if(f.vy !== 0 || f.y > 0){ f.vy -= GRAV*dt; f.y += f.vy*dt; if(f.y <= 0){ f.y = 0; f.vy = 0; } }
   f.x = clamp(f.x, XMIN, XMAX);
-  for(const e of enemiesOf(f)){
-    if(!alive(e)) continue;
-    const ex = posX(e);
-    if(Math.abs(f.x - ex) < SEP){
-      const d = Math.sign(f.x - ex) || -teamDir(f.slot);
-      f.x = clamp(ex + d*SEP, XMIN, XMAX);
-      if(Math.abs(f.x - ex) < SEP && e.local) e.x = clamp(f.x - d*SEP, XMIN, XMAX);
-    }
-  }
   const ne = nearestEnemy(f);
   const ox = ne ? posX(ne) : f.x + f.fd*200;
   f.fd = Math.sign(ox - f.x) || f.fd;
@@ -2178,13 +2267,47 @@ function renderAccount(){
 }
 
 /* ---------------- Install (PWA) ---------------- */
-let installEvt = null;
-addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); installEvt = e; lastMenu = ''; });
-$('#btnInstall').addEventListener('click', async ()=>{
-  if(installEvt){ installEvt.prompt(); try{ await installEvt.userChoice; }catch(_){} installEvt = null; lastMenu = ''; }
-  else toast(esc(t('iosInstall')), null, 7000);
-});
+let installEvt = null, installDone = false, installSkip = false;
+try{ installSkip = sessionStorage.getItem('ta3-skip-install') === '1'; }catch(e){}
+const UA = navigator.userAgent || '';
+const isIOS = /iphone|ipad|ipod/i.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isAndroid = /android/i.test(UA);
+const inApp = /FBAN|FBAV|Instagram|WhatsApp|Line\/|Telegram|Snapchat|; wv\)/i.test(UA);
+const isSafari = isIOS && /safari/i.test(UA) && !/crios|fxios|edgios|opios/i.test(UA) && !inApp;
+const isChrome = isAndroid && /chrome\//i.test(UA) && !/samsungbrowser|opr\/|edga|firefox/i.test(UA) && !inApp;
 const standalone = () => (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+const pageStart = Date.now();
+function installState(){
+  if(isAndroid){
+    if(installEvt) return 'android-ready';
+    if(isChrome) return Date.now() - pageStart < 3500 ? 'android-wait' : 'android-manual';
+    return 'android-other';
+  }
+  if(isIOS) return isSafari ? 'ios-safari' : 'ios-other';
+  return 'desktop';
+}
+const installGate = () => ACCOUNTS && !standalone() && !installSkip && (isIOS || isAndroid);
+addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); installEvt = e; lastMenu = ''; lastInstallUi = ''; });
+addEventListener('appinstalled', ()=>{ installEvt = null; installDone = true; lastInstallUi = ''; lastMenu = ''; });
+async function doInstall(){
+  if(installEvt){
+    const ev = installEvt;
+    ev.prompt();
+    try{ const r = await ev.userChoice; if(r && r.outcome === 'accepted') installDone = true; }catch(_){}
+    installEvt = null; lastInstallUi = ''; lastMenu = '';
+  } else toast(esc(t(isIOS ? 'iosInstall' : 'androidManual')), null, 7000);
+}
+$('#btnInstall').addEventListener('click', doInstall);
+$('#instGo').addEventListener('click', doInstall);
+$('#instChrome').addEventListener('click', ()=>{
+  const u = location.href.replace(/^https?:\/\//, '');
+  location.href = `intent://${u}#Intent;scheme=https;package=com.android.chrome;end`;
+});
+$('#instCopy').addEventListener('click', async ()=>{
+  try{ await navigator.clipboard.writeText(location.href); toast(esc(t('linkCopied'))); }
+  catch(e){ toast(esc(location.href), null, 8000); }
+});
+$('#instSkip').addEventListener('click', ()=>{ installSkip = true; try{ sessionStorage.setItem('ta3-skip-install','1'); }catch(e){} lastUi = ''; });
 if(ACCOUNTS && 'serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(()=>{});
 
 /* ---------------- Render ---------------- */
@@ -2311,7 +2434,26 @@ function renderAuth(){
   $('#auGuest').hidden = !nocfg;
 }
 let lastAuthUi = '';
+function renderInstall(){
+  const key = [lang, installState(), !!installEvt, installDone].join('|');
+  if(key === lastInstallUi) return; lastInstallUi = key;
+  const st = installState();
+  const show = id => document.querySelectorAll('#install .ist').forEach(el=>el.hidden = el.id !== id);
+  $('#instGo').hidden = true; $('#instChrome').hidden = true; $('#instCopy').hidden = true;
+  if(installDone){ show('istDone'); return; }
+  if(st==='android-ready'){ show('istAndroid'); $('#instGo').hidden = false; }
+  else if(st==='android-wait'){ show('istWait'); }
+  else if(st==='android-other'){ show('istOpenChrome'); $('#instChrome').hidden = false; }
+  else if(st==='ios-safari'){ show('istIos'); }
+  else if(st==='ios-other'){ show('istIosOther'); $('#instCopy').hidden = false; }
+  else show('istManual');
+}
+let lastInstallUi = '';
 function renderUi(){
+  const ig = installGate();
+  $('#install').hidden = !ig;
+  document.body.classList.toggle('installing', ig);
+  if(ig){ $('#auth').hidden = true; $('#menu').hidden = true; $('#lobby').hidden = true; $('#padWrap').hidden = true; renderInstall(); return; }
   const gate = gated();
   $('#auth').hidden = !gate;
   if(gate){ $('#menu').hidden = true; $('#lobby').hidden = true; $('#padWrap').hidden = true; renderAuth(); return; }
