@@ -284,6 +284,36 @@ dialog h4{margin:6px 0 4px;font-size:.95rem}
 .fighter.hitflash .lean{transform:rotate(calc(-10deg * var(--fd)))}
 .stage.stop *{animation-play-state:paused !important}
 
+html,body{overflow-x:hidden;max-width:100%}
+@media (hover:none){ .keys{display:none} }
+body.installing{overflow:hidden}
+body.installing #install{position:fixed;inset:0;z-index:60;margin:0;border:0;border-radius:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;overflow-y:auto;text-align:center;color:#fff;background:linear-gradient(165deg,#2B1B3E 0%,#6E2457 55%,#FF7A59 100%);padding:calc(18px + env(safe-area-inset-top,0px)) 18px calc(18px + env(safe-area-inset-bottom,0px))}
+body.installing #install .muted{color:rgba(255,255,255,.8)}
+.land-hero{display:flex;flex-direction:column;align-items:center}
+.land-logo{font-weight:800;font-size:clamp(2.6rem,12vw,4.6rem);line-height:.95;color:#FFE14D;-webkit-text-stroke:3px #2B1B2E;paint-order:stroke fill;transform:rotate(-3deg);text-shadow:0 6px 0 rgba(43,27,46,.35)}
+.land-chars{display:flex;align-items:flex-end;justify-content:center;gap:4px;margin:10px 0 2px}
+.land-chars .land-f{position:relative;left:auto;bottom:auto;width:clamp(96px,28vw,150px);transform:none}
+.land-heart{font-size:clamp(2rem,8vw,3rem);animation:hop .8s ease-in-out infinite;margin-bottom:30%}
+.land-sub{margin:0;font-weight:700;font-size:1.05rem;max-width:30ch}
+.land-card{background:rgba(255,246,239,.96);color:#2B1B2E;border-radius:22px;padding:16px 18px;width:min(420px,100%);box-shadow:0 8px 0 rgba(43,27,46,.3)}
+.land-card h2{margin:0 0 4px;font-size:1.3rem}
+body.installing #install .land-card .muted{color:#7A6470}
+.land-card .ist p{margin:8px 0}
+.land-card .steps{text-align:left}
+@media (orientation:portrait) and (max-width:700px){
+  body.ingame header,body.ingame #helpRow{display:none}
+  body.ingame .wrap{padding:6px 8px 10px}
+  body.ingame .stage{aspect-ratio:auto;height:min(62vh,125vw);height:min(62dvh,125vw);border-radius:16px}
+  body.ingame .sbtn.quit{white-space:nowrap;font-size:.85rem;padding:3px 10px}
+  body.ingame .stage .fighter{width:21%}
+  body.ingame #padWrap{margin-top:8px;padding:10px 12px}
+  body.ingame .pad{gap:10px}
+  body.ingame .dpad{grid-template-columns:repeat(3,62px);grid-template-rows:repeat(2,58px);gap:6px}
+  body.ingame .atk{flex:1;max-width:58%}
+  body.ingame .atk .btn{min-height:54px}
+  body.ingame .pad-top{margin:0 0 6px}
+}
+
 .hdr-right{flex-wrap:wrap;justify-content:flex-end}
 @media (max-width:640px){ .hdr-right{justify-content:flex-start} .tabs button{padding:5px 11px;font-size:.92rem} .hdr-right .sbtn{padding:4px 11px;font-size:.92rem} }
 
@@ -490,7 +520,13 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
   </section>
 
   <section class="panel install" id="install" hidden>
-    <div class="app-head"><img class="app-icon" src="icon-192.png" alt="" width="72" height="72"><h2 data-i18n="instTitle"></h2></div>
+    <div class="land-hero">
+      <div class="land-logo" data-i18n="title"></div>
+      <div class="land-chars" id="landChars" aria-hidden="true"></div>
+      <p class="land-sub" data-i18n="landSub"></p>
+    </div>
+    <div class="land-card">
+    <h2 data-i18n="instTitle"></h2>
     <p class="muted" data-i18n="instSub"></p>
     <div class="ist" id="istAndroid"><p data-i18n="instAndroid"></p></div>
     <div class="ist" id="istWait" hidden><p data-i18n="instWait"></p></div>
@@ -502,12 +538,14 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
     </div>
     <div class="ist" id="istIosOther" hidden><p data-i18n="instIosOther"></p></div>
     <div class="ist" id="istDone" hidden><p data-i18n="instDone"></p></div>
+    <div class="ist" id="istDesktop" hidden><p data-i18n="instDesktop"></p></div>
     <div class="inst-actions">
       <button class="btn ready big" id="instGo" type="button" data-i18n="instBtn" hidden></button>
       <button class="btn ready big" id="instChrome" type="button" data-i18n="instChromeBtn" hidden></button>
       <button class="btn ready big" id="instCopy" type="button" data-i18n="instCopyBtn" hidden></button>
     </div>
     <button class="link" id="instSkip" type="button" data-i18n="instSkip"></button>
+    </div>
   </section>
 
   <section class="panel" id="auth" hidden>
@@ -974,6 +1012,8 @@ $('#robot').innerHTML = ROBOT_SVG;
 const I18N = {
 tr: {
   title:'Trip Arenası', settings:'Ayarlar', close:'Kapat',
+  landSub:"Sevgilinle ya da arkadaşlarınla tripleş, kazanan uzaya göndersin.",
+  instDesktop:"Bilgisayarda da uygulama olarak kurabilirsin; bu tarayıcı desteklemiyorsa aşağıdan tarayıcıda oynayabilirsin.",
   rankBtn:"Tripkolik",
   helpTypes:"Karakter tipleri",
   helpMaps:"Harita olayları",
@@ -1083,7 +1123,7 @@ tr: {
   helpMoves:"Hareketler",
   helpModes:"Modlar ve raunt",
   movePass:"<b>Geçiş:</b> karakterler birbirinin içinden geçebilir, kimse köşeye sıkıştırılamaz. Rakibin arkasına geçince karakterin otomatik olarak ona döner.",
-  instTitle:"Trip Arenası'nı telefonuna kur",
+  instTitle:"Oyunu indir",
   instSub:"Tek dokunuşla kurulur; uygulama listene ve ana ekranına gelir, tam ekran açılır.",
   instAndroid:"Aşağıdaki düğmeye bas, çıkan pencerede \"Yükle\"ye dokun. Bu kadar.",
   instWait:"Kurulum hazırlanıyor…",
@@ -1094,7 +1134,7 @@ tr: {
   ios3:"Sağ üstteki <b>Ekle</b>'ye dokun. Oyun ana ekranında.",
   instIosOther:"iPhone'da oyunu kurmak için linki Safari'de açman gerekiyor. Linki kopyala, Safari'yi aç ve adres çubuğuna yapıştır.",
   instDone:"Kuruldu! Ana ekranındaki Trip Arenası simgesine dokunarak oyunu aç.",
-  instBtn:"Oyunu yükle",
+  instBtn:"Oyunu indir",
   instChromeBtn:"Chrome'da aç",
   instCopyBtn:"Linki kopyala",
   instSkip:"Şimdilik tarayıcıda oyna",
@@ -1167,6 +1207,8 @@ tr: {
 },
 en: {
   title:'Trip Arena', settings:'Settings', close:'Close',
+  landSub:"Sulk it out with your partner or friends; the winner sends the loser to space.",
+  instDesktop:"You can install it as an app on your computer too; if this browser does not support it, play in the browser below.",
   rankBtn:"Sulkaholics",
   helpTypes:"Character types",
   helpMaps:"Map events",
@@ -1276,7 +1318,7 @@ en: {
   helpMoves:"Moves",
   helpModes:"Modes and rounds",
   movePass:"<b>Passing:</b> characters can walk through each other, so nobody can be trapped in a corner. Your character turns automatically when you get behind your opponent.",
-  instTitle:"Install Trip Arena on your phone",
+  instTitle:"Get the game",
   instSub:"One tap installs it; the app appears in your app list and home screen and opens full screen.",
   instAndroid:"Tap the button below, then tap \"Install\" in the window that opens. That is it.",
   instWait:"Preparing the install…",
@@ -1287,7 +1329,7 @@ en: {
   ios3:"Tap <b>Add</b> at the top right. The game is on your home screen.",
   instIosOther:"On iPhone you need to open the link in Safari to install. Copy the link, open Safari and paste it into the address bar.",
   instDone:"Installed! Tap the Trip Arena icon on your home screen to open the game.",
-  instBtn:"Install the game",
+  instBtn:"Download the game",
   instChromeBtn:"Open in Chrome",
   instCopyBtn:"Copy link",
   instSkip:"Play in the browser for now",
@@ -3145,7 +3187,7 @@ function installState(){
   if(isIOS) return isSafari ? 'ios-safari' : 'ios-other';
   return 'desktop';
 }
-const installGate = () => ACCOUNTS && !standalone() && !installSkip && (isIOS || isAndroid);
+const installGate = () => ACCOUNTS && !standalone() && !installSkip;
 addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); installEvt = e; lastMenu = ''; lastInstallUi = ''; });
 addEventListener('appinstalled', ()=>{ installEvt = null; installDone = true; lastInstallUi = ''; lastMenu = ''; });
 async function doInstall(){
@@ -3323,14 +3365,20 @@ function renderInstall(){
   const show = id => document.querySelectorAll('#install .ist').forEach(el=>el.hidden = el.id !== id);
   $('#instGo').hidden = true; $('#instChrome').hidden = true; $('#instCopy').hidden = true;
   if(installDone){ show('istDone'); return; }
-  if(st==='android-ready'){ show('istAndroid'); $('#instGo').hidden = false; }
+  if(st==='android-ready' || (st==='desktop' && installEvt)){ show(st==='desktop' ? 'istDesktop' : 'istAndroid'); $('#instGo').hidden = false; }
   else if(st==='android-wait'){ show('istWait'); }
   else if(st==='android-other'){ show('istOpenChrome'); $('#instChrome').hidden = false; }
   else if(st==='ios-safari'){ show('istIos'); }
   else if(st==='ios-other'){ show('istIosOther'); $('#instCopy').hidden = false; }
+  else if(st==='desktop'){ show('istDesktop'); }
   else show('istManual');
 }
 let lastInstallUi = '';
+(function buildLanding(){
+  const box = document.getElementById('landChars'); if(!box) return;
+  const mk = (kind, slot, cls) => { const d = defaults[slot]; return `<div class="fighter land-f ${cls}" data-face="love" data-skirt="0" data-glasses="0" data-beard="0" style="--skin:${d.skin};--hair:${d.hair};--top:${d.top};--bottom:${d.bottom};--shoes:${d.shoes}"><div class="body"><div class="lean"><div class="bob">${charSVG(kind, 'land'+slot)}</div></div></div></div>`; };
+  box.innerHTML = mk('me','L','') + '<div class="land-heart">💗</div>' + mk('her','R','face-left');
+})();
 function renderUi(){
   const ig = installGate();
   $('#install').hidden = !ig;
