@@ -284,6 +284,19 @@ dialog h4{margin:6px 0 4px;font-size:.95rem}
 .fighter.hitflash .lean{transform:rotate(calc(-10deg * var(--fd)))}
 .stage.stop *{animation-play-state:paused !important}
 
+.joy{display:none;position:relative;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle at 50% 45%,#5C4A72 0%,#3B2E4A 72%);border:3px solid #2B1B2E;box-shadow:inset 0 0 0 7px rgba(255,255,255,.07),0 5px 0 #2B1B2E;touch-action:none;user-select:none;-webkit-user-select:none;flex:none}
+.joy-knob{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#FFFFFF,#E9DCEF);border:3px solid #2B1B2E;box-shadow:0 4px 0 #2B1B2E;transition:transform .12s ease-out;pointer-events:none}
+.joy.active .joy-knob{transition:none}
+.ja{position:absolute;color:rgba(255,255,255,.45);font-size:.85rem;pointer-events:none;line-height:1}
+.ja.u{top:8px;left:50%;transform:translateX(-50%)} .ja.d{bottom:8px;left:50%;transform:translateX(-50%)}
+.ja.l{left:9px;top:50%;transform:translateY(-50%)} .ja.r{right:9px;top:50%;transform:translateY(-50%)}
+body.ctl-joy .joy{display:block} body.ctl-joy .dpad{display:none}
+@media (orientation:landscape) and (max-height:560px){ body.ingame #padWrap .joy{pointer-events:auto;width:128px;height:128px;opacity:.85} }
+
+.menu-conn-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.menu-conn-row .conn{margin:0}
+#btnReconnect[hidden]{display:none}
+
 html,body{overflow-x:hidden;max-width:100%}
 @media (hover:none){ .keys{display:none} }
 body.installing{overflow:hidden}
@@ -566,7 +579,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
   <section class="panel" id="menu">
     <h2 data-i18n="menuTitle"></h2>
     <p class="muted" data-i18n="menuSub"></p>
-    <p class="conn" id="menuConn"></p>
+    <div class="menu-conn-row"><p class="conn" id="menuConn"></p><button class="link" id="btnReconnect" type="button" data-i18n="reconnectBtn" hidden></button></div>
     <ul class="room-list" id="roomList"></ul>
     <div class="menu-actions">
       <button class="btn local" id="btnLocal" type="button" data-i18n="localPlay"></button>
@@ -605,6 +618,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
   <section class="panel" id="padWrap" hidden>
     <div class="pad-top"><span class="rotate-hint muted small" data-i18n="rotateHint"></span><button class="sbtn quit" id="btnQuit" type="button" data-i18n="quitBtn"></button></div>
     <div class="pad" id="pad">
+      <div class="joy" id="joy" aria-label="Joystick"><span class="ja u">▲</span><span class="ja d">▼</span><span class="ja l">◀</span><span class="ja r">▶</span><div class="joy-knob" id="joyKnob"></div></div>
       <div class="dpad">
         <button class="btn" type="button" data-k="up" data-i18n-label="aJump">▲</button>
         <button class="btn" type="button" data-k="left" data-i18n-label="aLeft">◀</button>
@@ -648,6 +662,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
 
 <dialog id="settings">
   <div class="set-head"><h2 data-i18n="settings"></h2><button class="sbtn" id="setClose" type="button" data-i18n="close"></button></div>
+  <section><h3 data-i18n="ctlH"></h3><div class="modes" id="ctls"><button type="button" data-ctl="joy" data-i18n="ctlJoy"></button><button type="button" data-ctl="dpad" data-i18n="ctlDpad"></button></div><p class="muted small" data-i18n="ctlHelp"></p></section>
   <section><h3 data-i18n="vibration"></h3><div class="modes" id="vibs"><button type="button" data-v="on" data-i18n="soundOn"></button><button type="button" data-v="off" data-i18n="soundOff"></button></div><p class="muted small" data-i18n="vibHelp"></p></section>
   <section id="acctSec" hidden><h3 data-i18n="account"></h3><p class="muted" id="acctLine"></p><button class="sbtn" id="btnLogout" type="button" data-i18n="logout" hidden></button></section>
   <section><h3 data-i18n="language"></h3><div class="modes" id="langs"><button type="button" data-lang="tr">Türkçe</button><button type="button" data-lang="en">English</button></div></section>
@@ -676,33 +691,33 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script>
-/* Hesapsız çok oyunculu bağlantı: PeerJS (WebRTC) ile aynı odaya bağlanır.
-   Linki açan ilk kişi odayı kurar, ikinci kişi ona bağlanır. ?oda=isim ile ayrı oda açılabilir. */
+/* Hesapsız çok oyunculu bağlantı (PeerJS / WebRTC).
+   Herkes aynı "yayın merkezine" bağlanır. Merkez için birkaç yedek yuva var:
+   ilk yuva takılı kalırsa (arka planda donmuş bir telefon gibi) bir sonrakine geçilir,
+   canlı bir alt yuva bulununca herkes oraya toplanır. */
 (function(){
   const params = new URLSearchParams(location.search);
   const code = (params.get('oda') || 'bk7f3a9c-kardelen').toLowerCase().replace(/[^a-z0-9-]/g,'').slice(0,40) || 'bk7f3a9c-kardelen';
-  const ROOM = 'trip-arenasi-' + code;
+  const BASE = 'trip-arenasi-' + code + '-h';
+  const NSLOT = 4;
   let room = null;
 
   function makeRoom(){
     if(typeof Peer === 'undefined') return null;
     const myId = 'p' + Math.random().toString(36).slice(2,12);
-    let peer = null, isHost = false, connected = false, snapshot = null, restartTimer = null;
+    let peer = null, isHost = false, slot = 0, connected = false, snapshot = null, timer = null, gen = 0;
+    let hostConn = null, lastHostMsg = 0, probePeer = null;
     let myPresence = {}, myUpdated = Date.now();
-    const remotes = new Map();
-    const conns = new Set();
-    const connHandlers = new Set();
+    const remotes = new Map(), conns = new Set(), connHandlers = new Set();
 
-    function setConnected(v){
-      if(v === connected) return;
-      connected = v;
-      connHandlers.forEach(h=>{ try{ h(v); }catch(e){} });
-    }
+    function setConnected(v){ if(v === connected) return; connected = v; connHandlers.forEach(h=>{ try{ h(v); }catch(e){} }); }
     const dirty = () => { snapshot = null; };
-    function send(c, msg){ try{ if(c.open) c.send(msg); }catch(e){} }
+    function send(c, msg){ try{ if(c && c.open) c.send(msg); }catch(e){} }
     function broadcast(msg, except){ conns.forEach(c=>{ if(c !== except) send(c, msg); }); }
     function handleData(c, d){
       if(!d || typeof d !== 'object') return;
+      if(!isHost && c === hostConn) lastHostMsg = Date.now();
+      if(d.t === 'hello'){ if(!isHost && c === hostConn){ clearTimeout(timer); setConnected(true); } return; }
       if(d.t === 'p' && typeof d.id === 'string' && d.id !== myId && d.p && typeof d.p === 'object'){
         const prev = remotes.get(d.id);
         remotes.set(d.id, {presence: d.p, conn: c, lastSeen: Date.now(), updatedAt: Date.now()});
@@ -716,9 +731,11 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
     function wire(c){
       conns.add(c);
       c.on('open', ()=>{
-        send(c, {t:'p', id: myId, p: myPresence});
-        if(isHost) remotes.forEach((r, id)=>send(c, {t:'p', id, p: r.presence}));
-        else setConnected(true);
+        if(isHost){
+          send(c, {t:'hello'});
+          send(c, {t:'p', id: myId, p: myPresence});
+          remotes.forEach((r, id)=>send(c, {t:'p', id, p: r.presence}));
+        } else send(c, {t:'p', id: myId, p: myPresence});
       });
       c.on('data', d=>handleData(c, d));
       const drop = ()=>{
@@ -726,52 +743,74 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
         conns.delete(c);
         for(const [id, r] of remotes) if(r.conn === c){ remotes.delete(id); if(isHost) broadcast({t:'bye', id}); }
         dirty();
-        if(!isHost){ setConnected(false); restart(1200); }
+        if(!isHost && c === hostConn){ setConnected(false); restart(800); }
       };
       c.on('close', drop); c.on('error', drop);
     }
     function cleanup(){
+      gen++;
+      clearTimeout(timer);
       conns.forEach(c=>{ try{ c.close(); }catch(e){} });
-      conns.clear(); remotes.clear(); dirty();
+      conns.clear(); remotes.clear(); dirty(); hostConn = null;
       if(peer){ const p = peer; peer = null; try{ p.destroy(); }catch(e){} }
+      if(probePeer){ try{ probePeer.destroy(); }catch(e){} probePeer = null; }
+      isHost = false;
     }
-    function restart(ms){ clearTimeout(restartTimer); restartTimer = setTimeout(becomeHost, ms); }
-    function becomeHost(){
-      cleanup(); setConnected(false); isHost = false;
-      const p = new Peer(ROOM, {debug:0});
+    function restart(ms){ cleanup(); setConnected(false); const g = gen; timer = setTimeout(()=>{ if(g === gen) tryHost(0); }, ms); }
+    function tryHost(i){
+      cleanup(); slot = i;
+      const g = gen, p = new Peer(BASE + i, {debug:0});
       peer = p;
-      p.on('open', ()=>{ if(peer !== p) return; isHost = true; setConnected(true); });
-      p.on('connection', c=>{ if(peer !== p) return; wire(c); });
-      p.on('disconnected', ()=>{ if(peer !== p) return; try{ p.reconnect(); }catch(e){ restart(2000); } });
+      p.on('open', ()=>{ if(g !== gen) return; isHost = true; setConnected(true); });
+      p.on('connection', c=>{ if(g !== gen) return; wire(c); });
+      p.on('disconnected', ()=>{ if(g !== gen) return; try{ p.reconnect(); }catch(e){ restart(1500); } });
       p.on('error', err=>{
-        if(peer !== p) return;
-        if(err && err.type === 'unavailable-id') joinAsClient();
-        else if(!isHost) restart(3000);
+        if(g !== gen) return;
+        if(err && err.type === 'unavailable-id') tryClient(i);
+        else if(!isHost) restart(2500);
       });
     }
-    function joinAsClient(){
-      cleanup(); isHost = false;
-      const p = new Peer(undefined, {debug:0});
+    function tryClient(i){
+      cleanup(); slot = i;
+      const g = gen, p = new Peer(undefined, {debug:0});
       peer = p;
+      const next = () => { if(g !== gen) return; if(i + 1 < NSLOT) tryHost(i + 1); else restart(2000); };
       p.on('open', ()=>{
-        if(peer !== p) return;
-        const c = p.connect(ROOM, {reliable:true, serialization:'json'});
+        if(g !== gen) return;
+        const c = p.connect(BASE + i, {reliable:true, serialization:'json'});
+        hostConn = c; lastHostMsg = Date.now();
         wire(c);
-        setTimeout(()=>{ if(peer === p && !c.open) restart(400); }, 9000);
+        timer = setTimeout(()=>{ if(g === gen && !connected) next(); }, 5000);
       });
-      p.on('error', err=>{
-        if(peer !== p) return;
-        restart(err && err.type === 'peer-unavailable' ? 700 : 3000);
+      p.on('error', err=>{ if(g !== gen) return; if(err && err.type === 'peer-unavailable') next(); else restart(2500); });
+    }
+    // Yüksek yuvadaki merkez, daha alt yuvada canlı bir merkez varsa oraya taşınır.
+    function probeLower(){
+      if(!isHost || slot === 0 || !peer || probePeer) return;
+      const g = gen, target = slot - 1;
+      let done = false;
+      const pp = new Peer(undefined, {debug:0}); probePeer = pp;
+      const end = () => { if(probePeer === pp){ try{ pp.destroy(); }catch(e){} probePeer = null; } };
+      pp.on('open', ()=>{
+        const c = pp.connect(BASE + target, {reliable:true, serialization:'json'});
+        c.on('data', d=>{ if(d && d.t === 'hello' && !done && g === gen){ done = true; end(); restart(300); } });
+        setTimeout(end, 5000);
       });
+      pp.on('error', end);
     }
     setInterval(()=>{
       broadcast({t:'p', id: myId, p: myPresence});
       const now = Date.now();
       for(const [id, r] of remotes) if(now - r.lastSeen > 8000){ remotes.delete(id); dirty(); }
+      if(!isHost && connected && hostConn && now - lastHostMsg > 7000){ setConnected(false); restart(300); }
     }, 2000);
-    document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && !connected) restart(100); });
-    addEventListener('pagehide', ()=>broadcast({t:'bye', id: myId}));
-    becomeHost();
+    setInterval(probeLower, 9000);
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.hidden){ broadcast({t:'bye', id: myId}); cleanup(); setConnected(false); }
+      else restart(100);
+    });
+    addEventListener('pagehide', ()=>{ broadcast({t:'bye', id: myId}); cleanup(); });
+    tryHost(0);
 
     return Object.freeze({
       presence(patch){
@@ -791,6 +830,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
         return snapshot;
       },
       connected(){ return connected; },
+      reconnect(){ restart(100); },
       onConnection(h){ connHandlers.add(h); setTimeout(()=>{ try{ h(connected); }catch(e){} }, 0); return ()=>connHandlers.delete(h); },
       onPeers(){ return ()=>{}; }
     });
@@ -1012,6 +1052,11 @@ $('#robot').innerHTML = ROBOT_SVG;
 const I18N = {
 tr: {
   title:'Trip Arenası', settings:'Ayarlar', close:'Kapat',
+  ctlH:"Hareket kontrolü",
+  ctlJoy:"Joystick",
+  ctlDpad:"Yön tuşları",
+  ctlHelp:"Joystick'i sağa sola kaydırınca yürürsün, yukarı itince zıplarsın, aşağı çekince eğilirsin.",
+  reconnectBtn:"Bağlantıyı yenile",
   landSub:"Sevgilinle ya da arkadaşlarınla tripleş, kazanan uzaya göndersin.",
   instDesktop:"Bilgisayarda da uygulama olarak kurabilirsin; bu tarayıcı desteklemiyorsa aşağıdan tarayıcıda oynayabilirsin.",
   rankBtn:"Tripkolik",
@@ -1207,6 +1252,11 @@ tr: {
 },
 en: {
   title:'Trip Arena', settings:'Settings', close:'Close',
+  ctlH:"Movement controls",
+  ctlJoy:"Joystick",
+  ctlDpad:"Arrow buttons",
+  ctlHelp:"Slide the joystick left or right to walk, push it up to jump and pull it down to duck.",
+  reconnectBtn:"Refresh connection",
   landSub:"Sulk it out with your partner or friends; the winner sends the loser to space.",
   instDesktop:"You can install it as an app on your computer too; if this browser does not support it, play in the browser below.",
   rankBtn:"Sulkaholics",
@@ -1739,9 +1789,11 @@ $('#btnSettings').addEventListener('click', ()=>{ buildEditor(); renderSettings(
 $('#setClose').addEventListener('click', ()=>{ if(dlg.close) dlg.close(); else dlg.removeAttribute('open'); });
 document.querySelectorAll('#langs button').forEach(b=>b.addEventListener('click', ()=>setLang(b.dataset.lang)));
 document.querySelectorAll('#sounds button').forEach(b=>b.addEventListener('click', ()=>{ setMuted(b.dataset.snd==='off'); if(!muted) sfx.pick(); renderSettings(); }));
+document.querySelectorAll('#ctls button').forEach(b=>b.addEventListener('click', ()=>{ ctlMode = b.dataset.ctl; store.set('ta3-ctl', ctlMode); applyCtl(); joyReset(); renderSettings(); }));
 document.querySelectorAll('#vibs button').forEach(b=>b.addEventListener('click', ()=>{ vibOn = b.dataset.v==='on'; store.set('ta3-vib', vibOn); if(vibOn) buzz('combo'); renderSettings(); }));
 function renderSettings(){
   document.querySelectorAll('#vibs button').forEach(b=>b.setAttribute('aria-pressed', String((b.dataset.v==='on')===vibOn)));
+  document.querySelectorAll('#ctls button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.ctl===ctlMode)));
   document.querySelectorAll('#langs button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.lang===lang)));
   document.querySelectorAll('#sounds button').forEach(b=>b.setAttribute('aria-pressed', String((b.dataset.snd==='off')===muted)));
 }
@@ -2081,6 +2133,26 @@ document.querySelectorAll('.dpad .btn').forEach(b=>{
   ['pointerup','pointercancel','lostpointercapture'].forEach(ev=>b.addEventListener(ev, off));
   b.addEventListener('contextmenu', e=>e.preventDefault());
 });
+/* ---- joystick ---- */
+let ctlMode = store.get('ta3-ctl', 'joy'); if(ctlMode !== 'joy' && ctlMode !== 'dpad') ctlMode = 'joy';
+function applyCtl(){ document.body.classList.toggle('ctl-joy', ctlMode === 'joy'); }
+applyCtl();
+const joy = $('#joy'), knob = $('#joyKnob');
+let joyId = null;
+function joyReset(){ joyId = null; knob.style.transform = ''; joy.classList.remove('active'); padHeld.left = padHeld.right = padHeld.up = padHeld.down = false; }
+function joyMove(e){
+  const r = joy.getBoundingClientRect(), R = r.width/2;
+  let dx = e.clientX - (r.left + R), dy = e.clientY - (r.top + R);
+  const m = Math.hypot(dx, dy); if(m > R){ dx *= R/m; dy *= R/m; }
+  knob.style.transform = `translate(${dx}px,${dy}px)`;
+  const nx = dx/R, ny = dy/R;
+  padHeld.left = nx < -0.3; padHeld.right = nx > 0.3;
+  padHeld.up = ny < -0.55; padHeld.down = ny > 0.6 && Math.abs(nx) < 0.65;
+}
+joy.addEventListener('pointerdown', e=>{ e.preventDefault(); joyId = e.pointerId; try{ joy.setPointerCapture(e.pointerId); }catch(_){} joy.classList.add('active'); joyMove(e); });
+joy.addEventListener('pointermove', e=>{ if(e.pointerId === joyId) joyMove(e); });
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>joy.addEventListener(ev, e=>{ if(e.pointerId === joyId) joyReset(); }));
+joy.addEventListener('contextmenu', e=>e.preventDefault());
 document.querySelectorAll('.atk .btn').forEach(b=>{
   b.addEventListener('pointerdown', e=>{ e.preventDefault(); const cs = controlSide(); if(cs && phase==='fight') inputs[cs].press[b.dataset.a] = true; });
   b.addEventListener('contextmenu', e=>e.preventDefault());
@@ -2223,6 +2295,7 @@ function declineRematch(){
   setTimeout(()=>{ if(phase==='lobby' && screen==='room') leaveRoom(); }, 700);
 }
 $('#rmNo').addEventListener('click', declineRematch);
+$('#btnReconnect').addEventListener('click', ()=>{ if(room && room.reconnect){ connState = 'wait'; lastMenu = ''; room.reconnect(); toast(esc(t('reconnecting'))); } });
 $('#btnLocal').addEventListener('click', ()=>{ setMode('local'); screen = 'room'; myRid = null; loadScore(); });
 $('#btnLeave').addEventListener('click', leaveRoom);
 const sideKey = () => 'ta3-side-' + (myRid || '');
@@ -3329,6 +3402,7 @@ function renderMenu(){
   const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
   $('#btnInstall').hidden = !ACCOUNTS || standalone() || !(installEvt || ios);
   $('#menuConn').innerHTML = off ? t('offMsg') : connState==='connecting' ? t('connecting') : connState==='wait' ? t('reconnecting') : t('onlineCount',{n:onlineCount});
+  $('#btnReconnect').hidden = !(room && typeof room.reconnect === 'function');
   const lastRoom = store.get('ta3-room', '');
   ROOMS.forEach(id=>{
     const li = document.getElementById('room-'+id), info = roomInfo[id] || {count:0, seated:0, cap:2, inGame:false};
