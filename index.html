@@ -284,6 +284,13 @@ dialog h4{margin:6px 0 4px;font-size:.95rem}
 .fighter.hitflash .lean{transform:rotate(calc(-10deg * var(--fd)))}
 .stage.stop *{animation-play-state:paused !important}
 
+.rm-left{width:100%;font-size:.8rem;color:var(--muted)}
+
+.pad-top{display:flex;justify-content:flex-end;margin:-4px 0 8px}
+.sbtn.quit{border-color:var(--insult);color:var(--insult);font-size:.9rem;padding:4px 12px}
+#quitBox[hidden]{display:none}
+#quitBox .btn{min-height:44px}
+
 .photo-g,.ph-tint{display:none}
 .fighter[data-photo="1"] .photo-g{display:inline}
 .fighter[data-photo="1"] .hair-g,.fighter[data-photo="1"] .f,.fighter[data-photo="1"] .acc-glasses,.fighter[data-photo="1"] .acc-beard{display:none}
@@ -400,6 +407,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
       <div class="tabs" role="group" aria-label="Mekân">
         <button type="button" data-scene="adana" aria-pressed="true">Adana</button>
         <button type="button" data-scene="hatay" aria-pressed="false">Hatay</button>
+        <button type="button" data-scene="bursa" aria-pressed="false">Bursa</button>
       </div>
     </div>
   </header>
@@ -407,6 +415,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
   <div class="stage" id="stage">
     <svg class="scene" id="scene-adana" viewBox="0 0 800 450" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
     <svg class="scene off" id="scene-hatay" viewBox="0 0 800 450" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
+    <svg class="scene off" id="scene-bursa" viewBox="0 0 800 450" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
     <div class="hud" id="hud">
       <div class="team L" id="teamL"></div>
       <div class="mid"><div class="score" id="score">0 : 0</div><div id="pips"></div><div class="spec-count" id="specCount"></div></div>
@@ -424,6 +433,11 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
     <div class="combo" id="combo"></div>
     <div class="banner" id="banner" aria-live="polite"></div>
     <div class="replay-tag" id="replayTag"></div>
+    <div class="rematch" id="quitBox" hidden>
+      <div class="rm-title" data-i18n="quitQ"></div>
+      <div class="rm-rows" id="quitSub"></div>
+      <div class="rm-act"><button class="btn insult" id="quitYes" type="button" data-i18n="quitYes"></button><button class="sbtn" id="quitNo" type="button" data-i18n="quitNo"></button></div>
+    </div>
     <div class="rematch" id="rematch" hidden>
       <div class="rm-title" id="rmTitle"></div>
       <div class="rm-rows" id="rmRows"></div>
@@ -512,6 +526,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
   </section>
 
   <section class="panel" id="padWrap" hidden>
+    <div class="pad-top"><button class="sbtn quit" id="btnQuit" type="button" data-i18n="quitBtn"></button></div>
     <div class="pad" id="pad">
       <div class="dpad">
         <button class="btn" type="button" data-k="up" data-i18n-label="aJump">▲</button>
@@ -796,14 +811,56 @@ function buildHatay(){
 }
 $('#scene-adana').innerHTML = buildAdana();
 $('#scene-hatay').innerHTML = buildHatay();
+function buildBursa(){
+  // Uludağ, teleferik, Ulu Cami, yeşil tepeler ve servi ağaçları
+  let domes = '';
+  for(let i=0;i<5;i++){ const x = 300 + i*40; domes += `<path d="M${x-17} 268 A17 17 0 0 1 ${x+17} 268 Z" fill="#B5A58E" stroke="#8C7B66" stroke-width="2"/><rect x="${x-1.5}" y="246" width="3" height="6" fill="#8C7B66"/>`; }
+  let cypress = '';
+  [[40,330,1.1],[92,338,.9],[700,334,1],[752,340,1.15],[226,322,.7],[560,322,.75]].forEach(([x,y,s])=>{
+    cypress += `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-3" y="0" width="6" height="18" fill="#5E4A3A"/><path d="M0 -78 C14 -50 16 -20 10 0 L-10 0 C-16 -20 -14 -50 0 -78 Z" fill="#2F6B45" stroke="#21503A" stroke-width="2"/></g>`;
+  });
+  let tiles = '';
+  for(let i=0;i<17;i++) tiles += `<path d="M${i*52-20} 450 L${i*52+12} 362" stroke="#B7AE9C" stroke-width="2"/>`;
+  const cab = (x,y,c) => `<g transform="translate(${x} ${y})"><line x1="0" y1="-10" x2="0" y2="0" stroke="#2B1B2E" stroke-width="2"/><rect x="-11" y="0" width="22" height="16" rx="4" fill="${c}" stroke="#2B1B2E" stroke-width="2"/><rect x="-7" y="3" width="14" height="6" rx="1.5" fill="#CFE9F5"/></g>`;
+  return `
+  <defs><linearGradient id="skyB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7EC4EA"/><stop offset=".75" stop-color="#D8EEF7"/></linearGradient></defs>
+  <rect width="800" height="450" fill="url(#skyB)"/>
+  <circle cx="140" cy="86" r="34" fill="#FFF6C8" opacity=".9"/>
+  <g fill="#fff" opacity=".9"><ellipse cx="520" cy="70" rx="46" ry="14"/><ellipse cx="552" cy="62" rx="30" ry="12"/><ellipse cx="250" cy="120" rx="36" ry="10"/></g>
+  <path d="M-20 300 L170 190 L280 120 L360 150 L430 96 L520 160 L640 130 L820 250 L820 320 L-20 320 Z" fill="#7F93A6"/>
+  <path d="M245 140 L280 120 L312 134 L296 140 L284 134 L266 146 Z M400 116 L430 96 L460 118 L444 122 L430 112 L414 124 Z M606 142 L640 130 L672 152 L654 152 L640 142 L622 152 Z" fill="#fff"/>
+  <path d="M-20 320 C120 260 220 280 330 250 C440 222 560 262 820 240 L820 340 L-20 340 Z" fill="#5E9C64"/>
+  <path d="M30 330 L430 112" stroke="#2B1B2E" stroke-width="1.6" opacity=".7"/>
+  <path d="M30 336 L430 118" stroke="#2B1B2E" stroke-width="1.2" opacity=".5"/>
+  ${cab(150, 266, '#E23B3B')}${cab(300, 184, '#E23B3B')}
+  <rect x="24" y="318" width="12" height="20" fill="#6B5B4E"/>
+  <g>
+    <rect x="270" y="268" width="220" height="60" fill="#CDBFA6" stroke="#8C7B66" stroke-width="2"/>
+    ${domes}
+    <rect x="262" y="226" width="14" height="102" fill="#E7DCC6" stroke="#8C7B66" stroke-width="2"/>
+    <path d="M260 226 L269 196 L278 226 Z" fill="#6E8E86" stroke="#2B1B2E" stroke-width="1.5"/>
+    <rect x="257" y="262" width="24" height="5" fill="#CDBFA6"/>
+    <rect x="484" y="226" width="14" height="102" fill="#E7DCC6" stroke="#8C7B66" stroke-width="2"/>
+    <path d="M482 226 L491 196 L500 226 Z" fill="#6E8E86" stroke="#2B1B2E" stroke-width="1.5"/>
+    <rect x="479" y="262" width="24" height="5" fill="#CDBFA6"/>
+    ${[300,340,380,420,460].map(x=>`<path d="M${x-7} 318 V302 A7 7 0 0 1 ${x+7} 302 V318 Z" fill="#6B4E3D"/>`).join('')}
+  </g>
+  <rect y="340" width="800" height="22" fill="#4E8A55"/>
+  ${cypress}
+  <rect y="356" width="800" height="100" fill="#CBC2B0"/>
+  <rect y="356" width="800" height="7" fill="#A89F8C"/>
+  ${tiles}`;
+}
+$('#scene-bursa').innerHTML = buildBursa();
 
 let scene = store.get('ta-scene','adana'), sceneTs = 0;
 function setScene(s, ts){
-  if(s!=='adana' && s!=='hatay') return;
+  if(s!=='adana' && s!=='hatay' && s!=='bursa') return;
   scene = s; sceneTs = ts; store.set('ta-scene', s);
   document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.scene===s));
   $('#scene-adana').classList.toggle('off', s!=='adana');
   $('#scene-hatay').classList.toggle('off', s!=='hatay');
+  $('#scene-bursa').classList.toggle('off', s!=='bursa');
 }
 document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{ setScene(b.dataset.scene, Date.now()); pushPresence(true); }));
 setScene(scene, 0);
@@ -873,6 +930,15 @@ $('#robot').innerHTML = ROBOT_SVG;
 const I18N = {
 tr: {
   title:'Trip Arenası', settings:'Ayarlar', close:'Kapat',
+  rematchDeclined:"{n} rövanşı kabul etmedi.",
+  rematchLeft:"{n} sn",
+  quitBtn:"Tripi sonlandır",
+  quitQ:"Tripi sonlandırmak istiyor musun?",
+  quitSub:"Maç herkes için biter, herkes ana menüye döner.",
+  quitSubLocal:"Maç biter ve ana menüye dönersin.",
+  quitYes:"Evet, sonlandır",
+  quitNo:"Vazgeç",
+  tripEnded:"{n} tripi sonlandırdı.",
   slowmo:"AĞIR ÇEKİM",
   watch:"İzle",
   watching:"👀 İzliyorsun",
@@ -1025,6 +1091,15 @@ tr: {
 },
 en: {
   title:'Trip Arena', settings:'Settings', close:'Close',
+  rematchDeclined:"{n} declined the rematch.",
+  rematchLeft:"{n}s",
+  quitBtn:"End the fight",
+  quitQ:"End the fight?",
+  quitSub:"The match ends for everyone and everyone returns to the main menu.",
+  quitSubLocal:"The match ends and you go back to the main menu.",
+  quitYes:"Yes, end it",
+  quitNo:"Cancel",
+  tripEnded:"{n} ended the fight.",
   slowmo:"SLOW MOTION",
   watch:"Watch",
   watching:"👀 Watching",
@@ -1927,18 +2002,32 @@ $('#specEmos').addEventListener('click', ev=>{
   const i = +b.dataset.e; myEmo = {id: Math.floor(Math.random()*1e9), e: i}; spawnEmoji(i); pushPresence(true);
 });
 $('#specLeave').addEventListener('click', leaveRoom);
+/* ---- end the fight (quit) ---- */
+let quitOpen = false, myQuit = 0, seenQuit = {};
+function openQuit(){ if(['countdown','fight','replay','roundend','ending'].includes(phase) && (mode==='local' || (mySide && ACTIVE().includes(mySide)))){ quitOpen = true; lastUi = ''; } }
+$('#btnQuit').addEventListener('click', openQuit);
+$('#quitNo').addEventListener('click', ()=>{ quitOpen = false; lastUi = ''; });
+$('#quitYes').addEventListener('click', ()=>{
+  quitOpen = false;
+  if(mode==='local'){ backToLobby(''); leaveRoom(); return; }
+  myQuit = Date.now();
+  backToLobby('');
+  setTimeout(()=>{ if(phase==='lobby' && screen==='room') leaveRoom(); }, 700);
+});
+addEventListener('keydown', e=>{ if(e.key==='Escape' && !dlg.open){ if(quitOpen){ quitOpen = false; lastUi = ''; } else openQuit(); } });
 /* ---- rematch ---- */
-let rematchOpen = false;
+let rematchOpen = false, rematchAt = 0, myRmNo = 0, seenRmNo = {};
 function renderRematch(){
   const act = ACTIVE();
   const rows = mode==='local' ? '' : act.map(s=>{
     const isMe = s===mySide, ok = isMe ? ready : !!(taken[s] && taken[s].presence.ready), here = isMe || !!taken[s];
     return `<span class="rm-p ${ok ? 'ok' : ''}">${esc(nameOf(s))} ${here ? (ok ? '✓' : '…') : '—'}</span>`;
   }).join('');
-  const key = lang + '|' + rows + '|' + ready;
+  const left = Math.max(0, Math.ceil((30000 - (performance.now() - rematchAt))/1000));
+  const key = lang + '|' + rows + '|' + ready + '|' + left;
   if($('#rematch').dataset.k === key) return; $('#rematch').dataset.k = key;
   $('#rmTitle').textContent = t('rematchQ');
-  $('#rmRows').innerHTML = rows;
+  $('#rmRows').innerHTML = rows + `<span class="rm-left">${esc(t('rematchLeft',{n:left}))}</span>`;
   $('#rmYes').textContent = ready ? t('rematchWaiting') : t('rematchYes');
   $('#rmYes').disabled = ready;
   $('#rmNo').textContent = t('rematchNo');
@@ -1949,7 +2038,13 @@ $('#rmYes').addEventListener('click', ()=>{
   if(!mySide) return;
   ready = true; mySeed = Math.floor(Math.random()*2**31); pushPresence(true);
 });
-$('#rmNo').addEventListener('click', ()=>{ rematchOpen = false; if(ready){ ready = false; pushPresence(true); } });
+function declineRematch(){
+  rematchOpen = false; ready = false;
+  if(mode==='local'){ leaveRoom(); return; }
+  myRmNo = Date.now(); pushPresence(true);
+  setTimeout(()=>{ if(phase==='lobby' && screen==='room') leaveRoom(); }, 700);
+}
+$('#rmNo').addEventListener('click', declineRematch);
 $('#btnLocal').addEventListener('click', ()=>{ setMode('local'); screen = 'room'; myRid = null; loadScore(); });
 $('#btnLeave').addEventListener('click', leaveRoom);
 const sideKey = () => 'ta3-side-' + (myRid || '');
@@ -1995,6 +2090,7 @@ function startCountdown(){
 function backToLobby(msg){
   phase = 'lobby'; ready = false; note = msg || '';
   roundWins = {L:0, R:0};
+  E = null; RP = null; stage.classList.remove('replay'); rematchOpen = false; quitOpen = false;
   count.classList.remove('show'); hideBanner();
   resetFighters(); hideProps();
   pushPresence(true);
@@ -2157,7 +2253,7 @@ function updateEnding(now){
     showBanner(`${esc(t('sent',{a:namesOf(E.losers)}))}<small>${esc(t('winner',{b:namesOf(E.winners)}) + rs)}</small>`);
     if(mode==='online' && mySide && ACTIVE().includes(mySide)) onMatchEnd(team(mySide)===winTeam, E.rw, team(mySide));
   }
-  if(tt >= 8200){ const wasPlayer = mode==='local' || (mySide && ACTIVE().includes(mySide)); E = null; backToLobby(''); rematchOpen = wasPlayer; }
+  if(tt >= 8200){ const wasPlayer = mode==='local' || (mySide && ACTIVE().includes(mySide)); E = null; backToLobby(''); rematchOpen = wasPlayer; rematchAt = performance.now(); }
 }
 
 /* ---------------- Items (Gökten hediye) ---------------- */
@@ -2234,7 +2330,7 @@ function pushPresence(force){
   const f = mySide ? F[mySide] : null;
   const inRoom = screen==='room' && !!myRid;
   const p = inRoom ? {
-    app:'ta3', rid: myRid, side: mySide, ready, phase, scene, sceneTs, me: Object.assign({}, myProfile, {name: myProfile.name || (acctMe ? acctMe.nick : ''), uid: acctMe ? acctMe.uid : null, pv: (acctMe && myPhoto) ? myPhotoVer : 0}), emo: myEmo, hb: f ? f.hb : null, pc: f ? f.pc : 0, pt: f ? f.pt : null,
+    app:'ta3', rid: myRid, side: mySide, ready, phase, scene, sceneTs, quit: myQuit, rmno: myRmNo, me: Object.assign({}, myProfile, {name: myProfile.name || (acctMe ? acctMe.nick : ''), uid: acctMe ? acctMe.uid : null, pv: (acctMe && myPhoto) ? myPhotoVer : 0}), emo: myEmo, hb: f ? f.hb : null, pc: f ? f.pc : 0, pt: f ? f.pt : null,
     mode: gameMode, modeTs, fmt, fmtTs, rounds, roundsTs, seed: mySeed, rw: roundWins, lt: lastLose,
     cbs: f ? f.cbs : 0, cb: f ? f.cb : -1, cba: f ? f.cba : null, ch: f ? f.ch : 0, got: f ? f.got : [],
     x: f ? Math.round(f.x) : 0, y: f ? Math.round(f.y) : 0, cr: f ? f.cr : false, mv: f ? f.mv : 0, fd: f ? f.fd : 1,
@@ -2313,6 +2409,18 @@ function processRoom(now){
   const others = all.filter(p=>p.presence.rid===myRid);
   const lp = others.find(p=>p.presence.side==='L');
   for(const p of others){
+    const q = num(p.presence.quit, 0);
+    if(seenQuit[p.peer] === undefined) seenQuit[p.peer] = q;
+    else if(q && q !== seenQuit[p.peer]){
+      seenQuit[p.peer] = q;
+      if(IN_GAME.includes(phase) && SLOTS.includes(p.presence.side)){ const n = nameOf(p.presence.side); backToLobby(''); leaveRoom(); setTimeout(()=>toast(esc(t('tripEnded',{n}))), 50); return; }
+    }
+    const rn = num(p.presence.rmno, 0);
+    if(seenRmNo[p.peer] === undefined) seenRmNo[p.peer] = rn;
+    else if(rn && rn !== seenRmNo[p.peer]){
+      seenRmNo[p.peer] = rn;
+      if(rematchOpen && phase==='lobby' && SLOTS.includes(p.presence.side)){ const n = nameOf(p.presence.side); rematchOpen = false; ready = false; leaveRoom(); setTimeout(()=>toast(esc(t('rematchDeclined',{n}))), 50); return; }
+    }
     const em = p.presence.emo;
     if(!em && seenEmo[p.peer] === undefined) seenEmo[p.peer] = null;
     if(em && typeof em.id==='number' && typeof em.e==='number'){
@@ -2324,7 +2432,7 @@ function processRoom(now){
   for(const p of others){
     const pr = p.presence;
     const st = num(pr.sceneTs, 0);
-    if(st > sceneTs && (pr.scene==='adana' || pr.scene==='hatay')) setScene(pr.scene, st);
+    if(st > sceneTs && ['adana','hatay','bursa'].includes(pr.scene)) setScene(pr.scene, st);
     if(phase==='lobby'){
       const tie = (ts, mine, theirs, mineV) => ts===mine && p===lp && mySide!=='L' && theirs!==mineV;
       const mt = num(pr.modeTs, 0);
@@ -3031,13 +3139,17 @@ function renderUi(){
   const spec = mode==='online' && screen==='room' && !(mySide && ACTIVE().includes(mySide)) && phase!=='lobby';
   $('#specBar').hidden = !spec;
   $('#rematch').hidden = !(rematchOpen && phase==='lobby');
+  $('#quitBox').hidden = !(quitOpen && phase!=='lobby');
+  if(quitOpen && phase==='lobby') quitOpen = false;
+  $('#quitSub').textContent = t(mode==='local' ? 'quitSubLocal' : 'quitSub');
   if(rematchOpen && phase==='lobby') renderRematch();
+  if(rematchOpen && phase==='lobby' && performance.now() - rematchAt > 30000){ declineRematch(); }
   const cs = controlSide();
   const f = cs ? F[cs] : null;
   const act = ACTIVE(), duo = effFmt()==='2v2';
   const dims = f ? ['trip','insult','love'].map(x=>f.en < SPEC[x].cost ? 1 : 0).join('') + (performance.now() < f.loveCd ? 'c' : '') : '';
   const tk = SLOTS.map(s=>taken[s] ? (taken[s].presence.ready ? 2 : 1) : 0).join('');
-  const key = [lang, roomCount, specCount, gameMode, fmt, rounds, mode, phase, mySide, ready, connState, tk, note, SLOTS.map(nameOf).join(','), dims, padOn, f && alive(f), myRid].join('|');
+  const key = [lang, quitOpen, roomCount, specCount, gameMode, fmt, rounds, mode, phase, mySide, ready, connState, tk, note, SLOTS.map(nameOf).join(','), dims, padOn, f && alive(f), myRid].join('|');
   if(key === lastUi) return; lastUi = key;
   $('#lobby').hidden = !lobbyOn;
   $('#specCount').textContent = specCount > 0 && mode==='online' ? `👀 ${specCount}` : '';
