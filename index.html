@@ -284,6 +284,72 @@ dialog h4{margin:6px 0 4px;font-size:.95rem}
 .fighter.hitflash .lean{transform:rotate(calc(-10deg * var(--fd)))}
 .stage.stop *{animation-play-state:paused !important}
 
+.photo-g,.ph-tint{display:none}
+.fighter[data-photo="1"] .photo-g{display:inline}
+.fighter[data-photo="1"] .hair-g,.fighter[data-photo="1"] .f,.fighter[data-photo="1"] .acc-glasses,.fighter[data-photo="1"] .acc-beard{display:none}
+.fighter.face-left .ph{transform:scaleX(-1);transform-box:fill-box;transform-origin:center}
+.fighter[data-photo="1"][data-face="hurt"] .ph-tint{display:inline;fill:rgba(255,60,60,.35)}
+.fighter[data-photo="1"][data-face="love"] .ph-tint{display:inline;fill:rgba(255,111,176,.28)}
+.fighter[data-photo="1"][data-face="angry"] .ph-tint{display:inline;fill:rgba(255,140,0,.18)}
+.stage.replay::before,.stage.replay::after{content:"";position:absolute;left:0;right:0;height:9%;background:#000;z-index:11;animation:barin .25s ease-out}
+.stage.replay::before{top:0} .stage.replay::after{bottom:0}
+@keyframes barin{from{transform:scaleY(0)}}
+.stage.replay .scene{filter:saturate(.35) contrast(1.1) brightness(.9)}
+.stage.replay .hud{opacity:.25}
+.replay-tag{position:absolute;left:3%;top:11%;z-index:12;color:#fff;font-weight:800;font-size:clamp(.8rem,2.2vw,1.1rem);display:none;align-items:center;gap:6px;text-shadow:0 2px 0 #000}
+.replay-tag::before{content:"";width:10px;height:10px;border-radius:50%;background:#FF3B3B;animation:blink .6s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.stage.replay .replay-tag{display:flex}
+.fighter.slow .bob{animation-duration:6s}
+.fighter.pose-dance .bob{animation:dance .55s ease-in-out infinite}
+@keyframes dance{0%,100%{transform:rotate(-9deg)}25%{transform:translateY(-9%) rotate(0)}50%{transform:rotate(9deg)}75%{transform:translateY(-9%) rotate(0)}}
+.fighter.pose-heart .arm-f{transform:rotate(-165deg)}
+.fighter.pose-heart .bob{animation:hop .6s ease-in-out infinite}
+@keyframes hop{50%{transform:translateY(-6%)}}
+.fighter.pose-wave .arm-f{animation:wavearm .32s ease-in-out infinite alternate}
+@keyframes wavearm{from{transform:rotate(-155deg)}to{transform:rotate(-105deg)}}
+.heartpop{position:absolute;left:50%;top:0;color:#FF4F93;font-size:clamp(1rem,3vw,1.6rem);-webkit-text-stroke:1.5px #2B1B2E;paint-order:stroke fill;pointer-events:none;animation:heartup 1.1s ease-out forwards;z-index:8}
+@keyframes heartup{from{transform:translate(-50%,0) scale(.6);opacity:1}to{transform:translate(calc(-50% + 20px),-70px) scale(1.2);opacity:0}}
+.rematch{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:12;background:var(--panel);color:var(--ink);border:3px solid #2B1B2E;border-radius:18px;padding:12px 16px;text-align:center;box-shadow:0 6px 0 rgba(43,27,46,.4);min-width:min(320px,80%)}
+.rematch[hidden],.spec-bar[hidden]{display:none}
+.rm-title{font-weight:800;font-size:clamp(1.2rem,4vw,1.8rem)}
+.rm-rows{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 12px;margin:6px 0 10px;font-weight:700;color:var(--muted)}
+.rm-p.ok{color:var(--go)}
+.rm-act{display:flex;gap:10px;justify-content:center;align-items:center}
+.rm-act .btn{min-height:44px}
+.spec-count{color:#fff;font-weight:800;font-size:.85rem;text-shadow:0 2px 0 #2B1B2E;min-height:1em}
+.spec-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.spec-t{font-weight:800}
+.spec-emos{display:flex;gap:6px;flex-wrap:wrap}
+.emo-btn{font-size:1.6rem;line-height:1;border:2px solid var(--line);background:var(--page);border-radius:12px;padding:6px 8px;cursor:pointer}
+.emo-btn:active{transform:scale(.9)}
+.emo{font-size:clamp(1.6rem,5vw,2.6rem);z-index:13}
+.ava{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;font-weight:800;background:var(--page);flex:none}
+.ava.big{width:72px;height:72px;font-size:1.6rem}
+.fr-btn{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.prof-head{display:flex;align-items:center;gap:14px}
+.prof-head h2{margin:0}
+.karne{display:flex;align-items:center;gap:14px;margin:14px 0;padding:10px 12px;border:2px solid var(--line);border-radius:14px}
+.kn{font-size:2.4rem;font-weight:800;color:var(--love);min-width:2.2em;text-align:center}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.stat{border:2px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column}
+.stat b{font-size:1.3rem}
+.stat span{color:var(--muted);font-size:.85rem}
+.row-act.wrap{flex-wrap:wrap;margin-top:14px}
+.sbtn.love-b{background:var(--love);color:#fff;border-color:var(--love)}
+dialog#profDlg{width:min(560px,94vw);max-height:88vh;overflow:auto;border:3px solid var(--ink);border-radius:20px;background:var(--panel);color:var(--ink);padding:16px 18px}
+dialog#profDlg::backdrop{background:rgba(43,27,46,.55)}
+#frTabs{margin:8px 0 4px}
+[data-pane][hidden]{display:none}
+.rank{justify-content:flex-start}
+.rank.mine{border-color:var(--love)}
+.rk-n{font-weight:800;font-size:1.2rem;min-width:1.6em}
+.rk-c{flex:1}
+.rk-g{font-weight:800;color:var(--go)}
+.ph-box{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ph-act{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ph-act label.sbtn{display:inline-block}
+
 .help-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}
 .help-body p{margin:6px 0;line-height:1.5}
 dialog#helpDlg{width:min(560px,94vw);max-height:86vh;overflow:auto;border:3px solid var(--ink);border-radius:20px;background:var(--panel);color:var(--ink);padding:16px 18px}
@@ -343,7 +409,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
     <svg class="scene off" id="scene-hatay" viewBox="0 0 800 450" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
     <div class="hud" id="hud">
       <div class="team L" id="teamL"></div>
-      <div class="mid"><div class="score" id="score">0 : 0</div><div id="pips"></div></div>
+      <div class="mid"><div class="score" id="score">0 : 0</div><div id="pips"></div><div class="spec-count" id="specCount"></div></div>
       <div class="team R" id="teamR"></div>
     </div>
     <div class="title-card" id="titleCard"><h2 data-i18n="title">Trip Arenası</h2><p data-i18n="stageSub"></p></div>
@@ -357,7 +423,19 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
     <div class="count" id="count"></div>
     <div class="combo" id="combo"></div>
     <div class="banner" id="banner" aria-live="polite"></div>
+    <div class="replay-tag" id="replayTag"></div>
+    <div class="rematch" id="rematch" hidden>
+      <div class="rm-title" id="rmTitle"></div>
+      <div class="rm-rows" id="rmRows"></div>
+      <div class="rm-act"><button class="btn ready" id="rmYes" type="button"></button><button class="sbtn" id="rmNo" type="button"></button></div>
+    </div>
   </div>
+
+  <section class="panel spec-bar" id="specBar" hidden>
+    <span class="spec-t" data-i18n="watching"></span>
+    <div class="spec-emos" id="specEmos"></div>
+    <button class="link" id="specLeave" type="button" data-i18n="leaveRoom"></button>
+  </section>
 
   <section class="panel install" id="install" hidden>
     <div class="app-head"><img class="app-icon" src="icon-192.png" alt="" width="72" height="72"><h2 data-i18n="instTitle"></h2></div>
@@ -463,6 +541,11 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
   <div id="helpBody" class="help-body"></div>
 </dialog>
 
+<dialog id="profDlg">
+  <div class="set-head"><span></span><button class="sbtn" id="profClose" type="button" data-i18n="close"></button></div>
+  <div id="profBody"></div>
+</dialog>
+
 <dialog id="settings">
   <div class="set-head"><h2 data-i18n="settings"></h2><button class="sbtn" id="setClose" type="button" data-i18n="close"></button></div>
   <section id="acctSec" hidden><h3 data-i18n="account"></h3><p class="muted" id="acctLine"></p><button class="sbtn" id="btnLogout" type="button" data-i18n="logout" hidden></button></section>
@@ -478,8 +561,15 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
     <div class="add-row"><input id="frSearch" type="text" autocapitalize="none" spellcheck="false" maxlength="16" data-i18n-ph="addPlaceholder"><button class="sbtn go" id="frAdd" type="button" data-i18n="sendReq"></button></div>
     <p class="muted small" id="frMsg" aria-live="polite"></p>
   </section>
-  <section><h3 data-i18n="notifs"></h3><ul class="list" id="notifList"></ul></section>
-  <section><h3 data-i18n="myFriends"></h3><ul class="list" id="friendList"></ul></section>
+  <div class="modes" id="frTabs" role="group"><button type="button" data-ft="friends" data-i18n="tabFriends"></button><button type="button" data-ft="rank" data-i18n="tabRank"></button></div>
+  <div data-pane="friends">
+    <section><h3 data-i18n="notifs"></h3><ul class="list" id="notifList"></ul></section>
+    <section><h3 data-i18n="myFriends"></h3><ul class="list" id="friendList"></ul></section>
+    <button class="sbtn" id="btnMyCard" type="button" data-i18n="myCard"></button>
+  </div>
+  <div data-pane="rank" hidden>
+    <section><h3 data-i18n="rankTitle"></h3><p class="muted small" data-i18n="rankHelp"></p><ol class="list" id="rankList"></ol></section>
+  </div>
 </dialog>
 <div class="toasts" id="toasts" aria-live="polite"></div>
 
@@ -722,7 +812,8 @@ setScene(scene, 0);
 function heart(cx, cy, s, fill){
   return `<path d="M${cx} ${cy+4*s} C${cx-7*s} ${cy-1*s} ${cx-4*s} ${cy-7*s} ${cx} ${cy-3*s} C${cx+4*s} ${cy-7*s} ${cx+7*s} ${cy-1*s} ${cx} ${cy+4*s} Z" fill="${fill}"/>`;
 }
-function charSVG(kind){
+function charSVG(kind, slot){
+  slot = slot || 'x';
   const her = kind === 'her', ink = '#2B1B2E';
   const hairBack = her ? `<path class="c-hair o" d="M34 58 C26 100 30 128 46 134 C58 138 70 128 70 112 L70 58 Z"/>` : '';
   const hairTop = her
@@ -730,7 +821,7 @@ function charSVG(kind){
     : `<path class="c-hair o" d="M36 60 C32 26 62 16 80 22 C100 26 110 44 104 60 C100 50 94 44 84 44 C76 36 60 40 52 50 C46 48 40 52 36 60 Z"/>`;
   return `<svg class="csvg" viewBox="0 0 140 200" aria-hidden="true">
   <ellipse cx="70" cy="192" rx="40" ry="6" fill="rgba(0,0,0,.28)"/>
-  ${hairBack}
+  <g class="hair-g">${hairBack}</g>
   <rect class="c-top o" x="41" y="106" width="13" height="34" rx="6"/><rect x="41" y="106" width="13" height="34" rx="6" fill="rgba(0,0,0,.18)"/>
   <circle class="c-skin o" cx="47" cy="142" r="6"/>
   <rect class="c-leg o" x="54" y="138" width="15" height="44" rx="6"/><rect x="54" y="138" width="15" height="44" rx="6" fill="rgba(0,0,0,.15)"/>
@@ -752,7 +843,8 @@ function charSVG(kind){
   <g class="f f-love">${heart(77,65,1.25,'#FF3D7F')}${heart(93,65,1.15,'#FF3D7F')}<path d="M81 78 Q87 87 93 78 Z" fill="${ink}"/></g>
   <g class="f f-tired"><path d="M72 66 Q77 63 82 66 M88 66 Q93 63 98 66" stroke="${ink}" stroke-width="2.6" fill="none" stroke-linecap="round"/><ellipse cx="87" cy="82" rx="3.2" ry="3.8" fill="${ink}"/></g>
   <g class="acc-glasses" fill="none" stroke="${ink}" stroke-width="2.2"><circle cx="77" cy="64" r="7.5"/><circle cx="93" cy="64" r="7"/><path d="M84.5 64 H86 M69.5 63 L50 60"/></g>
-  ${hairTop}
+  <g class="hair-g">${hairTop}</g>
+  <g class="photo-g"><clipPath id="pcl-${slot}"><circle cx="70" cy="60" r="34"/></clipPath><image class="ph" x="36" y="26" width="68" height="68" clip-path="url(#pcl-${slot})" preserveAspectRatio="xMidYMid slice"/><circle class="ph-tint" cx="70" cy="60" r="34"/><circle cx="70" cy="60" r="34" fill="none" stroke="#2B1B2E" stroke-width="2.6"/></g>
   </svg>`;
 }
 const ROCKET_SVG = `<svg viewBox="0 0 60 150" aria-hidden="true">
@@ -781,6 +873,69 @@ $('#robot').innerHTML = ROBOT_SVG;
 const I18N = {
 tr: {
   title:'Trip Arenası', settings:'Ayarlar', close:'Kapat',
+  slowmo:"AĞIR ÇEKİM",
+  watch:"İzle",
+  watching:"👀 İzliyorsun",
+  watchNo:"Arkadaşın şu an bir odada değil.",
+  rematchQ:"Rövanş?",
+  rematchYes:"Rövanş!",
+  rematchWaiting:"Bekleniyor…",
+  rematchNo:"Hayır",
+  poseH:"Zafer pozu",
+  pose_dance:"Dans",
+  pose_heart:"Kalp",
+  pose_wave:"El sallama",
+  phH:"Yüz fotoğrafı",
+  phCamera:"Fotoğraf çek",
+  phGallery:"Galeriden seç",
+  phRemove:"Kaldır",
+  phHelp:"Sadece tek bir insan yüzü olan fotoğraflar kabul edilir; yüz otomatik olarak kırpılır. Fotoğrafın arkadaşların ve odadaki oyuncular tarafından görülebilir.",
+  phNeedLogin:"Fotoğraf eklemek için giriş yapmalısın.",
+  phChecking:"Fotoğraf kontrol ediliyor…",
+  phBad:"Bu fotoğraf açılamadı, başka bir tane dene.",
+  phLoadFail:"Yüz kontrol aracı yüklenemedi. İnternetini kontrol edip tekrar dene.",
+  phNoFace:"Fotoğrafta insan yüzü bulunamadı.",
+  phMany:"Fotoğrafta tek bir yüz olmalı.",
+  phSmall:"Yüz çok küçük; daha yakından çekilmiş bir fotoğraf seç.",
+  phOk:"Yüz eklendi!",
+  loveReqToast:"{n} seni sevgilisi olarak eklemek istiyor 💗",
+  loveReqRow:"💗 {n} seni sevgilisi olarak eklemek istiyor.",
+  loveHave:"Zaten bir sevgilin var.",
+  loveSent:"{n} kişisine sevgili isteği gönderildi 💗",
+  loveNow:"{n} ile artık çiftsiniz 💗",
+  breakConfirm:"Ayrılmak istediğine emin misin?",
+  breakUp:"Ayrıl",
+  makeLove:"Sevgilim yap",
+  yourLove:"Sevgilin",
+  karneNote:"Karne notu",
+  gradeNone:"Not için en az 3 maç oynamalısın.",
+  gradeAA:"Trip ustası",
+  gradeBA:"Kalkan sanatçısı",
+  gradeBB:"Sağlam rakip",
+  gradeCB:"Gelecek vadediyor",
+  gradeCC:"Ortalama tripçi",
+  gradeDC:"Biraz daha antrenman",
+  gradeDD:"Kıl payı geçti",
+  gradeFF:"Uzay müdavimi",
+  sGames:"Maç",
+  sWins:"Galibiyet",
+  sLosses:"Mağlubiyet",
+  sRate:"Kazanma",
+  sRounds:"Kazanılan raunt",
+  sCombos:"Kombo",
+  sBlocks:"Kalkan",
+  sLanded:"İsabet",
+  sSpace:"Uzaya gitti",
+  sBest:"En uzun seri",
+  tabFriends:"Arkadaşlar",
+  tabRank:"Tripkolik Çiftler",
+  myCard:"Karnem",
+  rankTitle:"Tripkolik Çiftler",
+  rankHelp:"Birlikte en çok maç oynayan çiftler. Sevgilinle aynı maçta oynadığınız her maç sayılır; sıralama canlı güncellenir.",
+  rankGames:"{n} maç",
+  rankEmpty:"Henüz sıralamada çift yok. Sevgilini ekleyip birlikte oynayın!",
+  moveSpec:"<b>İzleyici:</b> maçtaki bir odaya ya da arkadaşının maçına \"İzle\" ile girip canlı izleyebilir, ekrana emoji atabilirsin.",
+  moveRematch:"<b>Rövanş:</b> maç bitince herkes \"Rövanş!\" derse aynı taraflarla yeni maç hemen başlar.",
   howTo:"Nasıl oynanır:",
   helpCombos:"Kombolar",
   helpMoves:"Hareketler",
@@ -870,6 +1025,69 @@ tr: {
 },
 en: {
   title:'Trip Arena', settings:'Settings', close:'Close',
+  slowmo:"SLOW MOTION",
+  watch:"Watch",
+  watching:"👀 Watching",
+  watchNo:"Your friend is not in a room right now.",
+  rematchQ:"Rematch?",
+  rematchYes:"Rematch!",
+  rematchWaiting:"Waiting…",
+  rematchNo:"No",
+  poseH:"Victory pose",
+  pose_dance:"Dance",
+  pose_heart:"Heart",
+  pose_wave:"Wave",
+  phH:"Face photo",
+  phCamera:"Take photo",
+  phGallery:"Choose from gallery",
+  phRemove:"Remove",
+  phHelp:"Only photos with a single human face are accepted; the face is cropped automatically. Your friends and players in your room can see it.",
+  phNeedLogin:"Log in to add a photo.",
+  phChecking:"Checking the photo…",
+  phBad:"Could not open this photo, try another one.",
+  phLoadFail:"Could not load the face checker. Check your internet and try again.",
+  phNoFace:"No human face found in the photo.",
+  phMany:"The photo should contain exactly one face.",
+  phSmall:"The face is too small; choose a closer photo.",
+  phOk:"Face added!",
+  loveReqToast:"{n} wants to make you their partner 💗",
+  loveReqRow:"💗 {n} wants to make you their partner.",
+  loveHave:"You already have a partner.",
+  loveSent:"Partner request sent to {n} 💗",
+  loveNow:"You and {n} are now a couple 💗",
+  breakConfirm:"Are you sure you want to break up?",
+  breakUp:"Break up",
+  makeLove:"Make my partner",
+  yourLove:"Your partner",
+  karneNote:"Report card",
+  gradeNone:"Play at least 3 matches to get a grade.",
+  gradeAA:"Sulk master",
+  gradeBA:"Shield artist",
+  gradeBB:"Solid rival",
+  gradeCB:"Promising",
+  gradeCC:"Average sulker",
+  gradeDC:"Needs practice",
+  gradeDD:"Barely passed",
+  gradeFF:"Space regular",
+  sGames:"Matches",
+  sWins:"Wins",
+  sLosses:"Losses",
+  sRate:"Win rate",
+  sRounds:"Rounds won",
+  sCombos:"Combos",
+  sBlocks:"Blocks",
+  sLanded:"Hits landed",
+  sSpace:"Sent to space",
+  sBest:"Best streak",
+  tabFriends:"Friends",
+  tabRank:"Sulkaholic Couples",
+  myCard:"My report card",
+  rankTitle:"Sulkaholic Couples",
+  rankHelp:"Couples who played the most matches together. Every match you and your partner play counts; the list updates live.",
+  rankGames:"{n} matches",
+  rankEmpty:"No couples ranked yet. Add your partner and play together!",
+  moveSpec:"<b>Spectating:</b> join a room in a match, or a friend's match, with \"Watch\" to follow it live and throw emojis on screen.",
+  moveRematch:"<b>Rematch:</b> when the match ends, if everyone says \"Rematch!\", a new match starts right away with the same sides.",
   howTo:"How to play:",
   helpCombos:"Combos",
   helpMoves:"Moves",
@@ -1054,7 +1272,7 @@ const atkBase = Math.floor(Math.random()*1e6)*1000;
 
 function makeFighter(slot){
   const el = document.getElementById('f'+slot);
-  el.innerHTML = `<div class="shield"></div><div class="body"><div class="lean"><div class="bob">${charSVG(KIND[slot])}</div></div></div><div class="sweat"></div>`;
+  el.innerHTML = `<div class="shield"></div><div class="body"><div class="lean"><div class="bob">${charSVG(KIND[slot], slot)}</div></div></div><div class="sweat"></div>`;
   const x = START1[slot];
   return {slot, el, x, tx:x, dispX:x, y:0, vy:0, cr:false, hp:100, trail:100, en:100, fd:teamDir(slot), rphase:'lobby',
     atk:null, lastAtk:null, atkSeq:0, stunUntil:0, flashUntil:0, loveUntil:0, lowUntil:0, saidTired:0,
@@ -1098,7 +1316,8 @@ const defaults = {
 const COLORS = ['skin','hair','top','bottom','shoes'], FLAGS = ['glasses','beard','skirt'];
 const isHex = v => typeof v==='string' && /^#[0-9a-fA-F]{6}$/.test(v);
 const cleanLines = a => [0,1,2].map(i => Array.isArray(a) && typeof a[i]==='string' ? a[i].slice(0, LINE_MAX) : '');
-const blankProfile = () => ({name:'', skin:null, hair:null, top:null, bottom:null, shoes:null, glasses:null, beard:null, skirt:null, tl:['','',''], il:['','','']});
+const POSES = ['dance','heart','wave'];
+const blankProfile = () => ({name:'', skin:null, hair:null, top:null, bottom:null, shoes:null, glasses:null, beard:null, skirt:null, tl:['','',''], il:['','',''], pose:'dance', uid:null, pv:0});
 function sanitizeProfile(r, baseSlot){
   const p = blankProfile();
   if(!r || typeof r !== 'object') return p;
@@ -1106,6 +1325,9 @@ function sanitizeProfile(r, baseSlot){
   COLORS.forEach(k=>{ if(isHex(r[k]) && (!baseSlot || r[k].toLowerCase() !== defaults[baseSlot][k].toLowerCase())) p[k] = r[k]; });
   FLAGS.forEach(k=>{ if(typeof r[k] === 'boolean' && (!baseSlot || r[k] !== defaults[baseSlot][k])) p[k] = r[k]; });
   p.tl = cleanLines(r.tl); p.il = cleanLines(r.il);
+  if(POSES.includes(r.pose)) p.pose = r.pose;
+  if(typeof r.uid === 'string' && r.uid.length < 64) p.uid = r.uid;
+  if(typeof r.pv === 'number' && isFinite(r.pv)) p.pv = r.pv;
   if(['Ben','Sevgilim','Erkek 2','Kız 2','Me','My love'].includes(p.name)) p.name = '';
   return p;
 }
@@ -1117,6 +1339,17 @@ else myProfile = sanitizeProfile(myProfile);
 let p2Profile = store.get('ta3-p2', null);
 p2Profile = p2Profile ? sanitizeProfile(p2Profile) : sanitizeProfile(legacyLooks.R, 'R');
 const remoteProfiles = {};
+let myPhoto = '', myPhotoVer = 0; try{ myPhoto = localStorage.getItem('ta3-photo') || ''; myPhotoVer = +(localStorage.getItem('ta3-photo-v') || 0); }catch(e){}
+const photoCache = {}, photoLoading = {};
+function photoFor(uid, pv){
+  const k = uid + ':' + pv;
+  if(photoCache[k] !== undefined) return photoCache[k];
+  if(!photoLoading[k] && typeof fbDb !== 'undefined' && fbDb){
+    photoLoading[k] = true;
+    fbDb.ref('users/'+uid+'/photo').once('value').then(sn=>{ const v = sn.val(); photoCache[k] = (typeof v==='string' && v.startsWith('data:image/')) ? v : ''; lookKeys = {}; }).catch(()=>{ photoCache[k] = ''; });
+  }
+  return '';
+}
 const look = {};
 function profileFor(s){
   if(mode==='local') return s==='L' ? myProfile : s==='R' ? p2Profile : null;
@@ -1129,7 +1362,8 @@ function effLook(s){
   const l = {name: p.name || (p===myProfile && acctMe ? acctMe.nick : '') || ''};
   COLORS.forEach(k=>l[k] = p[k] || d[k]);
   FLAGS.forEach(k=>l[k] = typeof p[k]==='boolean' ? p[k] : d[k]);
-  l.tl = p.tl; l.il = p.il;
+  l.tl = p.tl; l.il = p.il; l.pose = p.pose || 'dance';
+  l.photo = p===myProfile ? (myPhoto || '') : (p.uid && p.pv ? photoFor(p.uid, p.pv) : '');
   return l;
 }
 const nameOf = s => s && look[s] ? ((look[s].name || '').trim() || t('def'+s)) : '?';
@@ -1153,6 +1387,8 @@ function applyLook(s){
   el.dataset.glasses = l.glasses ? '1':'0';
   el.dataset.beard = l.beard ? '1':'0';
   el.dataset.skirt = l.skirt ? '1':'0';
+  el.dataset.photo = l.photo ? '1' : '0';
+  const im = el.querySelector('.ph'); if(im){ if(l.photo) im.setAttribute('href', l.photo); else im.removeAttribute('href'); }
   document.querySelector(`.hp[data-slot="${s}"] .nm`).textContent = nameOf(s);
   document.querySelector('#slot'+s+' .slot-name').textContent = nameOf(s);
 }
@@ -1174,6 +1410,14 @@ function buildEditor(){
       ${colorRow('skin','fSkin')}${colorRow('hair','fHair')}${colorRow('top','fTop')}${colorRow('bottom','fBottom')}${colorRow('shoes','fShoes')}
       ${checkRow('glasses','fGlasses')}${checkRow('beard','fBeard')}${checkRow('skirt','fSkirt')}
       <button class="link" type="button" id="resetLook">${t('resetLook')}</button>
+      <h4>${t('poseH')}</h4>
+      <div class="modes" id="poseSel">${POSES.map(x=>`<button type="button" data-pose="${x}" aria-pressed="${(editProfile().pose||'dance')===x}">${t('pose_'+x)}</button>`).join('')}</div>
+      ${(ACCOUNTS && editWho==='me') ? `<h4>${t('phH')}</h4>
+      <div id="phBox" class="ph-box"><div id="phPrev"></div><div class="ph-act">
+        <label class="sbtn">${t('phCamera')}<input type="file" accept="image/*" capture="user" data-ph="1" hidden></label>
+        <label class="sbtn">${t('phGallery')}<input type="file" accept="image/*" data-ph="1" hidden></label>
+        <button class="link" type="button" id="phRemove">${t('phRemove')}</button></div></div>
+      <p class="muted small" id="phMsg"></p><p class="muted small">${t('phHelp')}</p>` : ''}
     </div><div>
       <h4>${t('tripLinesH')}</h4>${lineRows('tl','tripLines')}
       <h4>${t('insultLinesH')}</h4>${lineRows('il','insultLines')}
@@ -1181,6 +1425,7 @@ function buildEditor(){
       <button class="link" type="button" id="resetLines">${t('resetLines')}</button>
     </div></div>`;
   fillEditor();
+  if(typeof renderPhotoBox === 'function') renderPhotoBox();
 }
 function fillEditor(){
   const slot = editSlotOf(), p = editProfile(), d = defaults[slot];
@@ -1205,8 +1450,16 @@ $('#charEdit').addEventListener('input', e=>{
   else p[k] = el.type==='checkbox' ? el.checked : el.value;
   profileChanged();
 });
+$('#charEdit').addEventListener('change', e=>{
+  const el = e.target; if(!el.dataset || !el.dataset.ph) return;
+  const file = el.files && el.files[0]; el.value = '';
+  if(file) handlePhoto(file);
+});
 $('#charEdit').addEventListener('click', e=>{
   const p = editProfile();
+  const pb = e.target.closest('[data-pose]');
+  if(pb){ p.pose = pb.dataset.pose; profileChanged(); document.querySelectorAll('#poseSel [data-pose]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.pose===p.pose))); return; }
+  if(e.target.id === 'phRemove'){ removePhoto(); return; }
   if(e.target.id === 'resetLines'){ p.tl = ['','','']; p.il = ['','','']; }
   else if(e.target.id === 'resetLook'){ COLORS.concat(FLAGS).forEach(k=>p[k] = null); }
   else return;
@@ -1224,7 +1477,7 @@ function renderHelp(){
   } else if(helpTopic==='moves'){
     body = ['moveTrip','moveInsult','moveUlt','moveRage','moveEnergy','movePass'].map(p).join('');
   } else {
-    body = `<p><b>${t('modeKlasik')}:</b> ${t('descKlasik')}</p><p><b>${t('modeSigorta')}:</b> ${t('descSigorta')}</p><p><b>${t('modeHediye')}:</b> ${t('descHediye')}</p>` + p('moveRounds') + p('move2v2');
+    body = `<p><b>${t('modeKlasik')}:</b> ${t('descKlasik')}</p><p><b>${t('modeSigorta')}:</b> ${t('descSigorta')}</p><p><b>${t('modeHediye')}:</b> ${t('descHediye')}</p>` + p('moveRounds') + p('move2v2') + p('moveRematch') + p('moveSpec');
   }
   $('#helpTitle').textContent = t(helpTopic==='combos' ? 'helpCombos' : helpTopic==='moves' ? 'helpMoves' : 'helpModes');
   $('#helpBody').innerHTML = body;
@@ -1372,6 +1625,7 @@ function tryAttack(f, type, now, busy){
   f.en -= s.cost;
   f.atk = {id: atkBase + (++f.atkSeq), type, start:now, li: Math.floor(Math.random()*3)};
   f.lastAtk = f.atk;
+  if(f.slot === mySide && mode==='online' && type!=='love') mstats[type]++;
   if(type==='love'){
     f.loveCd = now + s.cd;
     f.hp = Math.min(maxHp(), f.hp + s.heal);
@@ -1389,6 +1643,7 @@ function hitVisual(f, type, now, dmg, ch){
   textFx(f.el, 'pow', t(s.pow));
   if(ch >= 2) textFx(f.el, 'chain', t('hits',{n:ch}));
   spark(f, type);
+  logFx('hit', f.slot, {type, dmg: dmg || s.dmg});
   freezeUntil = Math.max(freezeUntil, now + (type==='insult' ? 110 : 70));
   shakeStage(type==='insult' ? 1.4 : 0.6);
   if(sfx[type]) sfx[type]();
@@ -1430,7 +1685,7 @@ function spark(f, type){
     ],{duration:320 + Math.random()*120, easing:'ease-out'}).onfinish = () => p.remove();
   }
 }
-function blockFx(f){ textFx(f.el, 'pow good', t('blocked')); sfx.block(); spark(f, 'love'); }
+function blockFx(f){ textFx(f.el, 'pow good', t('blocked')); sfx.block(); spark(f, 'love'); logFx('block', f.slot, {}); }
 function parried(A, now){
   A.stunUntil = now + 650; A.loveUntil = now + 650; A.atk = null;
   textFx(A.el, 'pow', t('powLove'));
@@ -1458,7 +1713,7 @@ function applyHit(B, A, type, ax, now){
   if(combo >= 0){ dmg += COMBOS[combo].bonus; B.cbs++; B.cb = combo; B.cba = A.slot; B.chain = []; showCombo(combo, A.slot); }
   B.ch = combo >= 0 ? 0 : ch;
   B.hp = Math.max(0, B.hp - dmg);
-  B.hs++; B.ht = type;
+  B.hs++; B.ht = type; B.hb = A.slot;
   const dir = Math.sign(B.x - ax) || -teamDir(B.slot);
   B.x = clamp(B.x + dir*s.knock, XMIN, XMAX);
   if(type==='insult' && B.y <= 0 && B.vy === 0) B.vy = 300;
@@ -1479,6 +1734,7 @@ function tryHit(A, B, now){
   if(B.shieldUntil > now){
     B.gotHit[A.slot] = A.atk.id; B.chain = [];
     B.en = Math.min(100, B.en + 15); B.pc++; B.pt = A.slot;
+    if(B.slot === mySide) mstats.blocks++;
     blockFx(B);
     if(A.local) parried(A, now);
     pushPresence(true);
@@ -1521,7 +1777,7 @@ function memberDown(s){
   const f = F[s];
   if(f.hp > 0) return false;
   if(f.local || mode==='local') return true;
-  return ['fight','roundend','ending'].includes(f.rphase);
+  return ['fight','replay','roundend','ending'].includes(f.rphase);
 }
 function checkWipe(now){
   if(phase !== 'fight') return;
@@ -1546,7 +1802,7 @@ function mapKey(code){
   const s = mySide; if(!s) return {};
   return {mv: ONLINE_KEYS[code] ? [s, ONLINE_KEYS[code]] : null, atk: ONLINE_ATK[code] ? [s, ONLINE_ATK[code]] : null};
 }
-const playing = () => phase==='fight' || phase==='countdown' || phase==='roundend';
+const playing = () => ['fight','countdown','roundend','replay'].includes(phase);
 addEventListener('keydown', e=>{
   if(e.target && (e.target.tagName==='INPUT')) return;
   if(dlg.open) return;
@@ -1590,6 +1846,8 @@ let note = '';
 let mySeed = Math.floor(Math.random()*2**31), roundSeed = 0, fightT0 = 0;
 let autoDone = false, connectedAt = 0, roomCount = 1, onlineCount = 1, roomInfo = {};
 let roundWins = {L:0, R:0}, reT0 = 0, lastLose = null;
+const mstats = {trip:0, insult:0, landed:0, combos:0, blocks:0};
+function resetMstats(){ Object.keys(mstats).forEach(k=>mstats[k] = 0); }
 const need = () => rounds===3 ? 2 : 1;
 const roundNo = () => roundWins.L + roundWins.R + 1;
 
@@ -1631,11 +1889,12 @@ function setMode(m){
   resetFighters(); pushPresence(true);
   requestAnimationFrame(measure);
 }
-function joinRoom(id){
+function joinRoom(id, spectate){
   if(!room || !ROOMS.includes(id)) return;
   const info = roomInfo[id];
-  if(info && (info.inGame || info.seated >= info.cap)) return;
-  myRid = id; screen = 'room'; mySide = null; ready = false; autoDone = false; note = '';
+  if(!spectate && info && (info.inGame || info.seated >= info.cap)) return;
+  autoDoneSpect = !!spectate;
+  myRid = id; screen = 'room'; mySide = null; ready = false; autoDone = !!spectate; note = ''; rematchOpen = false;
   loadScore();
   modeTs = fmtTs = roundsTs = 0;
   phase = 'lobby'; roundWins = {L:0, R:0};
@@ -1643,14 +1902,54 @@ function joinRoom(id){
   resetFighters(); pushPresence(true);
 }
 function leaveRoom(){
-  if(phase !== 'lobby') return;
+  if(phase !== 'lobby' && mySide && ACTIVE().includes(mySide)) return;
+  phase = 'lobby'; E = null; RP = null; stage.classList.remove('replay'); count.classList.remove('show'); roundWins = {L:0, R:0}; rematchOpen = false;
   if(mode==='local') setMode('online');
   myRid = null; screen = 'menu'; mySide = null; ready = false; note = '';
   SLOTS.forEach(s=>F[s].local = false);
   resetFighters(); hideProps(); hideBanner();
   pushPresence(true);
 }
-$('#roomList').addEventListener('click', e=>{ const b = e.target.closest('[data-room]'); if(b) joinRoom(b.dataset.room); });
+$('#roomList').addEventListener('click', e=>{ const b = e.target.closest('[data-room]'); if(b) joinRoom(b.dataset.room, b.dataset.spec === '1'); });
+let myEmo = null, seenEmo = {}, specCount = 0, lastEmoAt = 0, autoDoneSpect = false;
+const EMOJIS = ['😂','😱','🔥','💗','👏','😤'];
+function spawnEmoji(i){
+  const e = EMOJIS[i]; if(!e) return;
+  const d = document.createElement('div'); d.className = 'fx emo'; d.textContent = e;
+  stage.appendChild(d);
+  const x = W*(0.12 + Math.random()*0.76), y0 = H*0.92, y1 = H*(0.25 + Math.random()*0.2);
+  d.animate([{transform:`translate(${x}px,${y0}px) scale(.6)`, opacity:0},{transform:`translate(${x+(Math.random()-.5)*40}px,${(y0+y1)/2}px) scale(1.2)`, opacity:1, offset:.3},{transform:`translate(${x+(Math.random()-.5)*60}px,${y1}px) scale(1)`, opacity:0}],{duration:1800, easing:'ease-out'}).onfinish = () => d.remove();
+}
+document.getElementById('specEmos').innerHTML = EMOJIS.map((e,i)=>`<button class="emo-btn" type="button" data-e="${i}" aria-label="${e}">${e}</button>`).join('');
+$('#specEmos').addEventListener('click', ev=>{
+  const b = ev.target.closest('[data-e]'); if(!b) return;
+  const now = performance.now(); if(now - lastEmoAt < 600) return; lastEmoAt = now;
+  const i = +b.dataset.e; myEmo = {id: Math.floor(Math.random()*1e9), e: i}; spawnEmoji(i); pushPresence(true);
+});
+$('#specLeave').addEventListener('click', leaveRoom);
+/* ---- rematch ---- */
+let rematchOpen = false;
+function renderRematch(){
+  const act = ACTIVE();
+  const rows = mode==='local' ? '' : act.map(s=>{
+    const isMe = s===mySide, ok = isMe ? ready : !!(taken[s] && taken[s].presence.ready), here = isMe || !!taken[s];
+    return `<span class="rm-p ${ok ? 'ok' : ''}">${esc(nameOf(s))} ${here ? (ok ? '✓' : '…') : '—'}</span>`;
+  }).join('');
+  const key = lang + '|' + rows + '|' + ready;
+  if($('#rematch').dataset.k === key) return; $('#rematch').dataset.k = key;
+  $('#rmTitle').textContent = t('rematchQ');
+  $('#rmRows').innerHTML = rows;
+  $('#rmYes').textContent = ready ? t('rematchWaiting') : t('rematchYes');
+  $('#rmYes').disabled = ready;
+  $('#rmNo').textContent = t('rematchNo');
+}
+$('#rmYes').addEventListener('click', ()=>{
+  if(phase!=='lobby') return;
+  if(mode==='local'){ rematchOpen = false; roundWins = {L:0, R:0}; startCountdown(); return; }
+  if(!mySide) return;
+  ready = true; mySeed = Math.floor(Math.random()*2**31); pushPresence(true);
+});
+$('#rmNo').addEventListener('click', ()=>{ rematchOpen = false; if(ready){ ready = false; pushPresence(true); } });
 $('#btnLocal').addEventListener('click', ()=>{ setMode('local'); screen = 'room'; myRid = null; loadScore(); });
 $('#btnLeave').addEventListener('click', leaveRoom);
 const sideKey = () => 'ta3-side-' + (myRid || '');
@@ -1682,6 +1981,8 @@ $('#btnReady').addEventListener('click', ()=>{
 });
 
 function startCountdown(){
+  if(roundWins.L + roundWins.R === 0) resetMstats();
+  rematchOpen = false;
   resetFighters();
   if(mode==='local' || mySide==='L') roundSeed = mySeed + roundNo();
   else roundSeed = (taken.L ? num(taken.L.presence.seed, 1) : 1) + roundNo();
@@ -1703,8 +2004,47 @@ function roundOver(loseTeam, now){
   const winTeam = loseTeam==='L' ? 'R' : 'L';
   roundWins[winTeam]++;
   lastLose = loseTeam;
-  if(roundWins[winTeam] >= need()){ startEnding(loseTeam); return; }
-  enterRoundEnd(winTeam, now);
+  startReplay({match: roundWins[winTeam] >= need(), loseTeam, winTeam}, now);
+}
+/* ---- slow-motion replay of the final blow ---- */
+let rec = [], fxLog = [], RP = null;
+function logFx(kind, slot, a){ if(phase !== 'fight') return; fxLog.push({t: performance.now(), kind, slot, a}); }
+function recordFrame(now){
+  if(phase !== 'fight') return;
+  const snap = {t: now, s: {}};
+  for(const s of ACTIVE()){ const f = F[s]; snap.s[s] = [f.el.style.transform, f.el.className, f.el.dataset.face]; }
+  rec.push(snap);
+  while(rec.length && now - rec[0].t > 1800) rec.shift();
+  while(fxLog.length && now - fxLog[0].t > 1800) fxLog.shift();
+}
+function startReplay(next, now){
+  if(rec.length < 6 || rm){ finishReplay(next, now); return; }
+  const end = rec[rec.length-1].t;
+  RP = {t0: now, start: Math.max(rec[0].t, end - 1150), end, speed: 0.36, next, fi: 0};
+  RP.fi = fxLog.findIndex(x=>x.t >= RP.start); if(RP.fi < 0) RP.fi = fxLog.length;
+  phase = 'replay'; clearItems();
+  stage.classList.add('replay');
+  $('#replayTag').textContent = t('slowmo');
+  sfx.rage();
+  pushPresence(true);
+}
+function updateReplay(now){
+  const rt = RP.start + (now - RP.t0) * RP.speed;
+  let snap = rec[0];
+  for(const r of rec){ if(r.t <= rt) snap = r; else break; }
+  for(const s in snap.s){ const f = F[s], v = snap.s[s]; f.el.style.transform = v[0]; f.el.className = v[1] + ' slow'; f.el.dataset.face = v[2]; }
+  while(RP.fi < fxLog.length && fxLog[RP.fi].t <= rt){
+    const x = fxLog[RP.fi++], f = F[x.slot];
+    if(f){ spark(f, x.kind==='block' ? 'love' : x.a.type); if(x.kind==='hit'){ textFx(f.el, 'pow', t(SPEC[x.a.type].pow)); } else textFx(f.el, 'pow good', t('blocked')); }
+  }
+  if(rt >= RP.end + 120){ const n = RP.next; RP = null; finishReplay(n, now); }
+}
+function finishReplay(next, now){
+  stage.classList.remove('replay');
+  SLOTS.forEach(s=>{ F[s].cls = ''; F[s].face = ''; });
+  rec = []; fxLog = [];
+  if(next.match){ phase = 'fight'; startEnding(next.loseTeam); }
+  else enterRoundEnd(next.winTeam, now);
 }
 function enterRoundEnd(winTeam, now){
   phase = 'roundend'; reT0 = now;
@@ -1815,8 +2155,9 @@ function updateEnding(now){
     score[winTeam]++; store.set(scoreKey(), score);
     const rs = rounds===3 ? ` (${E.rw.L}-${E.rw.R})` : '';
     showBanner(`${esc(t('sent',{a:namesOf(E.losers)}))}<small>${esc(t('winner',{b:namesOf(E.winners)}) + rs)}</small>`);
+    if(mode==='online' && mySide && ACTIVE().includes(mySide)) onMatchEnd(team(mySide)===winTeam, E.rw, team(mySide));
   }
-  if(tt >= 8200){ E = null; backToLobby(''); }
+  if(tt >= 8200){ const wasPlayer = mode==='local' || (mySide && ACTIVE().includes(mySide)); E = null; backToLobby(''); rematchOpen = wasPlayer; }
 }
 
 /* ---------------- Items (Gökten hediye) ---------------- */
@@ -1893,7 +2234,7 @@ function pushPresence(force){
   const f = mySide ? F[mySide] : null;
   const inRoom = screen==='room' && !!myRid;
   const p = inRoom ? {
-    app:'ta3', rid: myRid, side: mySide, ready, phase, scene, sceneTs, me: Object.assign({}, myProfile, {name: myProfile.name || (acctMe ? acctMe.nick : '')}), pc: f ? f.pc : 0, pt: f ? f.pt : null,
+    app:'ta3', rid: myRid, side: mySide, ready, phase, scene, sceneTs, me: Object.assign({}, myProfile, {name: myProfile.name || (acctMe ? acctMe.nick : ''), uid: acctMe ? acctMe.uid : null, pv: (acctMe && myPhoto) ? myPhotoVer : 0}), emo: myEmo, hb: f ? f.hb : null, pc: f ? f.pc : 0, pt: f ? f.pt : null,
     mode: gameMode, modeTs, fmt, fmtTs, rounds, roundsTs, seed: mySeed, rw: roundWins, lt: lastLose,
     cbs: f ? f.cbs : 0, cb: f ? f.cb : -1, cba: f ? f.cba : null, ch: f ? f.ch : 0, got: f ? f.got : [],
     x: f ? Math.round(f.x) : 0, y: f ? Math.round(f.y) : 0, cr: f ? f.cr : false, mv: f ? f.mv : 0, fd: f ? f.fd : 1,
@@ -1928,7 +2269,7 @@ function applyRemote(f, pr, now){
     }
   }
   const hs = num(pr.hs, 0);
-  if(hs > f.hs){ if(phase==='fight' && SPEC[pr.ht]) hitVisual(f, pr.ht, now, Math.max(1, Math.round(prevHp - f.hp)), num(pr.ch,0)); }
+  if(hs > f.hs){ if(phase==='fight' && SPEC[pr.ht]){ hitVisual(f, pr.ht, now, Math.max(1, Math.round(prevHp - f.hp)), num(pr.ch,0)); if(mySide && pr.hb === mySide) mstats.landed++; } }
   f.hs = hs;
   const pc = num(pr.pc, 0);
   if(f.pcSeen === undefined) f.pcSeen = pc;
@@ -1942,10 +2283,10 @@ function applyRemote(f, pr, now){
   } else f.pcSeen = pc;
   const cbs = num(pr.cbs, 0);
   if(f.cbsSeen === undefined) f.cbsSeen = cbs;
-  else if(cbs > f.cbsSeen){ f.cbsSeen = cbs; if(phase==='fight') showCombo(num(pr.cb,-1), SLOTS.includes(pr.cba) ? pr.cba : null); }
+  else if(cbs > f.cbsSeen){ f.cbsSeen = cbs; if(phase==='fight'){ showCombo(num(pr.cb,-1), SLOTS.includes(pr.cba) ? pr.cba : null); if(mySide && pr.cba === mySide) mstats.combos++; } }
   else f.cbsSeen = cbs;
 }
-const IN_GAME = ['countdown','fight','roundend','ending'];
+const IN_GAME = ['countdown','fight','replay','roundend','ending'];
 function computeRooms(all){
   const info = {};
   for(const id of ROOMS){
@@ -1972,6 +2313,15 @@ function processRoom(now){
   const others = all.filter(p=>p.presence.rid===myRid);
   const lp = others.find(p=>p.presence.side==='L');
   for(const p of others){
+    const em = p.presence.emo;
+    if(!em && seenEmo[p.peer] === undefined) seenEmo[p.peer] = null;
+    if(em && typeof em.id==='number' && typeof em.e==='number'){
+      if(seenEmo[p.peer] === undefined) seenEmo[p.peer] = em.id;
+      else if(em.id !== seenEmo[p.peer]){ seenEmo[p.peer] = em.id; spawnEmoji(em.e); }
+    }
+  }
+  specCount = others.filter(p=>!ACTIVE().includes(p.presence.side)).length + (mySide && ACTIVE().includes(mySide) ? 0 : 1);
+  for(const p of others){
     const pr = p.presence;
     const st = num(pr.sceneTs, 0);
     if(st > sceneTs && (pr.scene==='adana' || pr.scene==='hatay')) setScene(pr.scene, st);
@@ -1987,10 +2337,10 @@ function processRoom(now){
       const L = num(pr.rw.L, 0), R = num(pr.rw.R, 0);
       const behind = L + R > roundWins.L + roundWins.R && L < 3 && R < 3;
       if(pr.phase==='ending' && (phase==='fight' || phase==='roundend') && (pr.lt==='L' || pr.lt==='R')){ if(behind) roundWins = {L, R}; startEnding(pr.lt); }
-      else if(behind){
+      else if(behind && phase!=='replay'){
         const winTeam = L > roundWins.L ? 'L' : 'R';
         roundWins = {L, R};
-        if(phase==='fight' && (pr.phase==='roundend' || pr.phase==='countdown')) enterRoundEnd(winTeam, now - 1200);
+        if(phase==='fight' && ['replay','roundend','countdown'].includes(pr.phase)) startReplay({match: Math.max(L,R) >= need(), loseTeam: winTeam==='L' ? 'R' : 'L', winTeam}, now);
       }
     }
   }
@@ -2018,8 +2368,17 @@ function processRoom(now){
   const act = ACTIVE(), rest = act.filter(s=>s!==mySide);
   const okFor = s => { const p = taken[s]; return p && p.presence.ready && p.presence.mode===gameMode && p.presence.fmt===fmt && p.presence.rounds===rounds && ['lobby','countdown','fight'].includes(p.presence.phase); };
   if(phase==='lobby' && mySide && act.includes(mySide) && ready && rest.every(okFor)) startCountdown();
+  if(!(mySide && act.includes(mySide))){
+    const ph = act.map(x=>taken[x]).filter(Boolean).map(p=>p.presence.phase);
+    if(phase==='lobby' && ph.includes('countdown')){ startCountdown(); return; }
+    if(phase==='lobby' && ph.some(x=>['fight','replay','roundend'].includes(x))){
+      resetFighters(); roundSeed = (taken.L ? num(taken.L.presence.seed, 1) : 1) + roundNo();
+      phase = 'fight'; fightT0 = now; cdStart = now - 10000; startItems(); return;
+    }
+    if(phase!=='lobby' && phase!=='ending' && phase!=='replay' && ph.length && ph.every(x=>x==='lobby')){ backToLobby(''); return; }
+  }
   if(phase==='countdown' && !rest.every(s=>taken[s] && taken[s].presence.ready)) backToLobby(t('notReady'));
-  if(phase==='fight' || phase==='roundend'){
+  if(phase==='fight' || phase==='roundend' || phase==='replay'){
     const bad = rest.some(s=>!taken[s] || (taken[s].presence.phase==='lobby' && !taken[s].presence.ready));
     if(bad){
       if(!missingSince) missingSince = now;
@@ -2044,8 +2403,9 @@ let fbAuth = null, fbDb = null, acctMe = null, guest = false, authTab = 'in';
 const ACCOUNTS = VARIANT.accounts === true;
 let authState = !ACCOUNTS ? 'off' : fbReady ? 'checking' : 'nocfg';
 if(!ACCOUNTS) guest = true;
-const acct = {requests:{}, invites:{}, friends:{}, fstatus:{}, fnick:{}};
-let fbOffs = [], friendOffs = {};
+const acct = {requests:{}, invites:{}, friends:{}, fstatus:{}, fnick:{}, coupleReq:{}, myClaim:null, partnerClaim:null, ranking:{}, fphoto:{}};
+let fbOffs = [], friendOffs = {}, partnerOff = null;
+const partnerUid = () => (acct.myClaim && acct.partnerClaim === (acctMe && acctMe.uid)) ? acct.myClaim : null;
 const nickOk = n => /^[a-z0-9_]{3,16}$/.test(n);
 const emailOf = n => `${n}@tripareana.app`;
 const TS = () => (window.firebase && firebase.database && firebase.database.ServerValue) ? firebase.database.ServerValue.TIMESTAMP : Date.now();
@@ -2082,7 +2442,8 @@ if(ACCOUNTS && fbReady){
 function onAuth(user){
   fbOffs.forEach(f=>f()); fbOffs = [];
   Object.values(friendOffs).forEach(f=>f()); friendOffs = {};
-  acct.requests = {}; acct.invites = {}; acct.friends = {}; acct.fstatus = {}; acct.fnick = {};
+  acct.requests = {}; acct.invites = {}; acct.friends = {}; acct.fstatus = {}; acct.fnick = {}; acct.coupleReq = {}; acct.myClaim = null; acct.partnerClaim = null; acct.ranking = {};
+  if(partnerOff){ partnerOff(); partnerOff = null; }
   if(!user){ acctMe = null; authState = 'out'; guest = false; lastUi = ''; lastMenu = ''; lastAcct = ''; return; }
   const nick = (user.email || '').split('@')[0];
   acctMe = {uid: user.uid, nick};
@@ -2108,6 +2469,20 @@ function onAuth(user){
     });
     lastAcct = '';
   }));
+  fbOffs.push(watch('coupleReq/'+acctMe.uid, v=>{
+    const prev = acct.coupleReq; acct.coupleReq = v || {};
+    Object.keys(acct.coupleReq).forEach(uid=>{ if(!prev[uid]){ const n = acct.coupleReq[uid].nick || '?'; toast(esc(t('loveReqToast',{n})), [[t('accept'), ()=>acceptCouple(uid), 'go'], [t('decline'), ()=>declineCouple(uid)]]); sfx.love(); } });
+    lastAcct = '';
+  }));
+  fbOffs.push(watch('couples/'+acctMe.uid, v=>{
+    acct.myClaim = typeof v === 'string' ? v : null;
+    if(partnerOff){ partnerOff(); partnerOff = null; }
+    acct.partnerClaim = null;
+    if(acct.myClaim) partnerOff = watch('couples/'+acct.myClaim, w=>{ acct.partnerClaim = typeof w === 'string' ? w : null; lastAcct = ''; });
+    lastAcct = '';
+  }));
+  fbOffs.push(watch('coupleStats', v=>{ acct.ranking = v || {}; lastAcct = ''; }));
+  if(myPhoto && myPhotoVer) dbRef('users/'+acctMe.uid).update({photo: myPhoto, pv: myPhotoVer}).catch(()=>{});
   fbOffs.push(watch('friends/'+acctMe.uid, v=>{
     acct.friends = v || {};
     Object.keys(friendOffs).forEach(uid=>{ if(!acct.friends[uid]){ friendOffs[uid](); delete friendOffs[uid]; delete acct.fstatus[uid]; } });
@@ -2115,7 +2490,8 @@ function onAuth(user){
       if(friendOffs[uid]) return;
       const a = watch('status/'+uid, s=>{ acct.fstatus[uid] = s || {}; lastAcct = ''; });
       const b = watch('users/'+uid+'/nick', n=>{ acct.fnick[uid] = n || '?'; lastAcct = ''; });
-      friendOffs[uid] = () => { a(); b(); };
+      const c = watch('users/'+uid+'/pv', pv=>{ if(typeof pv === 'number' && pv) acct.fphoto[uid] = pv; else delete acct.fphoto[uid]; lastAcct = ''; });
+      friendOffs[uid] = () => { a(); b(); c(); };
     });
     lastAcct = '';
   }));
@@ -2213,7 +2589,7 @@ function sendInvite(uid){
     joinRoom(rid);
   }
   dbRef('invites/'+uid+'/'+acctMe.uid).set({nick: acctMe.nick, room: rid, at: TS()}).then(()=>toast(esc(t('vsSent',{n: acct.fnick[uid] || '?', r: t('room_'+rid)})))).catch(()=>toast(esc(t('errGeneric'))));
-  if(fdlg.open && fdlg.close) fdlg.close();
+  closeDlg(fdlg); closeDlg(pdlg);
 }
 function acceptInvite(uid){
   const iv = acct.invites[uid];
@@ -2227,6 +2603,177 @@ function acceptInvite(uid){
   if(fdlg.open && fdlg.close) fdlg.close();
 }
 function declineInvite(uid){ if(acctMe) dbRef('invites/'+acctMe.uid+'/'+uid).remove().catch(()=>{}); }
+function watchFriend(uid){
+  const st = acct.fstatus[uid] || {};
+  if(!st.online || !st.room || !ROOMS.includes(st.room)){ toast(esc(t('watchNo'))); return; }
+  if(IN_GAME.includes(phase) && mySide && ACTIVE().includes(mySide)){ toast(esc(t('vsSelfBusy'))); return; }
+  if(screen==='room') leaveRoom();
+  joinRoom(st.room, true);
+  closeDlg(fdlg); closeDlg(pdlg);
+}
+/* ---- couples ---- */
+function sendCouple(uid){
+  if(!acctMe) return;
+  if(partnerUid()){ toast(esc(t('loveHave'))); return; }
+  dbRef('coupleReq/'+uid+'/'+acctMe.uid).set({nick: acctMe.nick, at: TS()}).then(()=>toast(esc(t('loveSent',{n: acct.fnick[uid] || '?'})))).catch(()=>toast(esc(t('errGeneric'))));
+}
+async function acceptCouple(uid){
+  if(!acctMe) return;
+  if(partnerUid() && partnerUid() !== uid){ toast(esc(t('loveHave'))); return; }
+  try{
+    await dbRef('couples/'+uid).set(acctMe.uid);
+    await dbRef('couples/'+acctMe.uid).set(uid);
+    await dbRef('coupleReq/'+acctMe.uid+'/'+uid).remove();
+    toast(esc(t('loveNow',{n: acct.fnick[uid] || '?'}))); sfx.love();
+  }catch(e){ toast(esc(t('errGeneric'))); }
+}
+function declineCouple(uid){ if(acctMe) dbRef('coupleReq/'+acctMe.uid+'/'+uid).remove().catch(()=>{}); }
+function breakUp(){
+  const p = partnerUid(); if(!acctMe || !p) return;
+  if(!confirm(t('breakConfirm'))) return;
+  dbRef('couples/'+acctMe.uid).remove().catch(()=>{});
+  dbRef('couples/'+p).remove().catch(()=>{});
+}
+/* ---- stats (karne) ---- */
+function onMatchEnd(won, rw, myTeam){
+  if(!ACCOUNTS || !acctMe || !fbDb) return;
+  const rWon = rw[myTeam] || 0, rLost = rw[myTeam==='L' ? 'R' : 'L'] || 0, m = Object.assign({}, mstats);
+  dbRef('users/'+acctMe.uid+'/stats').transaction(s=>{
+    s = s || {};
+    const inc = (k, n) => { s[k] = (s[k] || 0) + n; };
+    inc('games', 1); inc(won ? 'wins' : 'losses', 1); inc('roundsWon', rWon); inc('roundsLost', rLost);
+    inc('combos', m.combos); inc('blocks', m.blocks); inc('slaps', m.trip); inc('kicks', m.insult); inc('landed', m.landed);
+    if(!won) inc('space', 1);
+    s.streak = won ? (s.streak || 0) + 1 : 0; s.best = Math.max(s.best || 0, s.streak); s.last = Date.now();
+    return s;
+  }).catch(()=>{});
+  const p = partnerUid();
+  if(p){
+    const uids = ACTIVE().map(x => x===mySide ? acctMe.uid : (remoteProfiles[x] && remoteProfiles[x].uid)).filter(Boolean);
+    if(uids.includes(p) && acctMe.uid < p){
+      const cid = acctMe.uid + '_' + p;
+      dbRef('coupleStats/'+cid).transaction(c=>{
+        c = c || {};
+        c.games = (c.games || 0) + 1; c.a = acctMe.uid; c.b = p; c.na = acctMe.nick; c.nb = acct.fnick[p] || c.nb || '?'; c.last = Date.now();
+        return c;
+      }).catch(()=>{});
+    }
+  }
+}
+function grade(st){
+  const g = st.games || 0;
+  if(g < 3) return {g:'—', c: t('gradeNone')};
+  const wr = (st.wins || 0) / g;
+  const sc = wr*60 + Math.min(g/30, 1)*20 + Math.min((st.combos||0)/g/1.5, 1)*10 + Math.min((st.blocks||0)/g/2, 1)*10;
+  const L = [[90,'AA'],[80,'BA'],[70,'BB'],[60,'CB'],[50,'CC'],[40,'DC'],[30,'DD'],[0,'FF']].find(x=>sc>=x[0])[1];
+  return {g:L, c: t('grade'+L)};
+}
+const pdlg = $('#profDlg');
+function closeDlg(d){ if(d && d.open){ if(d.close) d.close(); else d.removeAttribute('open'); } }
+function openDlg(d){ if(d.showModal) d.showModal(); else d.setAttribute('open',''); }
+let profUid = null, profOff = null, profStats = {};
+function openProfile(uid){
+  profUid = uid; profStats = {};
+  if(profOff) profOff();
+  profOff = watch('users/'+uid+'/stats', v=>{ profStats = v || {}; renderProfile(); });
+  renderProfile(); openDlg(pdlg);
+}
+$('#profClose').addEventListener('click', ()=>closeDlg(pdlg));
+pdlg.addEventListener('close', ()=>{ if(profOff){ profOff(); profOff = null; } });
+function avatarHtml(uid, nick, big){
+  const pv = uid===(acctMe && acctMe.uid) ? (myPhoto ? 1 : 0) : acct.fphoto[uid];
+  const src = uid===(acctMe && acctMe.uid) ? myPhoto : (pv ? photoFor(uid, pv) : '');
+  return src ? `<img class="ava${big?' big':''}" src="${src}" alt="">` : `<span class="ava${big?' big':''} ph0">${esc((nick||'?').slice(0,1).toUpperCase())}</span>`;
+}
+function renderProfile(){
+  if(!profUid || !acctMe) return;
+  const mine = profUid === acctMe.uid, nick = mine ? acctMe.nick : (acct.fnick[profUid] || '?');
+  const st = profStats || {}, gr = grade(st), g = st.games || 0;
+  const pct = g ? Math.round((st.wins||0)/g*100) + '%' : '—';
+  const p = partnerUid();
+  const love = mine ? (p ? `💗 ${esc(acct.fnick[p] || '?')}` : '') : (p === profUid ? `💗 ${esc(t('yourLove'))}` : '');
+  const cell = (k, v) => `<div class="stat"><b>${v}</b><span>${t(k)}</span></div>`;
+  let acts = '';
+  if(!mine){
+    const fst = acct.fstatus[profUid] || {};
+    acts += fst.playing ? `<button class="sbtn go" type="button" data-pact="watch">${t('watch')}</button>` : `<button class="sbtn go" type="button" data-pact="vs" ${fst.online ? '' : 'disabled'}>${t('vsBtn')}</button>`;
+    acts += p === profUid ? `<button class="sbtn" type="button" data-pact="break">💔 ${t('breakUp')}</button>` : (!p ? `<button class="sbtn love-b" type="button" data-pact="love">💗 ${t('makeLove')}</button>` : '');
+    acts += `<button class="link" type="button" data-pact="rm">${t('remove')}</button>`;
+  } else if(p){ acts += `<button class="sbtn" type="button" data-pact="break">💔 ${t('breakUp')}</button>`; }
+  $('#profBody').innerHTML = `<div class="prof-head">${avatarHtml(profUid, nick, true)}<div><h2>${esc(nick)}</h2><div class="muted">${love}</div></div></div>
+    <div class="karne"><div class="kn">${gr.g}</div><div><b>${t('karneNote')}</b><div class="muted small">${esc(gr.c)}</div></div></div>
+    <div class="stats">${cell('sGames', g)}${cell('sWins', st.wins||0)}${cell('sLosses', st.losses||0)}${cell('sRate', pct)}${cell('sRounds', st.roundsWon||0)}${cell('sCombos', st.combos||0)}${cell('sBlocks', st.blocks||0)}${cell('sLanded', st.landed||0)}${cell('sSpace', st.space||0)}${cell('sBest', st.best||0)}</div>
+    <div class="row-act wrap">${acts}</div>`;
+}
+pdlg.addEventListener('click', e=>{
+  const b = e.target.closest('[data-pact]'); if(!b || !profUid) return;
+  const a = b.dataset.pact;
+  if(a==='vs'){ closeDlg(pdlg); sendInvite(profUid); }
+  else if(a==='watch') watchFriend(profUid);
+  else if(a==='love') sendCouple(profUid);
+  else if(a==='break') breakUp();
+  else if(a==='rm'){ removeFriend(profUid); closeDlg(pdlg); }
+  setTimeout(renderProfile, 300);
+});
+/* ---- face photo ---- */
+let faceDet = null;
+async function getDetector(){
+  if(faceDet) return faceDet;
+  const mod = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3');
+  const vision = mod.FaceDetector ? mod : (mod.default || mod);
+  const fileset = await vision.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm');
+  faceDet = await vision.FaceDetector.createFromOptions(fileset, {
+    baseOptions: {modelAssetPath: 'https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite', delegate: 'CPU'},
+    runningMode: 'IMAGE', minDetectionConfidence: 0.6
+  });
+  return faceDet;
+}
+function loadImg(file){
+  return new Promise((res, rej)=>{ const u = URL.createObjectURL(file); const im = new Image(); im.onload = ()=>{ res(im); }; im.onerror = rej; im.src = u; });
+}
+async function handlePhoto(file){
+  const msg = $('#phMsg'); if(!msg) return;
+  if(!file) return;
+  if(!acctMe){ msg.textContent = t('phNeedLogin'); return; }
+  msg.textContent = t('phChecking');
+  let im;
+  try{ im = await loadImg(file); }catch(e){ msg.textContent = t('phBad'); return; }
+  const maxS = 960, sc = Math.min(1, maxS / Math.max(im.naturalWidth, im.naturalHeight));
+  const cv = document.createElement('canvas'); cv.width = Math.round(im.naturalWidth*sc); cv.height = Math.round(im.naturalHeight*sc);
+  cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
+  let det;
+  try{ det = await getDetector(); }catch(e){ msg.textContent = t('phLoadFail'); return; }
+  let r;
+  try{ r = det.detect(cv); }catch(e){ msg.textContent = t('phBad'); return; }
+  const faces = (r && r.detections || []).filter(d => d.categories && d.categories[0] && d.categories[0].score >= 0.6);
+  if(faces.length === 0){ msg.textContent = t('phNoFace'); return; }
+  if(faces.length > 1){ msg.textContent = t('phMany'); return; }
+  const bb = faces[0].boundingBox;
+  if(bb.width < cv.width*0.12 && bb.height < cv.height*0.12){ msg.textContent = t('phSmall'); return; }
+  const side = Math.min(Math.max(bb.width, bb.height) * 1.55, cv.width, cv.height);
+  let sx = bb.originX + bb.width/2 - side/2, sy = bb.originY + bb.height*0.42 - side/2;
+  sx = Math.max(0, Math.min(cv.width - side, sx)); sy = Math.max(0, Math.min(cv.height - side, sy));
+  const out = document.createElement('canvas'); out.width = out.height = 128;
+  out.getContext('2d').drawImage(cv, sx, sy, side, side, 0, 0, 128, 128);
+  const data = out.toDataURL('image/jpeg', 0.78);
+  myPhoto = data; myPhotoVer = Date.now();
+  try{ localStorage.setItem('ta3-photo', myPhoto); localStorage.setItem('ta3-photo-v', String(myPhotoVer)); }catch(e){}
+  dbRef('users/'+acctMe.uid).update({photo: myPhoto, pv: myPhotoVer}).catch(()=>{});
+  msg.textContent = t('phOk');
+  lookKeys = {}; refreshLooks(true); pushPresence(true); renderPhotoBox();
+}
+function removePhoto(){
+  myPhoto = ''; myPhotoVer = 0;
+  try{ localStorage.removeItem('ta3-photo'); localStorage.removeItem('ta3-photo-v'); }catch(e){}
+  if(acctMe) dbRef('users/'+acctMe.uid).update({photo: null, pv: null}).catch(()=>{});
+  const m = $('#phMsg'); if(m) m.textContent = '';
+  lookKeys = {}; refreshLooks(true); pushPresence(true); renderPhotoBox();
+}
+function renderPhotoBox(){
+  const box = document.getElementById('phBox'); if(!box) return;
+  const pv = document.getElementById('phPrev'); if(pv) pv.innerHTML = myPhoto ? `<img class="ava big" src="${myPhoto}" alt="">` : `<span class="ava big ph0">?</span>`;
+  const rm = document.getElementById('phRemove'); if(rm) rm.hidden = !myPhoto;
+}
 const fdlg = $('#friendsDlg');
 $('#btnFriends').addEventListener('click', ()=>{ lastAcct = ''; renderAccount(); if(fdlg.showModal) fdlg.showModal(); else fdlg.setAttribute('open',''); });
 $('#frClose').addEventListener('click', ()=>{ if(fdlg.close) fdlg.close(); else fdlg.removeAttribute('open'); });
@@ -2236,8 +2783,12 @@ fdlg.addEventListener('click', e=>{
   if(act==='acc') acceptRequest(uid); else if(act==='dec') declineRequest(uid);
   else if(act==='ijoin') acceptInvite(uid); else if(act==='idec') declineInvite(uid);
   else if(act==='vs') sendInvite(uid); else if(act==='rm') removeFriend(uid);
+  else if(act==='watch') watchFriend(uid); else if(act==='prof') openProfile(uid);
+  else if(act==='lacc') acceptCouple(uid); else if(act==='ldec') declineCouple(uid);
 });
-let lastAcct = '';
+let lastAcct = '', frTab = 'friends';
+$('#frTabs').addEventListener('click', e=>{ const b = e.target.closest('[data-ft]'); if(!b) return; frTab = b.dataset.ft; lastAcct = ''; renderAccount(); });
+$('#btnMyCard').addEventListener('click', ()=>{ if(acctMe) openProfile(acctMe.uid); });
 function friendStatusText(st){
   if(!st || !st.online) return t('stOffline');
   if(st.playing) return t('stPlaying', {r: t('room_'+st.room)});
@@ -2246,10 +2797,10 @@ function friendStatusText(st){
 }
 function renderAccount(){
   const reqIds = Object.keys(acct.requests), invIds = Object.keys(acct.invites).filter(u=>freshInvite(acct.invites[u]));
-  const nCount = reqIds.length + invIds.length;
+  const nCount = reqIds.length + invIds.length + Object.keys(acct.coupleReq).length;
   const fr = Object.keys(acct.friends).map(uid=>({uid, nick: acct.fnick[uid] || '…', st: acct.fstatus[uid] || {}}));
   fr.sort((a,b)=> (b.st.online?1:0) - (a.st.online?1:0) || a.nick.localeCompare(b.nick));
-  const key = [lang, authState, acctMe && acctMe.nick, nCount, JSON.stringify(fr), JSON.stringify(acct.requests), invIds.join(','), phase, screen].join('|');
+  const key = [lang, authState, acctMe && acctMe.nick, nCount, JSON.stringify(fr), JSON.stringify(acct.requests), JSON.stringify(acct.coupleReq), invIds.join(','), phase, screen, acct.myClaim, acct.partnerClaim, JSON.stringify(acct.ranking), JSON.stringify(acct.fphoto), frTab].join('|');
   if(key === lastAcct) return; lastAcct = key;
   const logged = authState==='in';
   $('#acctSec').hidden = false;
@@ -2259,11 +2810,18 @@ function renderAccount(){
   $('#btnLogout').hidden = !(logged || guest);
   if(!logged) return;
   $('#myNick').textContent = t('yourNick',{n: acctMe.nick});
+  document.querySelectorAll('#frTabs [data-ft]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.ft===frTab)));
+  document.querySelectorAll('#friendsDlg [data-pane]').forEach(el=>el.hidden = el.dataset.pane !== frTab);
   const notif = [];
   reqIds.forEach(uid=>notif.push(`<li class="row"><span>${esc(t('reqRow',{n: acct.requests[uid].nick || '?'}))}</span><span class="row-act"><button class="sbtn go" type="button" data-act="acc" data-uid="${esc(uid)}">${t('accept')}</button><button class="sbtn" type="button" data-act="dec" data-uid="${esc(uid)}">${t('decline')}</button></span></li>`));
   invIds.forEach(uid=>{ const iv = acct.invites[uid]; notif.push(`<li class="row"><span>${esc(t('invRow',{n: iv.nick || '?', r: t('room_'+iv.room)}))}</span><span class="row-act"><button class="sbtn go" type="button" data-act="ijoin" data-uid="${esc(uid)}">${t('join')}</button><button class="sbtn" type="button" data-act="idec" data-uid="${esc(uid)}">${t('decline')}</button></span></li>`); });
   $('#notifList').innerHTML = notif.length ? notif.join('') : `<li class="muted">${t('noNotif')}</li>`;
-  $('#friendList').innerHTML = fr.length ? fr.map(f=>`<li class="row"><span class="fr"><i class="dot-on${f.st.online ? ' on' : ''}"></i><b>${esc(f.nick)}</b><span class="muted small">${esc(friendStatusText(f.st))}</span></span><span class="row-act"><button class="sbtn go" type="button" data-act="vs" data-uid="${esc(f.uid)}" ${f.st.online && !f.st.playing ? '' : 'disabled'}>${t('vsBtn')}</button><button class="link" type="button" data-act="rm" data-uid="${esc(f.uid)}">${t('remove')}</button></span></li>`).join('') : `<li class="muted">${t('noFriends')}</li>`;
+  const pU = partnerUid();
+  $('#friendList').innerHTML = fr.length ? fr.map(f=>`<li class="row"><button class="fr fr-btn" type="button" data-act="prof" data-uid="${esc(f.uid)}">${avatarHtml(f.uid, f.nick)}<i class="dot-on${f.st.online ? ' on' : ''}"></i><b>${esc(f.nick)}${f.uid===pU ? ' 💗' : ''}</b><span class="muted small">${esc(friendStatusText(f.st))}</span></button><span class="row-act">${f.st.playing ? `<button class="sbtn go" type="button" data-act="watch" data-uid="${esc(f.uid)}">${t('watch')}</button>` : `<button class="sbtn go" type="button" data-act="vs" data-uid="${esc(f.uid)}" ${f.st.online ? '' : 'disabled'}>${t('vsBtn')}</button>`}</span></li>`).join('') : `<li class="muted">${t('noFriends')}</li>`;
+  const cr = Object.keys(acct.coupleReq);
+  if(cr.length) $('#notifList').innerHTML = cr.map(uid=>`<li class="row"><span>${esc(t('loveReqRow',{n: acct.coupleReq[uid].nick || '?'}))}</span><span class="row-act"><button class="sbtn go" type="button" data-act="lacc" data-uid="${esc(uid)}">${t('accept')}</button><button class="sbtn" type="button" data-act="ldec" data-uid="${esc(uid)}">${t('decline')}</button></span></li>`).join('') + (notif.length ? notif.join('') : '');
+  const rk = Object.values(acct.ranking || {}).filter(c=>c && c.games).sort((x,y)=>(y.games||0)-(x.games||0) || (y.last||0)-(x.last||0)).slice(0, 20);
+  $('#rankList').innerHTML = rk.length ? rk.map((c,i)=>`<li class="row rank${(c.a===acctMe.uid||c.b===acctMe.uid) ? ' mine' : ''}"><span class="rk-n">${i+1}</span><span class="rk-c"><b>${esc(c.na||'?')}</b> 💗 <b>${esc(c.nb||'?')}</b></span><span class="rk-g">${t('rankGames',{n:c.games})}</span></li>`).join('') : `<li class="muted">${t('rankEmpty')}</li>`;
 }
 
 /* ---------------- Install (PWA) ---------------- */
@@ -2314,6 +2872,7 @@ if(ACCOUNTS && 'serviceWorker' in navigator && location.protocol === 'https:') n
 function renderFighter(f, now){
   const act = ACTIVE().includes(f.slot);
   if(!act){ if(f.cls !== 'fighter off'){ f.el.className = 'fighter off'; f.cls = 'fighter off'; } return; }
+  if(phase==='replay') return;
   const attacking = f.atk && now - f.atk.start < SPEC[f.atk.type].dur;
   if(!f.local && f.atk && !attacking) f.atk = null;
   if(!f.local && !f.custom && phase!=='ending'){ f.dispX = lerp(f.dispX, f.tx, 1 - Math.exp(-dt*18)); }
@@ -2344,12 +2903,17 @@ function renderFighter(f, now){
   }
   if(f.custom) cls.push('custom');
   if(f.ghost && mode==='online' && screen==='room') cls.push('ghost');
+  const winPose = (phase==='roundend' && alive(f)) || (ending && E && E.winners.includes(f.slot) && now - E.t0 > 3600);
+  if(winPose && look[f.slot]){
+    cls.push('pose-' + (look[f.slot].pose || 'dance'));
+    if(look[f.slot].pose==='heart' && now - (f.lastHeart||0) > 380){ f.lastHeart = now; textFx(f.el, 'heartpop', '♥'); }
+  }
   const c = cls.join(' ');
   if(c !== f.cls){ f.el.className = c; f.cls = c; }
   let face = 'normal';
   if(ending){ face = E && E.losers.includes(f.slot) ? 'hurt' : (E && now - E.t0 > 3600 ? 'love' : 'normal'); }
   else if(ko) face = 'hurt';
-  else if(phase==='roundend') face = 'love';
+  else if(phase==='roundend') face = winPose ? 'love' : 'normal';
   else if(f.loveUntil > now) face = 'love';
   else if(f.flashUntil > now || f.stunUntil > now) face = 'hurt';
   else if(attacking) face = f.atk.type==='love' ? 'love' : 'angry';
@@ -2416,8 +2980,11 @@ function renderMenu(){
     li.querySelector('.room-state').textContent = st;
     li.classList.toggle('busy', info.inGame || info.seated >= info.cap);
     li.classList.toggle('waiting', !info.inGame && info.count > 0 && info.seated < info.cap);
-    const b = li.querySelector('.join'); b.textContent = t('join');
-    b.disabled = off || !room || connState==='connecting' || info.inGame || info.seated >= info.cap;
+    const b = li.querySelector('.join');
+    const busy = info.inGame || info.seated >= info.cap;
+    b.textContent = busy ? t('watch') : t('join');
+    b.dataset.spec = busy ? '1' : '0';
+    b.disabled = off || !room || connState==='connecting' || (busy && info.count === 0);
   });
 }
 function renderAuth(){
@@ -2460,15 +3027,20 @@ function renderUi(){
   $('#menu').hidden = screen!=='menu';
   if(screen==='menu'){ renderMenu(); $('#lobby').hidden = true; $('#padWrap').hidden = true; return; }
   const lobbyOn = phase==='lobby';
-  const padOn = (phase==='countdown' || phase==='fight' || phase==='roundend') && (mode==='local' || !!mySide);
+  const padOn = ['countdown','fight','roundend','replay'].includes(phase) && (mode==='local' || (!!mySide && ACTIVE().includes(mySide)));
+  const spec = mode==='online' && screen==='room' && !(mySide && ACTIVE().includes(mySide)) && phase!=='lobby';
+  $('#specBar').hidden = !spec;
+  $('#rematch').hidden = !(rematchOpen && phase==='lobby');
+  if(rematchOpen && phase==='lobby') renderRematch();
   const cs = controlSide();
   const f = cs ? F[cs] : null;
   const act = ACTIVE(), duo = effFmt()==='2v2';
   const dims = f ? ['trip','insult','love'].map(x=>f.en < SPEC[x].cost ? 1 : 0).join('') + (performance.now() < f.loveCd ? 'c' : '') : '';
   const tk = SLOTS.map(s=>taken[s] ? (taken[s].presence.ready ? 2 : 1) : 0).join('');
-  const key = [lang, roomCount, gameMode, fmt, rounds, mode, phase, mySide, ready, connState, tk, note, SLOTS.map(nameOf).join(','), dims, padOn, f && alive(f), myRid].join('|');
+  const key = [lang, roomCount, specCount, gameMode, fmt, rounds, mode, phase, mySide, ready, connState, tk, note, SLOTS.map(nameOf).join(','), dims, padOn, f && alive(f), myRid].join('|');
   if(key === lastUi) return; lastUi = key;
   $('#lobby').hidden = !lobbyOn;
+  $('#specCount').textContent = specCount > 0 && mode==='online' ? `👀 ${specCount}` : '';
   $('#padWrap').hidden = !padOn;
   $('#roomTitle').textContent = mode==='local' ? t('localRoom') : t('room_'+myRid);
   $('#btnLeave').textContent = mode==='local' ? t('backMenu') : t('leaveRoom');
@@ -2556,10 +3128,12 @@ function frame(now){
     if(now - reT0 > 2800){ hideBanner(); startCountdown(); }
   } else count.classList.remove('show');
   if(phase==='ending' && E) updateEnding(now);
+  if(phase==='replay' && RP) updateReplay(now);
   if(phase!=='fight') stage.classList.remove('stop');
   SLOTS.forEach(s=>{ inputs[s].press = {}; });
   refreshLooks();
   SLOTS.forEach(s=>renderFighter(F[s], now));
+  recordFrame(now);
   renderHud(now);
   renderUi();
   if(ACCOUNTS){ renderAccount(); pushStatus(false); }
