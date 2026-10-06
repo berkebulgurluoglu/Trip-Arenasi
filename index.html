@@ -2,7 +2,8 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" id="vpMeta" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#2B1B2E">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -284,6 +285,20 @@ dialog h4{margin:6px 0 4px;font-size:.95rem}
 .fighter.hitflash .lean{transform:rotate(calc(-10deg * var(--fd)))}
 .stage.stop *{animation-play-state:paused !important}
 
+html,body{overscroll-behavior:none;touch-action:manipulation;width:100%;max-width:100vw}
+html{height:100%;-webkit-overflow-scrolling:touch}
+body{min-height:100%;min-height:100dvh;position:relative}
+input,textarea,select{font-size:max(16px,1em) !important}
+button,.btn,.sbtn,.link,.tabs,.modes,.hud,.stage,label,.shop-item,.room,.toast{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea{-webkit-user-select:text;user-select:text}
+img,svg{-webkit-user-drag:none}
+.wrap{width:100%;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+dialog{max-width:94vw;max-height:88vh;max-height:88dvh}
+
+
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body.land.ingame .stage{height:-webkit-fill-available;height:100dvh}
+
 .v-hs{display:none}
 [data-hs="kisa"] .v-hs-kisa,[data-hs="kivircik"] .v-hs-kivircik,[data-hs="dik"] .v-hs-dik,[data-hs="uzun"] .v-hs-uzun,[data-hs="atkuyrugu"] .v-hs-atkuyrugu,[data-hs="topuz"] .v-hs-topuz,[data-hs="kakul"] .v-hs-kakul,[data-hs="kel"] .v-hs-kel{display:inline}
 .v-gl{display:none}
@@ -325,7 +340,7 @@ dialog h4{margin:6px 0 4px;font-size:.95rem}
 .ja.u{top:8px;left:50%;transform:translateX(-50%)} .ja.d{bottom:8px;left:50%;transform:translateX(-50%)}
 .ja.l{left:9px;top:50%;transform:translateY(-50%)} .ja.r{right:9px;top:50%;transform:translateY(-50%)}
 body.ctl-joy .joy{display:block} body.ctl-joy .dpad{display:none}
-@media (orientation:landscape) and (max-height:560px){ body.ingame #padWrap .joy{pointer-events:auto;width:128px;height:128px;opacity:.85} }
+body.land.ingame #padWrap .joy{pointer-events:auto;width:128px;height:128px;opacity:.85}
 
 .menu-conn-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .menu-conn-row .conn{margin:0}
@@ -347,19 +362,17 @@ body.installing #install .muted{color:rgba(255,255,255,.8)}
 body.installing #install .land-card .muted{color:#7A6470}
 .land-card .ist p{margin:8px 0}
 .land-card .steps{text-align:left}
-@media (orientation:portrait) and (max-width:700px){
-  body.ingame header,body.ingame #helpRow{display:none}
-  body.ingame .wrap{padding:6px 8px 10px}
-  body.ingame .stage{aspect-ratio:auto;height:min(62vh,125vw);height:min(62dvh,125vw);border-radius:16px}
-  body.ingame .sbtn.quit{white-space:nowrap;font-size:.85rem;padding:3px 10px}
-  body.ingame .stage .fighter{width:21%}
-  body.ingame #padWrap{margin-top:8px;padding:10px 12px}
-  body.ingame .pad{gap:10px}
-  body.ingame .dpad{grid-template-columns:repeat(3,62px);grid-template-rows:repeat(2,58px);gap:6px}
-  body.ingame .atk{flex:1;max-width:58%}
-  body.ingame .atk .btn{min-height:54px}
-  body.ingame .pad-top{margin:0 0 6px}
-}
+  body.port.ingame header,body.port.ingame #helpRow{display:none}
+  body.port.ingame .wrap{padding:6px 8px 10px}
+  body.port.ingame .stage{aspect-ratio:auto;height:min(62vh,125vw);height:min(62dvh,125vw);border-radius:16px}
+  body.port.ingame .sbtn.quit{white-space:nowrap;font-size:.85rem;padding:3px 10px}
+  body.port.ingame .stage .fighter{width:21%}
+  body.port.ingame #padWrap{margin-top:8px;padding:10px 12px}
+  body.port.ingame .pad{gap:10px}
+  body.port.ingame .dpad{grid-template-columns:repeat(3,62px);grid-template-rows:repeat(2,58px);gap:6px}
+  body.port.ingame .atk{flex:1;max-width:58%}
+  body.port.ingame .atk .btn{min-height:54px}
+  body.port.ingame .pad-top{margin:0 0 6px}
 
 .hdr-right{flex-wrap:wrap;justify-content:flex-end}
 @media (max-width:640px){ .hdr-right{justify-content:flex-start} .tabs button{padding:5px 11px;font-size:.92rem} .hdr-right .sbtn{padding:4px 11px;font-size:.92rem} }
@@ -375,26 +388,24 @@ body.installing #install .land-card .muted{color:#7A6470}
 dialog#rankDlg{width:min(520px,94vw);max-height:86vh;overflow:auto;border:3px solid var(--ink);border-radius:20px;background:var(--panel);color:var(--ink);padding:16px 18px}
 dialog#rankDlg::backdrop{background:rgba(43,27,46,.55)}
 .rotate-hint{display:none;margin-right:auto;align-self:center}
-@media (orientation:portrait) and (max-width:700px){ body.ingame .rotate-hint{display:inline} }
-@media (orientation:landscape) and (max-height:560px){
-  body.ingame{overflow:hidden}
-  body.ingame header,body.ingame #helpRow,body.ingame #lobby,body.ingame #menu,body.ingame #auth{display:none !important}
-  body.ingame .wrap{padding:0;max-width:none}
-  body.ingame .stage{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;aspect-ratio:auto;border:0;border-radius:0;z-index:20}
-  body.ingame .stage .fighter{width:13%}
-  body.ingame #padWrap{position:fixed;left:0;right:0;bottom:0;top:0;z-index:25;background:transparent;border:0;padding:0;pointer-events:none;margin:0}
-  body.ingame #padWrap .keys{display:none}
-  body.ingame #padWrap .pad-top{position:absolute;bottom:calc(12px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);margin:0;z-index:2}
-  body.ingame #padWrap .pad-top .quit{pointer-events:auto;background:rgba(255,246,239,.85);font-size:.8rem;padding:2px 10px}
-  body.ingame #padWrap .pad{position:absolute;left:calc(10px + env(safe-area-inset-left,0px));right:calc(10px + env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));align-items:flex-end}
-  body.ingame #padWrap .dpad,body.ingame #padWrap .atk{pointer-events:auto}
-  body.ingame #padWrap .dpad{grid-template-columns:repeat(3,52px);grid-template-rows:repeat(2,48px);gap:6px;opacity:.82}
-  body.ingame #padWrap .atk{flex-direction:column;align-items:stretch;gap:6px;opacity:.88;width:min(190px,28vw)}
-  body.ingame #padWrap .atk .btn{min-height:40px;padding:4px 10px;font-size:.95rem}
-  body.ingame #padWrap .atk .btn small{font-size:.65em}
-  body.ingame #specBar{position:fixed;left:50%;bottom:calc(8px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:25;background:rgba(255,246,239,.88);padding:6px 10px}
-  body.ingame .hud{padding-left:calc(12px + env(safe-area-inset-left,0px));padding-right:calc(12px + env(safe-area-inset-right,0px))}
-}
+body.port.ingame .rotate-hint{display:inline}
+  body.land.ingame{overflow:hidden}
+  body.land.ingame header,body.land.ingame #helpRow,body.land.ingame #lobby,body.land.ingame #menu,body.land.ingame #auth{display:none !important}
+  body.land.ingame .wrap{padding:0;max-width:none}
+  body.land.ingame .stage{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;aspect-ratio:auto;border:0;border-radius:0;z-index:20}
+  body.land.ingame .stage .fighter{width:13%}
+  body.land.ingame #padWrap{position:fixed;left:0;right:0;bottom:0;top:0;z-index:25;background:transparent;border:0;padding:0;pointer-events:none;margin:0}
+  body.land.ingame #padWrap .keys{display:none}
+  body.land.ingame #padWrap .pad-top{position:absolute;bottom:calc(12px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);margin:0;z-index:2}
+  body.land.ingame #padWrap .pad-top .quit{pointer-events:auto;background:rgba(255,246,239,.85);font-size:.8rem;padding:2px 10px}
+  body.land.ingame #padWrap .pad{position:absolute;left:calc(10px + env(safe-area-inset-left,0px));right:calc(10px + env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));align-items:flex-end}
+  body.land.ingame #padWrap .dpad,body.land.ingame #padWrap .atk{pointer-events:auto}
+  body.land.ingame #padWrap .dpad{grid-template-columns:repeat(3,52px);grid-template-rows:repeat(2,48px);gap:6px;opacity:.82}
+  body.land.ingame #padWrap .atk{flex-direction:column;align-items:stretch;gap:6px;opacity:.88;width:min(190px,28vw)}
+  body.land.ingame #padWrap .atk .btn{min-height:40px;padding:4px 10px;font-size:.95rem}
+  body.land.ingame #padWrap .atk .btn small{font-size:.65em}
+  body.land.ingame #specBar{position:fixed;left:50%;bottom:calc(8px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:25;background:rgba(255,246,239,.88);padding:6px 10px}
+  body.land.ingame .hud{padding-left:calc(12px + env(safe-area-inset-left,0px));padding-right:calc(12px + env(safe-area-inset-right,0px))}
 
 .rm-left{width:100%;font-size:.8rem;color:var(--muted)}
 
@@ -2431,6 +2442,30 @@ document.querySelectorAll('.dpad .btn').forEach(b=>{
   ['pointerup','pointercancel','lostpointercapture'].forEach(ev=>b.addEventListener(ev, off));
   b.addEventListener('contextmenu', e=>e.preventDefault());
 });
+/* ---- orientation (class-based so iPhone behaves like Android) ---- */
+function updOrient(){
+  const w = window.innerWidth, h = window.innerHeight;
+  const land = w > h && h <= 600, port = h >= w && w <= 700;
+  document.body.classList.toggle('land', land);
+  document.body.classList.toggle('port', port);
+}
+updOrient();
+/* ---- app-like behaviour: no browser zoom, no bounce ---- */
+['gesturestart','gesturechange','gestureend'].forEach(ev=>document.addEventListener(ev, e=>e.preventDefault(), {passive:false}));
+document.addEventListener('touchmove', e=>{ if(e.touches && e.touches.length > 1) e.preventDefault(); }, {passive:false});
+document.addEventListener('dblclick', e=>{ if(!(e.target.closest && e.target.closest('input,textarea'))) e.preventDefault(); }, {passive:false});
+const VP_BASE = (document.getElementById('vpMeta') || {getAttribute:()=>''}).getAttribute('content');
+let zoomTimer = 0;
+function resetZoom(){
+  const m = document.getElementById('vpMeta'); if(!m || !VP_BASE) return;
+  m.setAttribute('content', VP_BASE + ', shrink-to-fit=no');
+  clearTimeout(zoomTimer); zoomTimer = setTimeout(()=>m.setAttribute('content', VP_BASE), 60);
+}
+addEventListener('orientationchange', ()=>setTimeout(resetZoom, 300));
+document.addEventListener('focusout', e=>{ if(e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) setTimeout(resetZoom, 100); });
+addEventListener('resize', updOrient);
+addEventListener('orientationchange', ()=>{ updOrient(); setTimeout(updOrient, 250); setTimeout(updOrient, 700); });
+if(window.visualViewport) visualViewport.addEventListener('resize', updOrient);
 /* ---- joystick ---- */
 let ctlMode = store.get('ta3-ctl', 'joy'); if(ctlMode !== 'joy' && ctlMode !== 'dpad') ctlMode = 'joy';
 function applyCtl(){ document.body.classList.toggle('ctl-joy', ctlMode === 'joy'); }
@@ -3766,7 +3801,7 @@ function renderUi(){
   const padOn = ['countdown','fight','roundend','replay'].includes(phase) && (mode==='local' || (!!mySide && ACTIVE().includes(mySide)));
   const spec = mode==='online' && screen==='room' && !(mySide && ACTIVE().includes(mySide)) && phase!=='lobby';
   $('#specBar').hidden = !spec;
-  document.body.classList.toggle('ingame', padOn || spec);
+  document.body.classList.toggle('ingame', padOn || spec || (phase==='ending' && screen==='room'));
   $('#rematch').hidden = !(rematchOpen && phase==='lobby');
   $('#quitBox').hidden = !(quitOpen && phase!=='lobby');
   if(quitOpen && phase==='lobby') quitOpen = false;
