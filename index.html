@@ -285,7 +285,8 @@ dialog h4{margin:6px 0 4px;font-size:.95rem}
 .fighter.hitflash .lean{transform:rotate(calc(-10deg * var(--fd)))}
 .stage.stop *{animation-play-state:paused !important}
 
-html,body{overscroll-behavior:none;touch-action:manipulation;width:100%;max-width:100vw}
+html,body{overscroll-behavior:none;touch-action:pan-x pan-y;width:100%;max-width:100vw}
+.app-ver{margin-top:14px;text-align:center;color:var(--muted);font-size:.8rem}
 html{height:100%;-webkit-overflow-scrolling:touch}
 body{min-height:100%;min-height:100dvh;position:relative}
 input,textarea,select{font-size:max(16px,1em) !important}
@@ -714,6 +715,7 @@ dialog#friendsDlg::backdrop{background:rgba(43,27,46,.55)}
   <section><h3 data-i18n="sound"></h3><div class="modes" id="sounds"><button type="button" data-snd="on" data-i18n="soundOn"></button><button type="button" data-snd="off" data-i18n="soundOff"></button></div></section>
   <section><h3 data-i18n="speakH"></h3><div class="modes" id="speaks"><button type="button" data-sp="on" data-i18n="soundOn"></button><button type="button" data-sp="off" data-i18n="soundOff"></button></div><p class="muted small" data-i18n="speakHelp"></p></section>
   <section><h3 data-i18n="characters"></h3><div class="modes" id="charTabs"></div><div id="charEdit"></div></section>
+  <p class="app-ver" id="appVer"></p>
 </dialog>
 
 <dialog id="friendsDlg">
@@ -1159,6 +1161,7 @@ $('#robot').innerHTML = ROBOT_SVG;
 const I18N = {
 tr: {
   title:'Trip Arenası', settings:'Ayarlar', close:'Kapat',
+  version:"Sürüm {n}",
   shopTitle:"Gardırop",
   shopSub:"Bir kategori seç, beğendiğin parçaya dokun; karakterin anında değişir.",
   c_hs:"Saç",
@@ -1404,6 +1407,7 @@ tr: {
 },
 en: {
   title:'Trip Arena', settings:'Settings', close:'Close',
+  version:"Version {n}",
   shopTitle:"Wardrobe",
   shopSub:"Pick a category and tap the piece you like; your character changes instantly.",
   c_hs:"Hair",
@@ -2096,7 +2100,9 @@ document.querySelectorAll('#sounds button').forEach(b=>b.addEventListener('click
 document.querySelectorAll('#speaks button').forEach(b=>b.addEventListener('click', ()=>{ speakOn = b.dataset.sp==='on'; store.set('ta3-speak', speakOn); if(speakOn) say(t('ultL'), 'm'); renderSettings(); }));
 document.querySelectorAll('#ctls button').forEach(b=>b.addEventListener('click', ()=>{ ctlMode = b.dataset.ctl; store.set('ta3-ctl', ctlMode); applyCtl(); joyReset(); renderSettings(); }));
 document.querySelectorAll('#vibs button').forEach(b=>b.addEventListener('click', ()=>{ vibOn = b.dataset.v==='on'; store.set('ta3-vib', vibOn); if(vibOn) buzz('combo'); renderSettings(); }));
+const APP_VERSION = '10';
 function renderSettings(){
+  const vEl = document.getElementById('appVer'); if(vEl) vEl.textContent = t('version',{n: APP_VERSION});
   document.querySelectorAll('#vibs button').forEach(b=>b.setAttribute('aria-pressed', String((b.dataset.v==='on')===vibOn)));
   document.querySelectorAll('#ctls button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.ctl===ctlMode)));
   document.querySelectorAll('#speaks button').forEach(b=>b.setAttribute('aria-pressed', String((b.dataset.sp==='on')===speakOn)));
@@ -2465,7 +2471,7 @@ addEventListener('orientationchange', ()=>setTimeout(resetZoom, 300));
 document.addEventListener('focusout', e=>{ if(e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) setTimeout(resetZoom, 100); });
 addEventListener('resize', updOrient);
 addEventListener('orientationchange', ()=>{ updOrient(); setTimeout(updOrient, 250); setTimeout(updOrient, 700); });
-if(window.visualViewport) visualViewport.addEventListener('resize', updOrient);
+if(window.visualViewport) visualViewport.addEventListener('resize', ()=>{ updOrient(); if(visualViewport.scale > 1.02) resetZoom(); });
 /* ---- joystick ---- */
 let ctlMode = store.get('ta3-ctl', 'joy'); if(ctlMode !== 'joy' && ctlMode !== 'dpad') ctlMode = 'joy';
 function applyCtl(){ document.body.classList.toggle('ctl-joy', ctlMode === 'joy'); }
