@@ -1,5 +1,5 @@
 // Trip Arenası service worker: uygulamanın kabuğunu önbelleğe alır, her açılışta önce sunucudaki en yeni sürümü dener.
-const CACHE = 'trip-arenasi-v11';
+const CACHE = 'trip-arenasi-v12';
 const CORE = ['./', './index.html', './config.js', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE.map(u => new Request(u, {cache: 'reload'})))).then(() => self.skipWaiting()));
